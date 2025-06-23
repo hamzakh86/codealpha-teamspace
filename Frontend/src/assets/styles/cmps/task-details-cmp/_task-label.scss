@@ -1,0 +1,59 @@
+.task-labels-container {
+    padding-inline-end: 15px;
+    margin-top: 4px;
+
+    h3 {
+        text-transform: capitalize;
+    }
+
+    p {
+        margin: 0;
+        letter-spacing: 0;
+        color: $t-txt1;
+    }
+
+    .labels-list {}
+
+    .add-labels {
+        background-color: $t-bg5;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $t-hover3;
+        }
+
+        .add-labels-icon {
+            color: $t-txt1;
+            margin: auto;
+            // width: 15px;
+            // height: 15px;
+            font-size: 18px;
+        }
+
+    }
+
+    .task-labels {
+        display: flex;
+        align-items: center;
+        padding-inline: 9px;
+        margin-inline-end: 5px;
+        margin-block-end: 5px;
+
+        .color-circle {
+            margin-inline-end: 8px;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            margin-block: 8px;
+        }
+    }
+
+    li {
+        float: left;
+        border-radius: 3px;
+    }
+
+}

@@ -1,0 +1,82 @@
+// Colors - TeamSpace Theme
+$clr1: #2563EB; // Couleur principale (bleu moderne)
+$clr2: #7C3AED; // Couleur secondaire (violet professionnel)
+$clr3: #F8FAFC; // Couleur de fond claire (gris très clair)
+$clr4: #1E293B; // Couleur de fond foncée (gris ardoise foncé)
+$clr5: #FFFFFF; // Couleur de texte claire
+$clr6: #334155; // Couleur de texte foncée (gris ardoise)
+$clr7: #222;
+
+// Homepage Header
+$hh-bg1: $clr5;
+$hh-bg2: $clr1;
+$hh-txt1: $clr6;
+$hh-txt2: $clr5;
+$hh-txt3: $clr4;
+
+
+// Homepage
+$h-txt1: $clr5;
+$h-txt2: $clr6;
+$h-txt3: $clr4;
+$h-btn1: $clr1;
+$h-btn2: $clr6;
+
+// Homepage Footer
+$hf-txt1: $clr5;
+$hf-btn1: $clr6;
+
+// Workspace Header
+$wh-bg1: $clr1;
+$wh-bg2: $clr4;
+$wh-txt1: $clr5;
+
+
+// Workspace
+$w-bg1: $clr3;
+
+$w-txt1: $clr6;
+$w-txt2: $clr1;
+$w-txt3: $clr4;
+
+$w-icon1: $clr4;
+
+$w-hover1: #E2E8F0;
+
+// Board Header
+$bh-txt1:$clr5;
+$bh-txt2:$clr6;
+
+// Board
+$b-txt1: $clr6;
+$b-txt2: $clr5;
+$b-txt3: $clr4;
+
+// Task
+$t-bg1: $clr3;
+
+$t-bg2: #E2E8F0;
+$t-bg3: $clr5;
+$t-bg4: $clr3;
+$t-bg5: rgba(37, 99, 235, 0.04);
+
+$t-btn-bgc: $clr1;
+
+$t-txt1: $clr6;
+$t-txt2: $clr4;
+$t-txt3: $clr4;
+
+$t-pls-clr: $clr4;
+
+
+$t-hover1: #E2E8F0;
+$t-hover2: $clr3;
+$t-hover3: rgba(37, 99, 235, 0.08);
+
+
+
+// Breakpoints
+$mobile-breakpoint: 460px;
+$narrow-breakpoint: 600px;
+$normal-breakpoint: 960px;
+

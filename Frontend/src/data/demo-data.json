@@ -1,0 +1,484 @@
+[
+    {
+        "_id": "b101",
+        "title": "Projet TeamSpace - Collaboration Moderne",
+        "isStarred": true,
+        "archivedAt": null,
+        "createdBy": {
+            "_id": "u101",
+            "fullname": "Alex Martin",
+            "imgUrl": "http://alex-img"
+        },
+        "style": {
+            "background": "https://images.unsplash.com/photo-1557804506-669a67965ba0?crop=entropy&cs=tinysrgb&fm=jpg&ixid=Mnw0MDE5NDJ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzQ1OTM5NzI&ixlib=rb-4.0.3&q=80",
+            "thumbnail": "https://images.unsplash.com/photo-1557804506-669a67965ba0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MDE5NDJ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzQ1OTM5NzI&ixlib=rb-4.0.3&q=80&w=400",
+            "backgroundColor": "#2563EB"
+        },
+        "labels": [
+            {
+                "id": "l101",
+                "title": "Collaboration",
+                "color": "#2563EB"
+            },
+            {
+                "id": "l102",
+                "title": "Priorité Faible",
+                "color": "#7C3AED"
+            },
+            {
+                "id": "l103",
+                "title": "Priorité Moyenne",
+                "color": "#334155"
+            },
+            {
+                "id": "l104",
+                "title": "Priorité Élevée",
+                "color": "#1E293B"
+            },
+            {
+                "id": "l105",
+                "title": "Innovation",
+                "color": "#F8FAFC"
+            }
+        ],
+        "members": [
+            {
+                "_id": "u101",
+                "fullname": "Alex Martin",
+                "username": "alexmartin",
+                "imgUrl": "https://trello-members.s3.amazonaws.com/63c43e4080db3d01989c046e/e4e3a604db36af75f239332f98d75263/170.png"
+            },
+            {
+                "_id": "u102",
+                "fullname": "Sarah Chen",
+                "username": "sarahchen",
+                "imgUrl": "https://trello-members.s3.amazonaws.com/63bab30b6ce00501cc0c3600/ec3da514a24f9d24a3a7f418838ebc0d/170.png"
+            },
+            {
+                "_id": "u103",
+                "fullname": "David Rodriguez",
+                "username": "davidrodriguez",
+                "imgUrl": "https://trello-members.s3.amazonaws.com/63bab33d151c0c01befa37ef/619d7095c4aabefc9291f818fd1852cc/170.png"
+            }
+        ],
+        "groups": [
+            {
+                "id": "g101",
+                "title": "Stratégie & Vision",
+                "tasks": [
+                    {
+                        "id": "c101",
+                        "title": "Définir la vision produit",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l104"
+                        ],
+                        "dueDate": 1719837381,
+                        "byMember": {
+                            "_id": "u101",
+                            "username": "AlexMartin",
+                            "fullname": "Alex Martin",
+                            "imgUrl": "http://alex-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "comments": [
+                            {
+                                "id": "cm101",
+                                "txt": "Aligner l'équipe sur les objectifs stratégiques",
+                                "createdAt": 1718973381,
+                                "byMember": {
+                                    "_id": "u101",
+                                    "fullname": "Alex Martin",
+                                    "imgUrl": "http://alex-img"
+                                }
+                            }
+                        ],
+                        "isDone": false
+                    },
+                    {
+                        "id": "c102",
+                        "title": "Recherche utilisateur approfondie",
+                        "description": "Analyser les besoins des équipes modernes",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l102"
+                        ],
+                        "dueDate": 1719664581,
+                        "byMember": {
+                            "_id": "u102",
+                            "username": "SarahChen",
+                            "fullname": "Sarah Chen",
+                            "imgUrl": "http://sarah-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "style": {
+                            "backgroundColor": "#7C3AED"
+                        },
+                        "isDone": false
+                    },
+                    {
+                        "id": "c103",
+                        "title": "Architecture système collaborative",
+                        "description": "Concevoir une infrastructure scalable",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l104"
+                        ],
+                        "dueDate": 1719664581,
+                        "byMember": {
+                            "_id": "u103",
+                            "username": "DavidRodriguez",
+                            "fullname": "David Rodriguez",
+                            "imgUrl": "http://david-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "style": {
+                            "backgroundColor": "#2563EB"
+                        },
+                        "isDone": false
+                    },
+                    {
+                        "id": "c104",
+                        "title": "Stratégie de communication",
+                        "description": "Développer les canaux de communication interne",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l103"
+                        ],
+                        "dueDate": 1719664581,
+                        "byMember": {
+                            "_id": "u102",
+                            "username": "SarahChen",
+                            "fullname": "Sarah Chen",
+                            "imgUrl": "http://sarah-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "style": {
+                            "backgroundColor": "#334155"
+                        },
+                        "isDone": false
+                    }
+                ]
+            },
+            {
+                "id": "g102",
+                "title": "Développement Plateforme",
+                "tasks": [
+                    {
+                        "id": "c105",
+                        "title": "Interface utilisateur moderne",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l103",
+                            "l101"
+                        ],
+                        "dueDate": 1720491781,
+                        "byMember": {
+                            "_id": "u102",
+                            "username": "SarahChen",
+                            "fullname": "Sarah Chen",
+                            "imgUrl": "http://sarah-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "style": {
+                            "backgroundColor": "#F8FAFC"
+                        },
+                        "isDone": false
+                    },
+                    {
+                        "id": "c106",
+                        "title": "Système de notifications intelligentes",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l102"
+                        ],
+                        "dueDate": 1720578181,
+                        "byMember": {
+                            "_id": "u103",
+                            "username": "DavidRodriguez",
+                            "fullname": "David Rodriguez",
+                            "imgUrl": "http://david-img"
+                        },
+                        "checklists": [
+                            {
+                                "id": "cl101",
+                                "title": "Fonctionnalités notifications",
+                                "todos": [
+                                    {
+                                        "id": "td101",
+                                        "title": "Notifications temps réel",
+                                        "isDone": false
+                                    },
+                                    {
+                                        "id": "td102",
+                                        "title": "Préférences utilisateur",
+                                        "isDone": false
+                                    },
+                                    {
+                                        "id": "td103",
+                                        "title": "Intégrations externes",
+                                        "isDone": false
+                                    }
+                                ]
+                            }
+                        ],
+                        "memberIds": [],
+                        "attachments": [],
+                        "isDone": false
+                    },
+                    {
+                        "id": "c107",
+                        "title": "Analytics et métriques",
+                        "description": "Tableaux de bord pour mesurer la productivité",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l104"
+                        ],
+                        "dueDate": 1720578181,
+                        "byMember": {
+                            "_id": "u101",
+                            "username": "AlexMartin",
+                            "fullname": "Alex Martin",
+                            "imgUrl": "http://alex-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "isDone": false
+                    },
+                    {
+                        "id": "c109",
+                        "title": "API collaborative",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l103"
+                        ],
+                        "dueDate": 1720578181,
+                        "byMember": {
+                            "_id": "u103",
+                            "username": "DavidRodriguez",
+                            "fullname": "David Rodriguez",
+                            "imgUrl": "http://david-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "isDone": false
+                    },
+                    {
+                        "id": "c110",
+                        "title": "Sécurité et authentification",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l102"
+                        ],
+                        "dueDate": 1720578181,
+                        "byMember": {
+                            "_id": "u103",
+                            "username": "DavidRodriguez",
+                            "fullname": "David Rodriguez",
+                            "imgUrl": "http://david-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [],
+                        "attachments": [],
+                        "isDone": false
+                    }
+                ]
+            },
+            {
+                "id": "g103",
+                "title": "En Développement",
+                "tasks": [
+                    {
+                        "id": "c111",
+                        "title": "Chat intégré temps réel",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l103",
+                            "l105"
+                        ],
+                        "dueDate": 1720664581,
+                        "byMember": {
+                            "_id": "u102",
+                            "username": "SarahChen",
+                            "fullname": "Sarah Chen",
+                            "imgUrl": "http://sarah-img"
+                        },
+                        "checklists": [],
+                        "attachments": [],
+                        "memberIds": [
+                            "u101",
+                            "u102"
+                        ],
+                        "isDone": false
+                    },
+                    {
+                        "id": "c112",
+                        "description": "Créer un espace de travail visuel et intuitif",
+                        "title": "Workspace collaboratif",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l104"
+                        ],
+                        "dueDate": 1720664581,
+                        "byMember": {
+                            "_id": "u101",
+                            "username": "AlexMartin",
+                            "fullname": "Alex Martin",
+                            "imgUrl": "http://alex-img"
+                        },
+                        "checklists": [],
+                        "attachments": [],
+                        "style": {
+                            "backgroundColor": "#2563EB"
+                        },
+                        "memberIds": [
+                            "u101",
+                            "u103"
+                        ],
+                        "isDone": false
+                    }
+                ]
+            },
+            {
+                "id": "g104",
+                "title": "Tests & Optimisation",
+                "tasks": [
+                    {
+                        "id": "c113",
+                        "title": "Tests de performance",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l105"
+                        ],
+                        "dueDate": 1720837381,
+                        "byMember": {
+                            "_id": "u103",
+                            "username": "DavidRodriguez",
+                            "fullname": "David Rodriguez",
+                            "imgUrl": "http://david-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [
+                            "u101"
+                        ],
+                        "isDone": false
+                    },
+                    {
+                        "id": "c114",
+                        "title": "Optimisation UX",
+                        "description": "Améliorer l'expérience utilisateur basée sur les retours",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l101",
+                            "l104"
+                        ],
+                        "dueDate": 1721010181,
+                        "byMember": {
+                            "_id": "u102",
+                            "username": "SarahChen",
+                            "fullname": "Sarah Chen",
+                            "imgUrl": "http://sarah-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [
+                            "u102",
+                            "u103"
+                        ],
+                        "attachments": [],
+                        "isDone": false
+                    }
+                ]
+            },
+            {
+                "id": "g105",
+                "title": "Livré",
+                "tasks": [
+                    {
+                        "id": "c115",
+                        "title": "Configuration initiale TeamSpace",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l101",
+                            "l103"
+                        ],
+                        "dueDate": 1719491781,
+                        "byMember": {
+                            "_id": "u101",
+                            "username": "AlexMartin",
+                            "fullname": "Alex Martin",
+                            "imgUrl": "http://alex-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [
+                            "u101",
+                            "u102",
+                            "u103"
+                        ],
+                        "attachments": [],
+                        "isDone": true
+                    },
+                    {
+                        "id": "c116",
+                        "title": "Documentation plateforme",
+                        "archivedAt": null,
+                        "labelIds": [
+                            "l102"
+                        ],
+                        "dueDate": 1719578181,
+                        "byMember": {
+                            "_id": "u102",
+                            "username": "SarahChen",
+                            "fullname": "Sarah Chen",
+                            "imgUrl": "http://sarah-img"
+                        },
+                        "checklists": [],
+                        "memberIds": [
+                            "u102"
+                        ],
+                        "attachments": [],
+                        "isDone": true
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "id": "a101",
+                "txt": "Projet TeamSpace initialisé",
+                "createdAt": 1718973381,
+                "byMember": {
+                    "_id": "u101",
+                    "fullname": "Alex Martin",
+                    "imgUrl": "http://alex-img"
+                },
+                "task": {
+                    "id": "c115",
+                    "title": "Configuration initiale TeamSpace"
+                }
+            },
+            {
+                "id": "a102",
+                "txt": "Équipe collaborative assignée",
+                "createdAt": 1718973381,
+                "byMember": {
+                    "_id": "u101",
+                    "fullname": "Alex Martin",
+                    "imgUrl": "http://alex-img"
+                }
+            }
+        ]
+    }
+]
+

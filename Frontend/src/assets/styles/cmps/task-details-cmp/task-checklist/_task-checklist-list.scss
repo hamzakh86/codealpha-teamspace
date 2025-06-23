@@ -1,0 +1,51 @@
+.task-checklist-todo {
+    padding-inline-start: 8px;
+    display: flex;
+    align-items: center;
+    // min-height: 36px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $t-bg5;
+
+    }
+
+    .task-checklist-checkbox {
+        width: 16px;
+        height: 16px;
+        box-shadow: inset 0 0 0 2px #dfe1e6;
+        margin-block-start: 10px !important;
+        border: none;
+        cursor: pointer;
+        align-self: flex-start;
+        margin-top: 10px;
+
+
+        &:active {
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            border: none;
+        }
+
+        &:focus {
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            border: none;
+        }
+
+        &:checked {
+            box-shadow: none;
+        }
+    }
+
+    .task-checklist-label {
+        margin-inline-start: 17px;
+        cursor: pointer;
+    }
+
+
+    .task-checklist-checkbox:checked+label>.task-checklist-label-span {
+        text-decoration: line-through;
+
+    }
+
+}

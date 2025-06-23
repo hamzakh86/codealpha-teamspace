@@ -1,0 +1,226 @@
+.home-page {
+    font-family: charlie-regular;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .bg-gradient-hero {
+        display: block;
+        height: fit-content;
+        
+        color: $h-txt1;
+        background: url(//images.ctfassets.net/rz1oowkt5gyp/7lTGeXbBRNRLaVk2MdBjtJ/99c266e…/white-wave-bg.svg) center
+                bottom -0.5px / 100% 14% no-repeat scroll padding-box border-box,
+            linear-gradient(135deg, $clr1, $clr2) 0% 0% / auto repeat scroll padding-box
+                border-box $clr1;
+        background-blend-mode: normal;
+
+        // position: absolute;
+        // bottom: 0;
+        // left: 0;
+        width: 100%;
+        overflow: hidden;
+        line-height: 0;
+
+        .shape-divider svg {
+            position: relative;
+            display: block;
+            width: calc(104% + 1.3px);
+            height: 99px;
+            transform: rotateY(180deg);
+
+            .shape-fill path {
+                fill: white;
+            }
+        }
+
+
+        .hero-secrion {
+            max-width: 1140px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            width: 100%;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .text {
+            display: block;
+            position: relative;
+            width: 50%;
+            scroll-margin-top: 72px;
+            text-align: left;
+
+            h1 {
+                font-family: charlie-semibold;
+                font-size: 3rem;
+                line-height: 1.25;
+                margin-bottom: 1.2rem;
+            }
+
+            p {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+                margin-top: 0px;
+                line-height: 1.25;
+            }
+
+            button {
+                border-radius: 0.3rem;
+                border: none;
+                padding: 0.7rem 1rem 0.8rem;
+                margin-bottom: 1rem;
+                margin-top: 20px;
+
+                font-family: charlie-regular;
+                background-color: $h-btn1;
+                color: $h-txt1;
+                font-size: 0.9rem;
+                letter-spacing: 0.1rem;
+                transition: all 250ms ease-out 0s;
+
+                &:hover {
+                    background-color: $clr4;
+                    text-decoration: none;
+                }
+            }
+
+            a {
+                color: $h-txt1;
+            }
+        }
+
+        .img {
+            padding: 1rem;
+            position: relative;
+            scroll-margin-top: 72px;
+            margin-left: -16.6667%;
+            left: 16.6667%;
+            display: block;
+            width: 58.3333%;
+            padding-bottom: 0px;
+            margin-bottom: 0px;
+            top: 5rem;
+            z-index: 10;
+
+            img .hero-img {
+                position: relative;
+                top: 3rem;
+                right: -3rem;
+                vertical-align: middle;
+                z-index: 10;
+            }
+        }
+    }
+
+    .bg-gradient-101 {
+        display: block;
+        position: relative;
+        height: fit-content;
+        color: $h-txt3;
+
+
+        background: linear-gradient(0deg, $clr3, $clr5) 0% 0% / auto repeat scroll padding-box border-box $clr2;
+        background-blend-mode: normal;
+
+        .teamspace-features {
+            max-width: 1140px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            width: 100%;
+
+            .prod-div {
+                text-align: left;
+                order: 1;
+                display: block;
+                flex: 0 0 auto;
+                // width: 58.3333%;
+
+                h5 {
+                    font-weight: 500;
+                    margin-bottom: 0.5rem;
+                    margin-top: 1rem;
+                    font-size: 1rem;
+                    line-height: 1.25;
+                    text-transform: uppercase;
+                    font-family: charlie-semibold;
+                }
+        
+                h2 {
+                    font-size: 2.25rem;
+                    line-height: 1.33333;
+                    padding-bottom: 1rem;
+                    font-family: charlie-semibold;
+                }
+        
+                p {
+                    padding: 0px;
+                    font-size: 20px;
+                }
+            }
+
+            .prod-cards-div {
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                display: flex;
+                padding: 1rem 1rem 5rem;
+                justify-content: space-between;
+
+                button {
+                    cursor: pointer;
+                    height: 100%;
+                    padding: 1rem 1rem 1rem 1.5rem;
+                    position: relative;
+                    text-align: left;
+                    margin: 8px;
+                    border: none;
+                    background-color: transparent;
+                    color: rgb(9, 30, 66);
+                    transition: all 150ms ease-out 0s;
+
+                    h5 {
+                        font-family: charlie-semibold; 
+                        font-size: 1rem; 
+                        margin: 2px;
+                    }
+
+                    p {
+                        font-family: charlie-regular;
+                        font-size: 0.8rem; 
+                        margin: 2px;
+                    }
+
+                &.cards-btn:focus, 
+                .cards-btn:hover,
+                .cards-btn:active {
+                    background-color: rgb(255, 255, 255);
+                    color: rgb(9, 30, 66);
+                    box-shadow: rgb(9 30 66 / 15%) 0px 0.5rem 1rem 0px;
+                    border-radius: 0.3rem;
+                    border: 0px;
+
+                    div{
+                        background-color: $clr1;
+                        border-radius: 0.3rem 0px 0px 0.3rem;
+                        bottom: 0px;
+                        content: "";
+                        left: 0px;
+                        position: absolute;
+                        top: 0px;
+                        width: 0.5rem;
+                        }
+                    }   
+                }
+            }
+        }
+    }
+}

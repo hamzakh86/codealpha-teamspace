@@ -1,0 +1,321 @@
+.create-board-composer {
+    position: fixed;
+    // top: 50px;
+    // left: 435px;
+    width: 304px;
+    height: 285px;
+    will-change: top, left, bottom, right;
+    color:#172b4d;
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    background-color:  #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08);
+    box-sizing: border-box;
+    outline: 0;
+    overflow: hidden;
+    padding: 0 10px;
+    z-index: 300;
+
+    label.create-board-label {
+        color: #5e6c84;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        margin-top: 12px;
+    }
+
+    .create-board-composer-header {
+        margin-bottom: 8px;
+        // position: relative;
+        text-align: center;
+        align-items: center;
+        display: grid;
+        grid-template-columns: 12px 1fr 12px;
+
+        h2 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+            color: #5e6c84;
+            height: 40px;
+            display: block;
+            line-height: 40px;
+            margin: 0;
+            overflow: hidden;
+            padding: 0 32px;
+            position: relative;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            grid-column: 1 / span 3;
+            grid-row: 1;
+        }
+
+        button.btn-board-composer.close {
+            grid-column: 3;
+            grid-row: 1;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            z-index: 6000;
+            outline: none;
+            display: inline-block;
+            justify-self: center;
+            align-self: center;
+            color:  #6b778c;
+            
+            svg {
+                path {
+                    fill:  #6b778c;
+                }
+            }
+            
+            .icon-close {
+                background: transparent;
+                font-size: 20px;
+                font-weight: 400;
+                z-index: 6000;
+            }
+
+            &:hover {
+                cursor: pointer;
+                svg {
+                    path{
+                        fill: #172b4d;
+                    }
+                }
+            }
+        }
+    }
+
+    .create-board-bg-picker {
+
+        .bg-img-picker, .bg-clr-picker {
+            display: flex;
+
+            ul {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                padding-top: 8px;
+
+                li.li-bg-img {
+                    width: 64px;
+                    height: 40px;
+                }
+
+                li.li-bg-clr {
+                    width: 40px;
+                    height: 32px;
+                }
+            }
+
+            button.btn-bg.bg-img {
+                align-items: center;
+                background-position: center center;
+                background-size: cover;
+                border:none;
+                outline:none;
+                border-radius: 3px;
+                box-shadow: none;
+                color: rgba(255, 255, 255, 0.4);
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                min-height: 0;
+                outline: 0;
+                padding: 0;
+                position: relative;
+                line-height: 0;
+                height: 100%;
+                width: 100%;
+                cursor: pointer;
+
+                .selected-bg {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 13px;
+                    border-radius: 3px;
+                    background-color: rgba(0, 0, 0, 0.4);
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
+
+                    svg.icon-selected-bg {
+                        color:white;
+                        fill: none;
+                        stroke-width: 2;
+                        outline: none;
+                        border: none;
+                        height: 15px;
+                        width: 15px;
+                        box-shadow: none;
+
+                        path {
+                            fill:none
+                        }
+                    }
+                }
+            }
+
+            span.bg-preview-fade {
+                border-radius: 3px;
+                width: 100%;
+                height: 100%;
+        
+                &:hover {
+                    background-color: #00000037;
+                }
+
+                &:active {
+                    background-color: #00000057;
+                }
+            }
+
+            
+        
+        
+        }
+
+        .bg-img-picker{
+            display: flex;
+
+            .bg-imgs-list {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+
+                li {
+                    width: 64px;
+                    height: 40px;
+                    
+                    button.btn-bg.bg-img {
+                        align-items: center;
+                        background-position: center center;
+                        background-size: cover;
+                        border:none;
+                        outline:none;
+                        border-radius: 3px;
+                        box-shadow: none;
+                        color: rgba(255, 255, 255, 0.4);
+                        display: flex;
+                        justify-content: center;
+                        margin: 0;
+                        min-height: 0;
+                        outline: 0;
+                        padding: 0;
+                        position: relative;
+                        line-height: 0;
+                        height: 100%;
+                        width: 100%;
+                        cursor: pointer;
+                    }
+
+                    span.bg-preview-fade {
+                        border-radius: 3px;
+                        width: 100%;
+                        height: 100%;
+                
+                        &:hover {
+                            background-color: #00000037;
+                        }
+
+                        &:active {
+                            background-color: #00000057;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+        .bg-clr-picker {
+            display: flex;
+
+            .bg-clrs-list {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+
+                li {
+                    width: 40px;
+                    height: 32px;
+                }
+            }
+
+        }
+
+    form {
+        color:#5e6c84;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 700;
+        display: flex;
+        flex-flow: column;
+
+        input {
+            width: 100%;
+            color:#172b4d;
+            background-color: $t-bg3;
+            border: none;
+            border-radius: 3px;
+            box-shadow: inset 0 0 0 2px #dfe1e6;
+            line-height: 20px;
+            display: block;
+            margin-bottom: 12px;
+            margin-top: 5px;
+            outline: none;
+            padding: 8px 12px;
+            transition-duration: 85ms;
+            transition-property: background-color,border-color,box-shadow;
+            transition-timing-function: ease;
+            font-family: inherit;
+            font-size: 14px;
+            height: 36px;
+
+            &:focus {
+                border: none;
+                box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
+                background-color: $t-bg3;
+            }
+        }
+
+        button.btn-board-composer.create {
+            background-color: #0079bf;
+            border: none;
+            box-shadow: none;
+            border-radius: 3px;
+            color: #fff;
+            height: 32px;
+            width: 100%;
+            // padding: 4px 12px;
+            margin:0;
+            line-height: 20px;
+            font-size: 14px;
+            font-weight: 400;
+
+            &:hover {
+                background-color: #026aa7;
+                text-decoration: none;
+            }
+
+            &:active {
+                background-color: #055a8c;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,60 @@
+.task-title-container {
+    display: grid;
+    grid-template-columns: 33px 1fr;
+    padding-top: 19px;
+    padding-bottom: 8px;
+    padding-inline-end: 40px;
+
+
+    .title-icon {
+        width: 18px;
+        height: 28px;
+        margin-inline-start: 4px;
+        margin-block-start: 3px;
+
+    }
+
+
+    .task-details-title-input {
+        line-height: 24px;
+        font-size: 20px;
+        height: 35px;
+        width: 670px;
+        font-family: San_francisco_medium;
+        padding: 0 0 0 5px;
+        letter-spacing: 0.035em;
+        margin: 0;
+        background-color: $t-bg1;
+
+        &:focus {
+            border-radius: 3px;
+            box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
+        }
+    }
+
+    .task-details-title-location {
+        font-family: San_francisco_light;
+        color: $t-txt2;
+        margin: 0;
+        padding-inline-start: 9px;
+        letter-spacing: 0.04em;
+        line-height: 10px;
+        font-size: 14px;
+        padding-block-start: 3px;
+        cursor: text;
+
+        .task-details-title-location-link {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .eye-icon {
+            margin-inline-start: 12px;
+            margin-block-start: -3px;
+            position: absolute;
+            font-size: 16px;
+            line-height: 10px;
+        }
+
+    }
+}

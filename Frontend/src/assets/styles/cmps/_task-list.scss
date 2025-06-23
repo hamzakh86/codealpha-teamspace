@@ -1,0 +1,204 @@
+.task-list-wraper {
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        padding-top: 20px;
+
+      }
+    
+    &::-webkit-scrollbar-thumb {
+        background-color: #BFC4CE;
+        border-radius: 30px;
+        height: 12px;
+      }
+    
+    &::-webkit-scrollbar-track {
+        background-color: #D9DCE2;
+        border-radius: 30px;
+        height: 12px;
+        border-bottom: 10px solid transparent;
+      }
+}
+
+.task-list {
+    height: 100%;
+    width: 100%;
+    vertical-align: top;
+
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+}
+                
+    .task-list-bottom {
+        font-size: 14px;
+        margin-top: 2px;
+
+        .add-a-task-template {
+            width: 98%;
+            margin: 0px;
+            margin: auto;
+
+            button {
+                display: flex;
+                align-items: center;
+            }
+
+            .add-a-task {
+                width: 100%;
+                text-align: left;
+                border-radius: 3px;
+                padding: 8px;
+                padding-left: 18px;
+                font-family: segoe_ui;
+                font-weight: 400;
+                font-size: 14px;
+                border: none;
+                color: #5E6C84;
+                background: transparent;
+                cursor: pointer;
+                transition: all 150ms ease-out 0s;
+
+                .icon-plus {
+                    font-size: 12px;
+                    margin-right: 8px;
+                }
+
+                &:hover {
+                    background-color: #091e4214;
+                    color: #172b4d;
+                }
+            }
+            
+        }
+                    
+
+        .task-composer {
+            width: 98%;
+            margin: 0px;
+            margin: auto;
+    
+            .task-textarea {
+                width: 100%;
+                min-height: 54px;
+                padding: 4px 8px;
+                margin: 3px 0;
+                max-height: 162px;
+                color: #5E6C84;
+                background-color: #ffffff;
+                border: none;
+                border-radius: 3px;
+                resize: none;
+
+                font-family: segoe_ui;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+
+                overflow: hidden; 
+                overflow-wrap: break-word;
+                box-shadow: 0 1px 0 #091e4240;
+                transition-duration: 85ms;
+                transition-property: background-color,border-color,box-shadow;
+                transition-timing-function: ease;
+    
+                &:hover {
+                    cursor: auto;
+                }
+    
+                &:focus-visible {
+                    outline: none;
+                }
+    
+                &:focus {
+                    border: none;
+                    box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
+                    background-color: $t-bg3;
+                    min-height: 20px; 
+                    max-height: 256px;
+                }
+            }
+    
+            .add-task-btns {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 2px;
+                width: 100%;
+
+                .add-btns {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .more-btns {
+                    align-items: center;
+                }
+                        
+                .add-task-btn {
+                    background-color: #0079bf;
+                    border: none;
+                    box-shadow: none;
+                    border-radius: 3px;
+                    color: #fff;
+                    height: 32px;
+                    padding: 4px 12px;
+                    line-height: 20px;
+                    font-size: 14px;
+                    font-weight: 400;
+                    margin-bottom: 0px;
+                    transition: all 150ms ease-out 0s;
+                        
+                    &:hover {
+                        background-color: #026aa7;
+                        color: #fff;
+                        text-decoration: none;
+                    }
+                                
+                    &:active {
+                        background-color: #055a8c;
+                        color: #fff;
+                    }
+                }
+                        
+                .cancel-btn, .more-btn {
+                    background-color: unset;
+                    color: #5E6C84;
+                    border: none;
+                    margin: 0 6px;
+                    height: 24px;
+                    width: 24px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: all 150ms ease-out 0s;
+
+                    &.more-btn {
+                        height: 32px;
+                        width: 32px;
+                        margin: 0;
+                        
+                        svg {
+                            font-size: 24px;
+                        }
+                    }
+                        
+                    &:hover {
+                        cursor: pointer;
+                        color: #172b4d;
+                    }
+
+                    &.more-btn:hover {
+                        border-radius: 3px;
+                        background-color:#091e4214;
+                    }
+                        
+                .icon-close {
+                    font-size: 28px;
+                    text-align: center;
+                }
+            }
+        }
+    } 
+}
