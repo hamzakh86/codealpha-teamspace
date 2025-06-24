@@ -8,7 +8,7 @@ import { logout } from '../../store/user.actions.js'
 import { UserMenu } from '../board/user-menu'
 
 import { ReactComponent as DownSvg } from '../../assets/img/icons-header/down.svg'
-import { ReactComponent as TrelloSvg } from '../../assets/img/icons-header/trello.svg'
+import { ReactComponent as TeamspaceSvg } from '../../assets/img/icons-header/teamspace.svg'
 
 export function MainHeaderWorkspace() {
 	const [isBoardComposerOpen, setIsBoardComposerOpen] = useState(false)
@@ -52,7 +52,7 @@ export function MainHeaderWorkspace() {
 				</button> */}
 
 				<NavLink to="/" className="header-logo">
-					<TrelloSvg />
+					<TeamspaceSvg />
 					<h1 className="teamspace-logo">TeamSpace</h1>
 				</NavLink>
 

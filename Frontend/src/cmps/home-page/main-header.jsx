@@ -8,7 +8,7 @@ import { logout } from '../../store/user.actions'
 import { boardService } from '../../services/board.service'
 
 import { ReactComponent as DownSvg } from '../../assets/img/icons-header/down.svg'
-import { ReactComponent as TrelloSvg } from '../../assets/img/icons-header/trello.svg'
+import { ReactComponent as TeamspaceSvg } from '../../assets/img/icons-header/teamspace.svg'
 
 export function MainHeader() {
 	const board = useSelector((storeState) => storeState.boardModule.board)
@@ -83,7 +83,7 @@ export function MainHeader() {
 				</button> */}
 
 					<NavLink to="/workspace" className="header-logo">
-						<TrelloSvg />
+						<TeamspaceSvg />
 						<h1 className="teamspace-logo">TeamSpace</h1>
 					</NavLink>
 
