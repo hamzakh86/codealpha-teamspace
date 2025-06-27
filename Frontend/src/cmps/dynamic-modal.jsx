@@ -13,173 +13,172 @@ import Loader from '../assets/img/loader.svg'
 import { IoClose } from 'react-icons/io5'
 
 export function DynamicModal({
-	cmpType,
-	task,
-	onOpenModal,
-	boardId,
-	groupId,
-	refDataBtn,
-	onSaveTask,
-	onSaveEdit
+    cmpType,
+    task,
+    onOpenModal,
+    boardId,
+    groupId,
+    refDataBtn,
+    onSaveTask,
+    onSaveEdit
 }) {
-	const board = useSelector((storeState) => storeState.boardModule.board)
-	const [isAddLabelModalOpen, setIsAddLabelModalOpen] = useState(false)
-	const [selectedLabel, setSelectedLabel] = useState('')
-	const modalRef = useRef(null)
-	const [modalStyle, setModalStyle] = useState(false)
-	const [modalHeight, setModalHeight] = useState()
+    const board = useSelector((storeState) => storeState.boardModule.board)
+    const [isAddLabelModalOpen, setIsAddLabelModalOpen] = useState(false)
+    const [selectedLabel, setSelectedLabel] = useState('')
+    const modalRef = useRef(null)
+    const [modalStyle, setModalStyle] = useState(false)
+    const [modalHeight, setModalHeight] = useState()
 
-	useEffect(() => {
-		setModalStyle(true)
-		setModalHeight(modalRef.current.getBoundingClientRect().height)
-	}, [modalStyle])
+    useEffect(() => {
+        setModalStyle(true)
+        setModalHeight(modalRef.current.getBoundingClientRect().height)
+    }, [modalStyle])
 
+    function getModalPos(refDataBtn) {
+        const rect = refDataBtn.current.getBoundingClientRect()
 
-	function getModalPos(refDataBtn) {
-		const rect = refDataBtn.current.getBoundingClientRect()
+        let topModal = rect.top + rect.height + 5
+        let bottomModal = ''
+        let leftModal = rect.left
+        let rightModal = rect.right
+        let position = 'absolute'
 
-		let topModal = rect.top + rect.height + 5
-		let bottomModal = ''
-		let leftModal = rect.left
-		let rightModal = rect.right
-		let position = 'absolute'
+        if (window.innerHeight < (rect.top + modalHeight)) {
+            topModal = ''
+            bottomModal = 10
+        }
 
-		if (window.innerHeight < (rect.top + modalHeight)) {
-			topModal = ''
-			bottomModal = 10
-		}
+        if (window.innerWidth < (rect.left + 304)) {
+            leftModal = ''
+            rightModal = 20
+        }
 
-		if (window.innerWidth < (rect.left + 304)) {
-			leftModal = ''
-			rightModal = 20
-		}
+        let modalPos = { bottom: bottomModal, top: topModal, left: leftModal, right: rightModal, position: position }
 
-		let modalPos = { bottom: bottomModal, top: topModal, left: leftModal, right: rightModal, position: position }
+        return modalPos
+    }
 
-		return modalPos
-	}
+    function onClose() {
+        onOpenModal()
+    }
 
-	function onClose() {
-		onOpenModal()
-	}
+    let data = {
+        title: cmpType,
+        txt: '',
+        placeholder: `Search ${cmpType}`,
+        optionsTitle: `Board ${cmpType}`,
+    }
 
-	let data = {
-		title: cmpType,
-		txt: '',
-		placeholder: `Search ${cmpType}`,
-		optionsTitle: `Board ${cmpType}`,
-	}
+    if (cmpType === 'labels' && isAddLabelModalOpen) {
+        if (!selectedLabel) data.title = 'Create Label'
+        else data.title = 'Edit Label'
+    }
 
-	if (cmpType === 'labels' && isAddLabelModalOpen) {
-		if (!selectedLabel) data.title = 'Create Label'
-		else data.title = 'Edit Label'
-	}
+    if (cmpType === 'move card') {
+        data.title = 'Move card'
+    }
 
-	if (cmpType === 'move card') {
-		data.title = 'Move card'
-	}
+    if (!board)
+        return (
+            <div className="loader-wrapper">
+                <img className="loader" src={Loader} alt="loader" />
+            </div>
+        )
 
+    return (
+        <section className="dynamic-modal"
+            style={getModalPos(refDataBtn)}
+            ref={modalRef}>
 
-	if (!board)
-		return (
-			<div className="loader-wrapper">
-				<img className="loader" src={Loader} alt="loader" />
-			</div>
-		)
+            <div className="dynamic-modal-wrapper">
 
-	return (
-		<section className="dynamic-modal"
-			style={getModalPos(refDataBtn)}
-			ref={modalRef}>
+                <button
+                    type="button"
+                    className="dynamic-modal-close-btn"
+                    onClick={onClose}
+                    aria-label="Close modal"
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                >
+                    <IoClose className="close-icon" />
+                </button>
 
-			<div className="dynamic-modal-wrapper">
+                <p className="dynamic-modal-title">{data.title}</p>
 
-				<a onClick={onClose}>
-					<IoClose className="close-icon" />
-				</a>
+                <div className="dynamic-modal-container">
 
+                    {cmpType === 'members' && (
+                        <TaskMemberModal
+                            task={task}
+                            data={data}
+                            onSaveTask={onSaveTask}
+                        />
+                    )}
 
-				<p className="dynamic-modal-title">{data.title}</p>
+                    {cmpType === 'labels' && (
+                        <TaskLabelModal
+                            task={task}
+                            data={data}
+                            onSaveTask={onSaveTask}
+                            setIsAddLabelModalOpen={setIsAddLabelModalOpen}
+                            isAddLabelModalOpen={isAddLabelModalOpen}
+                            selectedLabel={selectedLabel}
+                            setSelectedLabel={setSelectedLabel}
+                        />
+                    )}
 
-				<div className="dynamic-modal-container">
+                    {cmpType === 'checklist' && (
+                        <TaskChecklistModal
+                            task={task}
+                            onSaveTask={onSaveTask}
+                            onClose={onClose}
+                        />
+                    )}
 
-					{cmpType === 'members' && (
-						<TaskMemberModal
-							task={task}
-							data={data}
-							onSaveTask={onSaveTask}
-						/>
-					)}
+                    {cmpType === 'dates' && (
+                        <TaskDatesModal
+                            task={task}
+                            data={data}
+                            onSaveTask={onSaveTask}
+                            onClose={onClose}
+                        />
+                    )}
 
-					{cmpType === 'labels' && (
-						<TaskLabelModal
-							task={task}
-							data={data}
-							onSaveTask={onSaveTask}
-							setIsAddLabelModalOpen={setIsAddLabelModalOpen}
-							isAddLabelModalOpen={isAddLabelModalOpen}
-							selectedLabel={selectedLabel}
-							setSelectedLabel={setSelectedLabel}
-						/>
-					)}
+                    {cmpType === 'attachment' && (
+                        <TaskAttachmentModal
+                            task={task}
+                            onSaveTask={onSaveTask}
+                            onClose={onClose}
+                        />
+                    )}
 
-					{cmpType === 'checklist' && (
-						<TaskChecklistModal
-							task={task}
-							onSaveTask={onSaveTask}
-							onClose={onClose}
-						/>
-					)}
+                    {cmpType === 'cover' && (
+                        <TaskCoverModal
+                            task={task}
+                            onSaveTask={onSaveTask}
+                            onClose={onClose}
+                        />
+                    )}
 
-					{cmpType === 'dates' && (
-						<TaskDatesModal
-							task={task}
-							data={data}
-							onSaveTask={onSaveTask}
-							onClose={onClose}
-						/>
-					)}
+                    {cmpType === 'move card' && (
+                        <TaskMoveModal
+                            task={task}
+                            onSaveTask={onSaveTask}
+                            onClose={onClose}
+                        />
+                    )}
 
+                    {cmpType === 'create board' && (
+                        <TaskCoverModal />
+                    )}
 
-					{cmpType === 'attachment' && (
-						<TaskAttachmentModal
-							task={task}
-							onSaveTask={onSaveTask}
-							onClose={onClose}
-						/>
-					)}
+                    {cmpType === 'list action' && (
+                        <TaskCoverModal
+                            task={task}
+                        />
+                    )}
 
-					{cmpType === 'cover' && (
-						<TaskCoverModal
-							task={task}
-							onSaveTask={onSaveTask}
-							onClose={onClose}
-						/>
-					)}
-
-					{cmpType === 'move card' && (
-						<TaskMoveModal
-							task={task}
-							onSaveTask={onSaveTask}
-							onClose={onClose}
-						/>
-					)}
-
-
-					{cmpType === 'create board' && (
-						<TaskCoverModal
-						/>
-					)}
-
-
-					{cmpType === 'list action' && (
-						<TaskCoverModal
-							task={task}
-						/>
-					)}
-
-				</div>
-			</div>
-		</section>
-	)
+                </div>
+            </div>
+        </section>
+    )
 }

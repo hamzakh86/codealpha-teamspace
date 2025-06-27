@@ -10,11 +10,12 @@ export function TodoPreview({ todo, updateTodo, onRemoveTodo }) {
     const [isDeleteModalOpen, setDeleteModalOpen] = useState({ todoId: '' })
     const [todoId, setTodoId] = useState('')
     const [currTodo, setCurrTodo] = useState(todo)
-    let currTitle
+    const [currTitle, setCurrTitle] = useState(todo.title)
 
     function onShowTodoInput(id) {
         setTodoId(id)
         setIsEditTodoOpen(true)
+        setCurrTitle(currTodo.title)
     }
 
     function onCloseTodoInput(ev) {
@@ -26,21 +27,24 @@ export function TodoPreview({ todo, updateTodo, onRemoveTodo }) {
         ev.preventDefault()
         setTodoId('')
         setIsEditTodoOpen(false)
+        setCurrTitle(currTodo.title)
     }
+
     function handleChange({ target }) {
-        let { value, type, name: field, id, defaultValue } = target
+        let { value, type } = target
         value = type === 'number' ? +value : value
-        currTitle = value ? value : defaultValue
+        setCurrTitle(value)
     }
 
     function onSaveTodoTitle(ev, id) {
         ev.stopPropagation()
         ev.preventDefault()
         if (todoId === id) {
-            currTodo.title = currTitle ? currTitle : currTodo.title
-            currTitle = ''
+            const updatedTodo = { ...currTodo, title: currTitle ? currTitle : currTodo.title }
+            setCurrTodo(updatedTodo)
+            setCurrTitle('')
             onCloseTodoInput(ev)
-            updateTodo(ev, currTodo)
+            updateTodo(ev, updatedTodo)
         }
     }
 
@@ -57,21 +61,21 @@ export function TodoPreview({ todo, updateTodo, onRemoveTodo }) {
     return (
         <label className="task-checklist-label" onClick={() => { onShowTodoInput(todo.id) }}>
             {(!isEditTodoOpen || (todoId !== todo.id)) &&
-                <span className='task-checklist-label-span'
-                >
-                    {todo.title}
+                <span className='task-checklist-label-span'>
+                    {currTodo.title}
                 </span>}
 
             {!isEditTodoOpen &&
                 <button
+                    type="button"
                     className='clean-btn btn-checklist-label-menu-container'
                     onClick={(ev) => toggleModalDelete(ev, todo.id)}>
                     <HiDotsHorizontal className='btn-checklist-label-menu' />
                 </button>
             }
 
-            {(isEditTodoOpen || (todoId == todo.id)) &&
-                < form  >
+            {(isEditTodoOpen && (todoId === todo.id)) &&
+                <form>
                     <textarea
                         onBlur={(ev) => onCloseTodoInput(ev)}
                         autoFocus
@@ -79,7 +83,7 @@ export function TodoPreview({ todo, updateTodo, onRemoveTodo }) {
                         className='task-todo-title-input'
                         id={todo.id}
                         onChange={handleChange}
-                        defaultValue={todo.title}
+                        value={currTitle}
                     ></textarea>
 
                     <div className='task-checklist-btn'>
@@ -88,13 +92,14 @@ export function TodoPreview({ todo, updateTodo, onRemoveTodo }) {
                             Save
                         </button>
                         <button className='clean-btn icon-task btn-checklist-cancel-container'
+                            type="button"
                             onClick={(ev) => onCloseTodoInput(ev)}
                             style={{ textDecoration: 'none' }}>
-
                             <GrClose className='btn-checklist-cancel' />
                         </button>
                     </div>
-                </form >}
+                </form>
+            }
 
             {isDeleteModalOpen.todoId === todo.id && (
                 <ItemDeleteModal

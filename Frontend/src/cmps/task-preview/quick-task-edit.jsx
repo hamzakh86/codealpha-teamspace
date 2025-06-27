@@ -15,7 +15,7 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
     const navigate = useNavigate()
     const [taskToEdit, setTaskToEdit] = useState(task)
     const [modalStyle, setModalStyle] = useState(false)
-    const [modalHeight, setModalHeight] = useState()
+    // const [modalHeight, setModalHeight] = useState() // <-- Remove unused variable
     const [modalType, setModalType] = useState('')
 
     const modalRef = useRef(null)
@@ -26,7 +26,6 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
     const datesBtn = useRef()
     const moveCardBtn = useRef()
 
-
     function handleChange({ target }) {
         let { value, type, name: field } = target
         value = type === 'number' ? +value : value
@@ -35,6 +34,7 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
 
     function handleKeyPress(ev) {
         if (ev.key === "Enter" && !ev.shiftKey) {
+            ev.preventDefault()
             onSaveEdit()
             toggleQuickTaskEdit()
         }
@@ -42,44 +42,37 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
 
     useEffect(() => {
         setModalStyle(true)
-        setModalHeight(modalRef.current.getBoundingClientRect().height)
+        // if (modalRef.current) {
+        //     setModalHeight(modalRef.current.getBoundingClientRect().height)
+        // }
     }, [modalStyle])
-
 
     function getModalPos(refDataBtn) {
         const rect = refDataBtn.current.getBoundingClientRect()
-
         let topModal = rect.top - 14
-        let bottomModal = ''
         let leftModal = rect.left - 228
-        let rightModal = ''
-
-        let modalPos = { bottom: bottomModal, top: topModal, left: leftModal, right: rightModal }
-
-        return modalPos
+        return { top: topModal, left: leftModal }
     }
 
     function getRefData(type) {
         switch (type) {
             case 'members':
                 return memberBtn
-
             case 'labels':
                 return labelBtn
-
             case 'dates':
                 return datesBtn
-
             case 'cover':
                 return coverBtn
-
             case 'move card':
                 return moveCardBtn
+            default:
+                return null
         }
     }
 
-
-    async function onSaveEdit() {
+    async function onSaveEdit(ev) {
+        if (ev) ev.preventDefault()
         try {
             await saveTask(taskToEdit, groupId, boardId)
         } catch (err) {
@@ -97,7 +90,6 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
         }
     }
 
-
     async function onRemoveTask() {
         try {
             await removeTask(taskId, groupId, boardId)
@@ -107,18 +99,15 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
         }
     }
 
-
     function onOpenCard() {
-        navigate(`/board/${boardId}/${groupId}/${taskId}`) 
+        navigate(`/board/${boardId}/${groupId}/${taskId}`)
     }
 
     function onOpenModal(ev, type) {
-        console.log('onOpenModal');
         ev.stopPropagation()
         ev.preventDefault()
         setModalType(type)
     }
-
 
     return (
         <>
@@ -126,77 +115,77 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
                 style={getModalPos(refDataBtn)}
                 ref={modalRef}>
 
-                <div className="quick-task-edit-screen">
-                </div>
+                <div className="quick-task-edit-screen"></div>
 
                 <section className="open-task">
-
-                    <form>
+                    <form onSubmit={onSaveEdit}>
                         <textarea
-                            // onClick="prevent"
                             autoFocus
-                            type="text"
                             className="open-task-title"
                             name="title"
                             id="taskId"
                             spellCheck="false"
                             onChange={handleChange}
                             onKeyDown={handleKeyPress}
-                            defaultValue={task.title} />
-                        <button onClick={onSaveEdit}>Save</button>
+                            defaultValue={task.title}
+                        />
+                        <button type="submit">Save</button>
                     </form>
-
                 </section>
 
-                <section className="quick-edit-btns"
-                    // style={getModalPos(refDataBtn)}
-                    ref={modalBtnsRef} >
-
+                <section className="quick-edit-btns" ref={modalBtnsRef}>
                     <button className="quick-btn"
+                        type="button"
                         onClick={onOpenCard} >
                         <OpenTaskSvg /> Open card
                     </button>
 
                     <button className="quick-btn"
+                        type="button"
                         ref={labelBtn}
                         onClick={(ev) => onOpenModal(ev, 'labels')} >
                         <TiTag className="tag-svg" /> Edit labels
                     </button>
 
                     <button className="quick-btn"
+                        type="button"
                         ref={memberBtn}
                         onClick={(ev) => onOpenModal(ev, 'members')} >
                         <BsPerson /> Change members
                     </button>
 
                     <button className="quick-btn"
+                        type="button"
                         ref={coverBtn}
                         onClick={(ev) => onOpenModal(ev, 'cover')} >
                         <BsSquareHalf className='cover-svg' /> Change cover
                     </button>
 
                     <button className="quick-btn"
+                        type="button"
                         ref={moveCardBtn}
                         onClick={(ev) => onOpenModal(ev, 'move card')} >
                         <FiArrowRight /> Move
                     </button>
 
                     <button className="quick-btn"
+                        type="button"
                         onClick={onCopyTask}>
                         <MdContentCopy className="copy-svg" /> Copy
                     </button>
 
                     <button className="quick-btn"
+                        type="button"
                         ref={datesBtn}
                         onClick={(ev) => onOpenModal(ev, 'dates')}>
                         <AiOutlineClockCircle /> Edit dates
                     </button>
 
                     <button className="quick-btn"
+                        type="button"
                         onClick={onRemoveTask}>
                         <BsArchive /> Remove
                     </button>
-
 
                     {modalType && <DynamicModal
                         cmpType={modalType}
@@ -206,9 +195,7 @@ export function QuickTaskEdit({ refDataBtn, task, taskId, groupId, boardId, togg
                         boardId={boardId}
                         onOpenModal={onOpenModal}
                         onSaveEdit={onSaveEdit} />}
-
                 </section>
-
             </section>
         </>
     )

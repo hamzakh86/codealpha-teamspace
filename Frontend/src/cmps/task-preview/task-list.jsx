@@ -9,7 +9,6 @@ import { TaskPreview } from './task-preview'
 import { IoClose } from 'react-icons/io5'
 import { BsPlusLg } from 'react-icons/bs'
 
-
 export function TaskList({ group }) {
     const board = useSelector((storeState) => storeState.boardModule.board)
     const tasks = group.tasks
@@ -28,10 +27,12 @@ export function TaskList({ group }) {
 
     function closeAddNewTask() {
         setIsAddNewTaskOpen(false)
+        setTaskToEdit(boardService.getEmptyTask())
     }
 
     function handleKeyPress(ev) {
         if (ev.key === "Enter" && !ev.shiftKey) {
+            ev.preventDefault()
             onAddTask(ev)
         }
     }
@@ -40,7 +41,7 @@ export function TaskList({ group }) {
         ev.preventDefault()
         if (!taskToEdit.title) return
         try {
-            await saveTask(taskToEdit, ev.target.id, board._id)
+            await saveTask(taskToEdit, group.id, board._id)
             setTaskToEdit(boardService.getEmptyTask())
             closeAddNewTask()
         } catch (err) {
@@ -51,72 +52,57 @@ export function TaskList({ group }) {
     return (
         <>
             <section className="task-list-wraper">
-
-                <Droppable droppableId={group.id}
-                    key="tasks"
-                    type="tasks"
-                >
+                <Droppable droppableId={group.id} key="tasks" type="tasks">
                     {(provided, snapshot) => (
-
-                        <ul className="task-list clean-list tasks"
+                        <ul
+                            className="task-list clean-list tasks"
                             {...provided.droppableProps}
                             ref={provided.innerRef}
-                        // isDraggingOver={snapshot.isDraggingOver}
                         >
-
-                            {tasks.map((task, index) =>
-
+                            {tasks.map((task, index) => (
                                 <Draggable
                                     key={task.id}
-                                    group={group.id}
-                                    type={task}
                                     draggableId={task.id}
-                                    index={index}>
-
+                                    index={index}
+                                >
                                     {(provided, snapshot) => (
-
-                                        <li key={task.id}
+                                        <li
+                                            key={task.id}
                                             ref={provided.innerRef}
-                                            // isdragging={snapshot.isDragging}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
                                         >
-
                                             <TaskPreview
                                                 group={group}
                                                 task={task}
                                                 board={board}
                                             />
-                                        </li>)}
-
+                                        </li>
+                                    )}
                                 </Draggable>
-                            )}
+                            ))}
                             {provided.placeholder}
                         </ul>
                     )}
                 </Droppable>
-                {/* </DragDropContext> */}
-
             </section>
 
             <section className="task-list-bottom">
-
-                {!isAddNewTaskOpen &&
-
+                {!isAddNewTaskOpen && (
                     <div className="add-a-task-template">
                         <button
                             className="add-a-task"
-                            onClick={openAddNewTask}>
+                            type="button"
+                            onClick={openAddNewTask}
+                        >
                             <BsPlusLg className="icon-plus" /> Add a card
                         </button>
                     </div>
-                }
+                )}
 
-                {isAddNewTaskOpen &&
-
+                {isAddNewTaskOpen && (
                     <div className="task-composer">
-
-                        <form>
+                        <form onSubmit={onAddTask}>
                             <textarea
                                 className="task-textarea"
                                 type="text"
@@ -131,29 +117,26 @@ export function TaskList({ group }) {
                             ></textarea>
 
                             <div className="add-task-btns">
-
                                 <div className="add-btns">
                                     <button
                                         className="add-task-btn"
-                                        id={group.id}
-                                        onClick={onAddTask}>
+                                        type="submit"
+                                    >
                                         Add Card
                                     </button>
-                                    <a
+                                    <button
                                         className="cancel-btn"
+                                        type="button"
                                         onClick={closeAddNewTask}
                                     >
                                         <IoClose className="icon-close" />
-                                    </a>
+                                    </button>
                                 </div>
-
                             </div>
-
                         </form>
-
                     </div>
-                }
+                )}
             </section>
-
-        </>)
+        </>
+    )
 }

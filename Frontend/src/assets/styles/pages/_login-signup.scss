@@ -48,7 +48,7 @@
     padding: 16px;
     transform: rotateX(0deg);
     transform-origin: 50% 0px;
-    transition-property: visibility, height, margin-bottom, opacity, transform,
+    transition: visibility, height, margin-bottom, opacity, transform,
         padding;
     transition-duration: 0s, 0.2s, 0.2s, 0.2s, 0.2s;
     transition-timing-function: ease-in-out;
@@ -155,13 +155,13 @@
         margin: auto;
     }
 
-    .error {
+        .error {
         font-size: 12px;
         color: #E53E3E;
         margin-bottom: 15px;
         margin-top: 3px;
         width: 100%;
-        text-align: start;
+        text-align: flex-start;
     }
 
     span.empty-space {

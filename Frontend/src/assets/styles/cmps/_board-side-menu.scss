@@ -9,7 +9,7 @@
     
     background-color: #f4f5f7;
     transition-duration: .1s;
-    transition-property: transform,width;
+    transition: transform,width;
     transition-timing-function: ease-in;
     width: 339px;
     z-index: 400;
@@ -107,7 +107,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: start;
+            align-items: flex-start;
             button {
                 background-color:inherit;
                 width: 100%;
@@ -120,7 +120,7 @@
                 font-weight: 600;
                 font-size: 14px;
                 font-family: 'Segoe UI';
-                text-align: start;
+                text-align: flex-start;
                 display: flex;
                 align-items: center;
                 &:hover {
@@ -152,7 +152,7 @@
                     font-weight: 600;
                     font-size: 14px;
                     font-family: 'Segoe UI';
-                    text-align: start;
+                    text-align: flex-start;
                     padding: 0 6px;
                 }
 
@@ -302,7 +302,7 @@
                     outline: none;
                     padding: 8px 12px;
                     transition-duration: 85ms;
-                    transition-property: background-color,border-color,box-shadow;
+                    transition: background-color,border-color,box-shadow;
                     transition-timing-function: ease;
                 }
 

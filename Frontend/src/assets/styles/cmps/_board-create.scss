@@ -280,7 +280,7 @@
             outline: none;
             padding: 8px 12px;
             transition-duration: 85ms;
-            transition-property: background-color,border-color,box-shadow;
+            transition: background-color,border-color,box-shadow;
             transition-timing-function: ease;
             font-family: inherit;
             font-size: 14px;

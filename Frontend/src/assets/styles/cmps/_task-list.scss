@@ -100,7 +100,7 @@
                 overflow-wrap: break-word;
                 box-shadow: 0 1px 0 #091e4240;
                 transition-duration: 85ms;
-                transition-property: background-color,border-color,box-shadow;
+                transition: background-color,border-color,box-shadow;
                 transition-timing-function: ease;
     
                 &:hover {

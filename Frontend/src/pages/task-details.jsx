@@ -19,298 +19,284 @@ import { TaskDynamicMember } from '../cmps/task-details/task-dynamic-member'
 import Loader from '../assets/img/loader.svg'
 import { IoClose } from 'react-icons/io5'
 import {
-	BsArchive,
-	BsPerson,
-	BsCheck2Square,
-	BsSquareHalf,
-	BsArrowCounterclockwise,
+    BsSquareHalf,
 } from 'react-icons/bs'
 
 export function TaskDetails() {
-	const { boardId, groupId, taskId } = useParams()
-	const board = useSelector((storeState) => storeState.boardModule.board)
-	const [task, setTask] = useState('')
-	const [modalType, setModalType] = useState()
-	const {
-		labelIds,
-		checklists,
-		memberIds,
-		dueDate,
-		isDone,
-		attachments,
-	} = task
+    const { boardId, groupId, taskId } = useParams()
+    const board = useSelector((storeState) => storeState.boardModule.board)
+    const [task, setTask] = useState('')
+    const [modalType, setModalType] = useState()
+    const {
+        labelIds,
+        checklists,
+        memberIds,
+        dueDate,
+        isDone,
+        attachments,
+    } = task
 
-	const memberBtn = useRef()
-	const labelBtn = useRef()
-	const checklistBtn = useRef()
-	const datesBtn = useRef()
-	const attachmentBtn = useRef()
-	const coverBtn = useRef()
-	const moveCardBtn = useRef()
+    const memberBtn = useRef()
+    const labelBtn = useRef()
+    const checklistBtn = useRef()
+    const datesBtn = useRef()
+    const attachmentBtn = useRef()
+    const coverBtn = useRef()
+    const moveCardBtn = useRef()
 
+    function getRefData(type) {
+        switch (type) {
+            case 'members':
+                return memberBtn
+            case 'labels':
+                return labelBtn
+            case 'checklist':
+                return checklistBtn
+            case 'dates':
+                return datesBtn
+            case 'attachment':
+                return attachmentBtn
+            case 'cover':
+                return coverBtn
+            case 'move card':
+                return moveCardBtn
+            default:
+                return null
+        }
+    }
 
-	function getRefData(type) {
-		switch (type) {
-			case 'members':
-				return memberBtn
+    let coverClose = task?.style?.background || task?.style?.backgroundColor ? 'close-hover' : ''
 
-			case 'labels':
-				return labelBtn
+    const navigate = useNavigate()
 
-			case 'checklist':
-				return checklistBtn
+    useEffect(() => {
+        if (!board) loadBoard(boardId)
+        loadTask(taskId, groupId, boardId)
+        // eslint-disable-next-line
+    }, [])
 
-			case 'dates':
-				return datesBtn
+    function getGroup(groupId) {
+        if (!board || !board.groups) return null
+        let currGroup = board.groups.find((grp) => grp.id === groupId)
+        return currGroup
+    }
 
-			case 'attachment':
-				return attachmentBtn
+    async function loadTask(taskId, groupId, boardId) {
+        try {
+            const task = await boardService.getTaskById(taskId, groupId, boardId)
+            setTask(task)
+        } catch (err) {
+            console.log('Failed to load task', err)
+        }
+    }
 
-			case 'cover':
-				return coverBtn
+    function handleChange({ target }) {
+        let { value, type, name: field } = target
+        value = type === 'number' ? +value : value
+        setTask((prevTask) => ({ ...prevTask, [field]: value }))
+    }
 
-			case 'move card':
-				return moveCardBtn
-		}
-	}
+    async function onRemoveTask() {
+        try {
+            await removeTask(taskId, groupId, boardId)
+            navigate(`/board/${boardId}`)
+        } catch (err) {
+            console.log('Cannot remove task ', err)
+        }
+    }
 
-	let coverClose = task?.style?.background || task?.style?.backgroundColor ? 'close-hover' : ''
+    async function onCopyTask() {
+        let copyTask = { ...task }
+        copyTask.id = null
+        try {
+            await saveTask(copyTask, groupId, boardId)
+        } catch (err) {
+            console.log('Cannot copy task', err)
+        }
+    }
 
-	const navigate = useNavigate()
+    function onSaveEdit(ev) {
+        ev.preventDefault()
+        saveTask(task, groupId, boardId)
+    }
 
-	useEffect(() => {
-		if (!board) loadBoard(boardId)
-		loadTask(taskId, groupId, boardId)
-	}, [])
+    function onSaveTask(ev, updateTask) {
+        ev.preventDefault()
+        setTask(updateTask)
+        saveTask(updateTask, groupId, boardId)
+    }
 
-	function getGroup(groupId) {
-		let groups = board.groups
-		let currGroup = groups.find((grp) => grp.id === groupId)
-		return currGroup
-	}
+    function onCloseTaskDetails(ev) {
+        ev.preventDefault()
+        navigate(`/board/${boardId}`)
+    }
 
-	async function loadTask(taskId, groupId, boardId) {
-		try {
-			const task = await boardService.getTaskById(taskId, groupId, boardId)
-			setTask(task)
-		} catch (err) {
-			console.log('Failed to load task', err)
-			throw err
-		}
-	}
+    function onStopPropagation(ev) {
+        ev.stopPropagation()
+    }
 
-	function handleChange({ target }) {
-		console.log(':')
+    function onOpenModal(type) {
+        setModalType(type)
+    }
 
-		let { value, type, name: field } = target
-		value = type === 'number' ? +value : value
-		setTask((prevTask) => ({ ...prevTask, [field]: value }))
-	}
+    return (
+        <>
+            <section className="task-details">
+                <div onClick={onCloseTaskDetails} className="black-screen">
+                    <div
+                        className="task-details-section"
+                        onClick={onStopPropagation}
+                    >
+                        {(!task || !board) && (
+                            <div className="loader-wrapper loader-wrapper-task-deatils">
+                                <img className="loader" src={Loader} alt="loader" />
+                            </div>
+                        )}
 
-	async function onRemoveTask() {
-		try {
-			console.log('remove:')
-			const removedTask = await removeTask(taskId, groupId, boardId)
-			console.log('removedTask:', removedTask)
-			navigate(`/board/${boardId}`)
-		} catch (err) {
-			console.log('Cannot remove task ', err)
-		}
-	}
+                        {task && board && (
+                            <>
+                                <span
+                                    onClick={onCloseTaskDetails}
+                                    className={`clean-btn btn-task-exit ${coverClose}`}
+                                >
+                                    <IoClose className="icon-task exit-icon" />
+                                </span>
 
-	async function onCopyTask() {
-		let copyTask = { ...task }
-		copyTask.id = null
-		try {
-			await saveTask(copyTask, groupId, boardId)
-		} catch (err) {
-			console.log('Cannot copy task', err)
-		}
-	}
+                                {task.style?.backgroundColor && (
+                                    <section
+                                        className="task-cover"
+                                        style={{ backgroundColor: task.style.backgroundColor }}
+                                    >
+                                        <button
+                                            className="clean-btn  btn-task-cover"
+                                            style={{ top: 60 }}
+                                            ref={coverBtn}
+                                            type="button"
+                                            onClick={() => onOpenModal('cover')}
+                                        >
+                                            <span className="btn-side-bar-icon btn-side-bar-icon-label">
+                                                <BsSquareHalf />
+                                            </span>
+                                            Cover
+                                        </button>
+                                    </section>
+                                )}
 
-	/// not good
-	function onSaveEdit(ev) {
-		ev.preventDefault()
-		saveTask(task, groupId, boardId)
-	}
+                                {task.style?.background && (
+                                    <section
+                                        className="task-cover img"
+                                        style={{ background: task.style.background }}
+                                    >
+                                        <button
+                                            className="clean-btn btn-task-cover"
+                                            style={{ top: 104 }}
+                                            ref={coverBtn}
+                                            type="button"
+                                            onClick={() => onOpenModal('cover')}
+                                        >
+                                            <span>
+                                                <BsSquareHalf />
+                                            </span>
+                                            Cover
+                                        </button>
+                                    </section>
+                                )}
 
-	function onSaveTask(ev, updateTask) {
-		ev.preventDefault()
-		setTask(updateTask)
-		saveTask(updateTask, groupId, boardId)
-	}
+                                <div className="task-details-main-section">
+                                    <TaskTitle
+                                        handleChange={handleChange}
+                                        onSaveEdit={onSaveEdit}
+                                        task={task}
+                                        group={getGroup(groupId)}
+                                        onOpenModal={onOpenModal}
+                                        moveCardBtn={moveCardBtn}
+                                    />
 
-	function onCloseTaskDetails(ev) {
-		ev.preventDefault()
-		navigate(`/board/${boardId}`)
-	}
+                                    <div className="task-details-container">
+                                        <div className="task-details-edit-section">
+                                            <div className="task-details-edit-item">
+                                                {memberIds && memberIds.length > 0 && (
+                                                    <TaskDynamicMember
+                                                        ids={memberIds}
+                                                        board={board}
+                                                        type={'members'}
+                                                        task={task}
+                                                        onSaveTask={onSaveTask}
+                                                        onOpenModal={onOpenModal}
+                                                        memberBtn={memberBtn}
+                                                    />
+                                                )}
+                                                {labelIds && labelIds.length > 0 && (
+                                                    <TaskDynamicLabel
+                                                        ids={labelIds}
+                                                        board={board}
+                                                        type={'labels'}
+                                                        task={task}
+                                                        onSaveTask={onSaveTask}
+                                                        onOpenModal={onOpenModal}
+                                                        labelBtn={labelBtn}
+                                                    />
+                                                )}
+                                                {dueDate && (
+                                                    <TaskDueDate
+                                                        dueDate={dueDate}
+                                                        isDone={isDone}
+                                                        task={task}
+                                                        onSaveTask={onSaveTask}
+                                                        datesBtn={datesBtn}
+                                                        onOpenModal={onOpenModal}
+                                                    />
+                                                )}
+                                            </div>
+                                            <TaskDescription
+                                                handleChange={handleChange}
+                                                onSaveEdit={onSaveEdit}
+                                                task={task}
+                                                onSaveTask={onSaveTask}
+                                            />
+                                            {checklists && checklists.length > 0 && (
+                                                <TaskChecklistPreview
+                                                    task={task}
+                                                    onSaveTask={onSaveTask}
+                                                    setTask={setTask}
+                                                />
+                                            )}
+                                            {attachments && attachments.length > 0 && (
+                                                <TaskAttachmentPreview
+                                                    handleChange={handleChange}
+                                                    task={task}
+                                                    onSaveTask={onSaveTask}
+                                                />
+                                            )}
 
-	function onStopPropagation(ev) {
-		ev.stopPropagation()
-	}
+                                            <TaskActivity task={task} onSaveTask={onSaveTask} />
+                                        </div>
+                                        <TaskSideBar
+                                            task={task}
+                                            onRemoveTask={onRemoveTask}
+                                            onCopyTask={onCopyTask}
+                                            onSaveTask={onSaveTask}
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
 
-	function onOpenModal(type) {
-		setModalType(type)
-	}
-
-	return (
-		<>
-			<section className="task-details">
-				<div onClick={(ev) => onCloseTaskDetails(ev)} className="black-screen">
-					<div
-						className="task-details-section"
-						onClick={(ev) => {
-							onStopPropagation(ev)
-						}}
-					>
-						{(!task || !board) && (
-							<div className="loader-wrapper loader-wrapper-task-deatils">
-								<img className="loader" src={Loader} alt="loader" />
-							</div>
-						)}
-
-						{task && board && (
-							<>
-								<span
-									onClick={(ev) => onCloseTaskDetails(ev)}
-									className={`clean-btn btn-task-exit ${coverClose}`}
-								>
-									<IoClose className="icon-task exit-icon" />
-								</span>
-
-								{task.style?.backgroundColor && (
-									<section
-										className="task-cover"
-										style={{ backgroundColor: task.style.backgroundColor }}
-									>
-										<button
-											className="clean-btn  btn-task-cover"
-											style={{ top: 60 }}
-											ref={coverBtn}
-											onClick={() => onOpenModal('cover')}
-										>
-											<span className="btn-side-bar-icon btn-side-bar-icon-label">
-												<BsSquareHalf />
-											</span>
-											Cover
-										</button>
-									</section>
-								)}
-
-								{task.style?.background && (
-									<section
-										className="task-cover img"
-										style={{ background: task.style.background }}
-									>
-										<button
-											className="clean-btn btn-task-cover"
-											style={{ top: 104 }}
-											ref={coverBtn}
-											onClick={() => onOpenModal('cover')}
-										>
-											<span>
-												<BsSquareHalf />
-											</span>
-											Cover
-										</button>
-									</section>
-								)}
-
-								<div className="task-details-main-section">
-									<TaskTitle
-										handleChange={handleChange}
-										onSaveEdit={onSaveEdit}
-										task={task}
-										group={getGroup(groupId)}
-										onOpenModal={onOpenModal}
-										moveCardBtn={moveCardBtn}
-									/>
-
-									<div className="task-details-container">
-										<div className="task-details-edit-section">
-											<div className="task-details-edit-item">
-												{memberIds && memberIds.length > 0 && (
-													<TaskDynamicMember
-														ids={memberIds}
-														board={board}
-														type={'members'}
-														task={task}
-														onSaveTask={onSaveTask}
-														onOpenModal={onOpenModal}
-														memberBtn={memberBtn}
-													/>
-												)}
-												{labelIds && labelIds.length > 0 && (
-													<TaskDynamicLabel
-														ids={labelIds}
-														board={board}
-														type={'labels'}
-														task={task}
-														onSaveTask={onSaveTask}
-														onOpenModal={onOpenModal}
-														labelBtn={labelBtn}
-													/>
-												)}
-												{dueDate && (
-													<TaskDueDate
-														dueDate={dueDate}
-														isDone={isDone}
-														task={task}
-														onSaveTask={onSaveTask}
-														datesBtn={datesBtn}
-														onOpenModal={onOpenModal}
-													/>
-												)}
-											</div>
-											<TaskDescription
-												handleChange={handleChange}
-												onSaveEdit={onSaveEdit}
-												task={task}
-												onSaveTask={onSaveTask}
-											/>
-											{checklists && checklists.length > 0 && (
-												<TaskChecklistPreview
-													task={task}
-													onSaveTask={onSaveTask}
-													setTask={setTask}
-												/>
-											)}
-											{attachments && attachments.length > 0 && (
-												<TaskAttachmentPreview
-													handleChange={handleChange}
-													task={task}
-													onSaveTask={onSaveTask}
-												/>
-											)}
-
-											<TaskActivity task={task} onSaveTask={onSaveTask} />
-										</div>
-										<TaskSideBar
-											task={task}
-											onRemoveTask={onRemoveTask}
-											onCopyTask={onCopyTask}
-											onSaveTask={onSaveTask}
-										/>
-									</div>
-								</div>
-							</>
-						)}
-					</div>
-				</div>
-
-				{modalType &&
-					(
-						<DynamicModal
-							cmpType={modalType}
-							refDataBtn={getRefData(modalType)}
-							task={task}
-							groupId={groupId}
-							boardId={boardId}
-							onOpenModal={onOpenModal}
-							onSaveTask={onSaveTask}
-						/>
-					)}
-			</section>
-		</>
-	)
+                {modalType &&
+                    (
+                        <DynamicModal
+                            cmpType={modalType}
+                            refDataBtn={getRefData(modalType)}
+                            task={task}
+                            groupId={groupId}
+                            boardId={boardId}
+                            onOpenModal={onOpenModal}
+                            onSaveTask={onSaveTask}
+                        />
+                    )}
+            </section>
+        </>
+    )
 }
