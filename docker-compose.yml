@@ -1,0 +1,45 @@
+services:
+  # ---- Backend ----
+  backend:
+    build: ./Backend
+    container_name: teamspace-backend
+    restart: unless-stopped
+    ports:
+      - "3030:3030"
+    env_file:
+      - ./Backend/.env
+    depends_on:
+      - mongo
+    networks:
+      - teamspace-network
+
+  # ---- Frontend ----
+  frontend:
+    build: ./Frontend
+    container_name: teamspace-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - teamspace-network
+
+  # ---- MongoDB ----
+  mongo:
+    image: mongo:7
+    container_name: teamspace-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - teamspace-network
+
+networks:
+  teamspace-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
