@@ -1,119 +1,178 @@
+// ============================================================
+// QUICK TASK EDIT — Inline Card Editor
+// ============================================================
+
 .quick-task-edit {
     z-index: 200;
     position: fixed;
     margin: 0;
 
+    // ── Backdrop ────────────────────────────────────────────
     .quick-task-edit-screen {
         z-index: 210;
         position: fixed;
         inset: 0;
-        background-color: #1212126a;
+        background: rgba(3, 7, 18, 0.70);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
         opacity: 0;
-        transition: opacity 0.6s;
+        transition: opacity $dur-slow;
         pointer-events: none;
         max-height: 100%;
         pointer-events: auto;
         opacity: 1;
         cursor: auto;
+        animation: fadeIn 0.3s ease-out;
     }
 
+    // ── Editable Card ───────────────────────────────────────
     .open-task {
         z-index: 220;
-        width: 260px;
+        width: 268px;
         position: fixed;
 
         form {
-
             .open-task-title {
-                font-family: segoe_ui;
+                font-family: 'Inter', sans-serif;
                 text-align: left;
-                vertical-align: auto;
-                border: none;
-                background-color: #ffffff;
-                box-shadow: 0 8px 16px -4px #091e4240, 0 0 0 1px #091e4214;
-                padding: 8px 12px;
-                font-size: 0.875rem;
+                border: 1px solid rgba(99, 102, 241, 0.50);
+                background: rgba(10, 16, 32, 0.95);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                box-shadow:
+                    0 0 0 2px rgba(99, 102, 241, 0.25),
+                    0 12px 32px rgba(0, 0, 0, 0.40);
+                padding: 10px 12px;
+                font-size: 13.5px;
+                font-weight: 500;
                 width: 100%;
-                min-height: 124px;
-                color: #172b4d;
+                min-height: 128px;
+                color: $text-primary;
                 outline: none;
-                border-radius: 3px;
+                border-radius: $radius-lg;
                 resize: none;
                 cursor: text;
+                animation: scaleInFadeIn 0.25s $ease-spring;
+                transition: border-color $dur-normal, box-shadow $dur-normal;
+                line-height: 1.5;
+                letter-spacing: -0.005em;
+
+                &::placeholder { color: $text-muted; font-weight: 400; }
+
+                &:focus {
+                    border-color: rgba(99, 102, 241, 0.70);
+                    box-shadow:
+                        0 0 0 3px rgba(99, 102, 241, 0.20),
+                        0 12px 32px rgba(0, 0, 0, 0.40);
+                }
             }
 
-            button {
+            button[type='submit'] {
                 position: absolute;
-                top: cal(124px + 2px);
-                font-size: 14px;
-                background-color: #046AA7;
+                top: calc(128px + 8px);
+                font-size: 13.5px;
+                background: $grad-primary;
                 cursor: pointer;
-                background-color: #0079bf;
                 border: none;
-                box-shadow: none;
-                border-radius: 3px;
+                border-radius: $radius-md;
                 color: #fff;
-                height: 32px;
+                height: 34px;
                 width: auto;
-                padding: 7px 24px;
-                line-height: 20px;
-                font-size: 14px;
-                font-weight: 400;
+                padding: 0 20px;
+                font-weight: 600;
+                font-family: inherit;
+                box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+                transition: all $dur-normal $ease-bounce;
+
+                &:hover {
+                    background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+                    transform: translateY(-1px);
+                    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                    box-shadow: none;
+                }
             }
-        }  
+        }
     }
 
+    // ── Quick Action Buttons ────────────────────────────────
     .quick-edit-btns {
         position: relative;
-        top: 10px;
-        left: 260px;
+        top: 6px;
+        left: 274px;
         z-index: 220;
         cursor: pointer;
         display: flex;
         flex-direction: column;
+        gap: 4px;
 
-        .quick-btn  {
-            background-color:rgba(0, 0, 0, 0.652);
-            font-family: noto-sans-hebrew-regular;
+        .quick-btn {
+            background: rgba(10, 16, 32, 0.90);
+            backdrop-filter: blur(12px);
+            font-family: 'Inter', sans-serif;
             text-align: left;
-            border-radius: 3px;
-            color: #c7d1db;
-            display: block;
-            width: fit-content;
-            float: left;
-            margin: 0 0 4px 8px;
-            padding: 6px 12px;
-            border: none;
+            border-radius: $radius-md;
+            color: rgba(255, 255, 255, 0.82);
             display: flex;
+            width: fit-content;
+            white-space: nowrap;
+            margin: 0;
+            padding: 7px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             align-items: center;
-            gap: 5px;
-            transition: all 150ms ease-out 0s;
+            gap: 7px;
+            font-size: 12.5px;
+            font-weight: 500;
+            transition: all $dur-normal $ease-smooth;
+            animation: slideUpFadeIn 0.3s $ease-smooth backwards;
 
             svg {
-                color: #c7d1db;
+                color: rgba(255, 255, 255, 0.65);
                 height: 13px;
+                width: 13px;
+                flex-shrink: 0;
+                transition: color $dur-normal;
 
-                path {
-                    fill: #c7d1db;
-                }
+                path { fill: rgba(255, 255, 255, 0.65); transition: fill $dur-normal; }
             }
 
             &:hover {
-                background-color:rgba(0, 0, 0, 0.902);
-                transform: translateX(5px);
+                background: rgba(99, 102, 241, 0.20);
+                border-color: rgba(99, 102, 241, 0.40);
+                color: #fff;
+                transform: translateX(4px);
+
+                svg {
+                    color: $clr-primary-light;
+                    path { fill: $clr-primary-light; }
+                }
             }
 
+            &:active {
+                transform: translateX(4px) scale(0.99);
+            }
+
+            // Rotated icons for labels/cover
             .tag-svg, .cover-svg {
                 transform: rotate(270deg);
             }
 
             .copy-svg {
-                    path {
-                        stroke: #c7d1db;
-                        fill: transparent;
-                        // fill:#c7d1db;
-                    }
+                path {
+                    stroke: rgba(255, 255, 255, 0.65);
+                    fill: transparent;
+                }
             }
         }
+
+        // Stagger animations
+        .quick-btn:nth-child(1) { animation-delay: 0.05s; }
+        .quick-btn:nth-child(2) { animation-delay: 0.10s; }
+        .quick-btn:nth-child(3) { animation-delay: 0.15s; }
+        .quick-btn:nth-child(4) { animation-delay: 0.20s; }
+        .quick-btn:nth-child(5) { animation-delay: 0.25s; }
     }
 }

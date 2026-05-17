@@ -1,245 +1,330 @@
+// ============================================================
+// TASK DETAILS — Premium Modal
+// ============================================================
+
 .task-details {
 
+    // ── Backdrop ────────────────────────────────────────────
     .black-screen {
         position: fixed;
         inset: 0;
-        background-color: #121212db;
+        background: rgba(3, 7, 18, 0.80);
+        backdrop-filter: blur(6px) saturate(120%);
+        -webkit-backdrop-filter: blur(6px) saturate(120%);
         cursor: pointer;
         opacity: 0;
-        transition: opacity 0.6s;
-        pointer-events: none;
+        transition: opacity $dur-slow $ease-smooth;
         z-index: 10;
-        box-shadow: -6px 0px 14px rgb(0 0 0 / 20%);
         pointer-events: auto;
         opacity: 1;
-        // max-height: 100%;
         left: 0;
         top: 0;
         height: 100vh;
         display: flex;
         justify-content: center;
         overflow-y: auto;
+        animation: fadeIn 0.3s ease-out;
 
-        &::-webkit-scrollbar {
-            width: 10px;
-            padding-top: 20px;
-
-        }
-
+        &::-webkit-scrollbar { width: 8px; }
         &::-webkit-scrollbar-thumb {
-            background-color: #BFC4CE;
-            border-radius: 30px;
-            height: 12px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: $radius-pill;
+            &:hover { background: rgba(255, 255, 255, 0.28); }
         }
-
-        &::-webkit-scrollbar-track {
-            background-color: #D9DCE2;
-            border-radius: 30px;
-            height: 12px;
-            border-bottom: 10px solid transparent;
-        }
-
+        &::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.20); }
     }
 
-
+    // ── Modal Card ──────────────────────────────────────────
     .task-details-section {
+        position: static;
         left: 50%;
         z-index: 40;
-        font-family: segoe_ui;
-        background-color: $t-bg1;
-        border-radius: 2px;
-        // width: 90%;
-        max-width: 784px;
+        font-family: inherit;
+        background: rgba(10, 16, 32, 0.92);
+        backdrop-filter: blur(24px) saturate(200%);
+        -webkit-backdrop-filter: blur(24px) saturate(200%);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: $radius-2xl;
+        box-shadow:
+            0 24px 80px rgba(0, 0, 0, 0.55),
+            inset 0 1px 0 rgba(255, 255, 255, 0.07),
+            0 0 0 1px rgba(255, 255, 255, 0.03);
+        max-width: 800px;
         min-width: 700px;
-        // min-height: 801px;
-        margin-inline: auto;
+        margin: 48px auto 80px;
         height: fit-content;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.02em;
         font-size: 14px;
-        color: $t-txt1;
-        margin-top: 48px;
-        margin-bottom: 80px;
+        color: $text-primary;
+        animation: scaleInFadeIn 0.35s $ease-spring;
         display: grid;
         grid-template-columns: 16px 1fr 16px;
         grid-template-rows: minmax(0, max-content) 1fr;
-        position: static;
         padding-bottom: 30px;
         cursor: default;
+        position: relative;
+        overflow: hidden;
 
+        // Top gradient accent
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 5%; right: 5%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(99, 102, 241, 0.50),
+                rgba(236, 72, 153, 0.30),
+                transparent
+            );
+            z-index: 1;
+            border-radius: $radius-pill;
+        }
 
-
+        // ── Cover ──────────────────────────────────────────
         .task-cover {
             grid-row: 1;
-            height: 116px;
+            height: 120px;
             width: 100%;
             grid-column: 1/4;
+            border-radius: $radius-2xl $radius-2xl 0 0;
+            overflow: hidden;
+            position: relative;
 
             &.img {
-                height: 160px;
+                height: 165px;
             }
 
             .btn-task-cover {
-                z-index: 1000;
-                position: relative;
-                float: right;
-                margin: 10px 8px;
-                display: flex;
-                gap: 8px;
-                background-color: rgba(0, 0, 0, 0.1);
-                border-radius: 3px;
-                color: #172b4d;
-                padding: 8px;
-                transition: all 150ms ease-out 0s;
+                z-index: 100;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(0, 0, 0, 0.55);
+                backdrop-filter: blur(8px);
+                border-radius: $radius-md;
+                color: rgba(255, 255, 255, 0.90);
+                padding: 7px 12px;
+                font-size: 12.5px;
+                font-weight: 500;
+                font-family: inherit;
+                cursor: pointer;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                transition: all $dur-normal $ease-smooth;
 
-                span {
-                    transform: rotate(270deg)
-                }
+                span { transform: rotate(270deg); }
 
                 &:hover {
-                    background-color: rgba(0, 0, 0, 0.2);
+                    background: rgba(0, 0, 0, 0.72);
+                    border-color: rgba(255, 255, 255, 0.25);
+                    transform: translateY(-1px);
                 }
             }
-
         }
 
+        // ── Main Section ───────────────────────────────────
         .task-details-main-section {
             grid-column: 2;
             grid-row: 2;
             display: grid;
-            grid-template-rows: 84.5px 1fr;
+            grid-template-rows: auto 1fr;
 
-
-            .task-title-container {
-                grid-row: 1/2;
-            }
-
-            .task-details-container {
-                grid-row: 2/3;
-            }
-
+            .task-title-container { grid-row: 1/2; }
+            .task-details-container { grid-row: 2/3; }
         }
 
         .task-details-container {
             display: grid;
-            grid-template-columns: 1fr 167px;
-            gap: 18px;
+            grid-template-columns: 1fr 172px;
+            gap: 20px;
 
-            .task-details-edit-section {
-                grid-column: 1/2;
-            }
-
-            .side-bar-menu {
-                grid-column: 2/3;
-            }
+            .task-details-edit-section { grid-column: 1/2; }
+            .side-bar-menu { grid-column: 2/3; }
         }
 
         .task-details-edit-section {
             display: grid;
             grid-template-rows: repeat(4, minmax(0, max-content));
-            gap: 17px;
-            // margin-inline-end: 20px;
+            gap: 20px;
         }
 
-        textarea,
-        input {
-            // font-family: inherit;
+        // ── Inputs / Textareas ──────────────────────────────
+        textarea, input {
             resize: none;
-            // background-color: inherit;
             border: none;
-            // border-radius: 3px;
-            // margin: 0px;
             cursor: pointer;
+            color: $text-primary;
+            letter-spacing: 0.02em;
+            background: transparent;
+            font-family: inherit;
 
-            color: $t-txt1;
-            letter-spacing: 0.03em;
-
-            &:focus-visible {
-                outline: none;
-            }
-
+            &:focus-visible { outline: none; }
             &:focus {
                 border: none;
-                // box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
-                background-color: $t-bg3;
+                background-color: rgba(9, 15, 35, 0.70);
+                border-radius: $radius-md;
             }
         }
     }
 
+    // ── Exit Button ─────────────────────────────────────────
     .btn-task-exit {
-        width: 44px;
-        height: 44px;
+        width: 36px;
+        height: 36px;
         position: absolute;
-        justify-self: end;
-        border-radius: 50%;
+        top: 8px;
+        right: 8px;
+        border-radius: $radius-pill;
         display: flex;
-        color: #42526e;
+        align-items: center;
+        justify-content: center;
+        color: $text-muted;
         padding: 4px;
-        margin: 4px;
-        transition: all 150ms ease-out 0s;
+        transition: all $dur-normal $ease-smooth;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 100;
 
         &:hover {
-            background-color: $t-hover3;
+            background: rgba(255, 255, 255, 0.10);
+            color: $text-primary;
+            transform: rotate(90deg);
         }
 
         &.close-hover {
-            background-color: $t-hover3;
+            background: rgba(239, 68, 68, 0.15);
+            color: #FCA5A5;
         }
 
         .exit-icon {
-            width: 20px;
-            height: 20px;
-            line-height: 32px;
-            padding: 0;
+            width: 18px;
+            height: 18px;
             margin: auto;
             font-size: 14px;
+            line-height: 1;
         }
     }
 
+    // ── Section Labels ──────────────────────────────────────
     .small-headline {
-        font-size: 12px;
-        color: #66748b;
-        font-family: segoe_ui;
-        letter-spacing: 0.04em;
+        font-size: 11.5px;
+        color: $text-muted;
+        font-family: inherit;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
         width: fit-content;
-        cursor: text;
-        @include margin-titles-task
+        cursor: default;
+        @include margin-titles-task;
     }
 
     .medium-headline {
-        font-size: 16px;
-        color: #2d3f5d;
+        font-size: 15px;
+        color: $text-primary;
         margin: 0;
-        font-family: segoe_ui;
-        font-weight: bold;
-        letter-spacing: 0.03em;
+        font-family: inherit;
+        font-weight: 600;
+        letter-spacing: -0.01em;
         cursor: text;
-    }
+        display: flex;
+        align-items: center;
+        gap: 8px;
 
-
-    .btn-task-details {
-        padding-inline: 12px;
-        padding-block: 6px;
-        color: $t-txt1;
-        background-color: $t-bg5;
-        border-radius: 3px;
-        transition: all 150ms ease-out 0s;
-
-        &:hover {
-            background-color: $t-hover3;
+        // Icon prefix
+        svg {
+            width: 18px;
+            height: 18px;
+            color: $text-muted;
+            flex-shrink: 0;
         }
     }
 
+    // ── Action Buttons ──────────────────────────────────────
+    .btn-task-details {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        color: $text-primary;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: $radius-md;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all $dur-normal $ease-smooth;
+
+        svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            color: $text-muted;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.11);
+            border-color: rgba(255, 255, 255, 0.14);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+            svg { color: $text-secondary; }
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        &.btn-primary {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.30);
+            color: $clr-primary-light;
+
+            &:hover {
+                background: rgba(99, 102, 241, 0.25);
+                border-color: rgba(99, 102, 241, 0.50);
+            }
+        }
+
+        &.btn-danger {
+            background: rgba(239, 68, 68, 0.10);
+            border-color: rgba(239, 68, 68, 0.25);
+            color: #FCA5A5;
+
+            &:hover {
+                background: rgba(239, 68, 68, 0.20);
+                border-color: rgba(239, 68, 68, 0.40);
+            }
+        }
+    }
+
+    // ── Edit Items Layout ───────────────────────────────────
     .task-details-edit-item {
         display: flex;
-        align-items: flex-end;
+        align-items: flex-start;
         padding-inline-start: 40px;
         flex-wrap: wrap;
+        gap: 8px;
     }
 
     .icon-task {
         width: 32px;
         height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $text-muted;
+        flex-shrink: 0;
+        margin-top: 2px;
 
+        svg {
+            width: 18px;
+            height: 18px;
+        }
     }
-
 }

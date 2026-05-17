@@ -1,102 +1,194 @@
+// ============================================================
+// TASK DESCRIPTION — Premium Rich Text Section
+// ============================================================
+
 .task-description-container {
     display: grid;
     grid-template-columns: 40px 1fr;
-    // margin-top: ;
+    gap: 0;
 
     .description-icon {
-        padding-block-start: 3px;
+        padding-top: 2px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        color: $text-muted;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
     }
 
+    // ── Title Row ────────────────────────────────────────────
     .task-description-title-container {
         display: flex;
         align-items: center;
-
+        gap: 8px;
+        margin-bottom: 8px;
 
         .btn-description-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            height: 30px;
+            padding: 0 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: $radius-sm;
+            color: $text-secondary;
+            font-size: 12px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all $dur-normal $ease-smooth;
 
-            width: 47.46px;
-            margin-inline-start: 5.5px;
+            &:hover {
+                background: rgba(255, 255, 255, 0.11);
+                color: $text-primary;
+                transform: translateY(-1px);
+            }
         }
     }
 
+    // ── Rendered Content ─────────────────────────────────────
     .task-description-p {
         grid-column: 2;
-        margin-block-start: 8px;
+        margin-top: 8px;
+        font-size: 14px;
+        line-height: 1.65;
+        color: $text-secondary;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: $radius-md;
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        min-height: 48px;
+        transition: all $dur-normal;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.09);
+        }
+
+        // Markdown-style formatting
+        strong { color: $text-primary; }
+        code {
+            background: rgba(99, 102, 241, 0.12);
+            padding: 2px 6px;
+            border-radius: $radius-xs;
+            font-size: 12.5px;
+            color: $clr-primary-light;
+        }
     }
 
+    // ── Placeholder (click to edit) ──────────────────────────
     .task-description-placeholder {
         grid-column: 2;
         margin: 0;
-        background-color: $t-bg5;
-        height: 56px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: $radius-md;
+        min-height: 60px;
         width: 100%;
-        padding-inline: 12px;
-        padding-block: 8px;
-        margin-block-start: 8px;
-    }
-
-    .task-description-textarea {
-        height: 108px;
-        width: 512px;
-        padding-inline: 12px;
-        padding-block: 8px;
-        font-family: San_francisco_light;
-        margin-inline-start: 40px;
-        letter-spacing: 0.07em;
-        background-color: $clr6 ;
-        border-radius: 2px;
-        font-size: 14px;
+        padding: 12px 14px;
+        margin-top: 4px;
+        transition: all $dur-normal $ease-smooth;
+        display: flex;
+        align-items: flex-start;
+        font-size: 13.5px;
+        color: $text-muted;
+        font-style: italic;
 
         &:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.12);
             cursor: pointer;
-            background-color: none;
+            color: $text-secondary;
         }
-
-        &:focus {
-            box-shadow: inset 0 0 0 2px #0079bf;
-            background-color: $clr6 ;
-        }
-
     }
 
+    // ── Editing Textarea ─────────────────────────────────────
+    .task-description-textarea {
+        grid-column: 2;
+        min-height: 120px;
+        width: 100%;
+        max-width: 100%;
+        padding: 12px 14px;
+        font-family: inherit;
+        font-size: 13.5px;
+        line-height: 1.65;
+        letter-spacing: 0.01em;
+        background: rgba(9, 15, 35, 0.70);
+        color: $text-primary;
+        border: 1px solid rgba(99, 102, 241, 0.40);
+        border-radius: $radius-md;
+        resize: vertical;
+        transition: all $dur-normal $ease-smooth;
+        animation: scaleInFadeIn 0.2s $ease-spring;
 
+        &::placeholder { color: $text-muted; font-style: italic; }
 
+        &:hover { cursor: text; }
+
+        &:focus {
+            border-color: rgba(99, 102, 241, 0.60);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+            background: rgba(9, 15, 35, 0.85);
+            outline: none;
+        }
+    }
+
+    // ── Action Buttons Row ───────────────────────────────────
     .task-description-btn {
-        margin-inline-start: 40px;
-        margin-block-start: 8px;
+        grid-column: 2;
+        margin-top: 10px;
         display: flex;
         align-items: center;
+        gap: 8px;
     }
 
     .btn-description-save {
-        background-color: $t-btn-bgc;
-        color: $clr6;
-        margin-inline-end: 4px;
-        width: 52.6px;
-        padding: 4px 12px 6px;
+        background: $grad-primary;
+        color: #ffffff;
+        border: none;
+        border-radius: $radius-md;
+        font-weight: 600;
+        font-size: 13px;
+        font-family: inherit;
+        padding: 0 18px;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.30);
+        transition: all $dur-normal $ease-bounce;
+        cursor: pointer;
 
         &:hover {
-            background-color: #026aa7;
+            background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.42);
         }
+
+        &:active { transform: translateY(0); box-shadow: none; }
     }
 
     .btn-description-cancel {
-        background-color: initial;
-        width: 64.9px;
-
+        background: transparent;
+        color: $text-secondary;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: $radius-md;
+        font-size: 13px;
+        font-family: inherit;
+        padding: 0 14px;
+        transition: all $dur-normal $ease-smooth;
+        cursor: pointer;
 
         &:hover {
-            background-color: $t-hover3;
+            background: rgba(255, 255, 255, 0.08);
+            color: $text-primary;
         }
     }
-
 
     .btn-description-save,
     .btn-description-cancel,
     .btn-description-edit {
-        height: 32px;
-
+        height: 34px;
     }
-
-
 }

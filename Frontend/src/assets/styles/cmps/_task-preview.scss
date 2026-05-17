@@ -1,242 +1,296 @@
+// ============================================================
+// TASK PREVIEW — Premium Kanban Card
+// ============================================================
+
 .task-preview {
-    padding-bottom: 8px;
+    padding-bottom: 0;
     overflow: hidden;
-    margin: 4px;
+    margin: 0 0 8px;
     max-width: 100%;
     position: relative;
-    background-color: $t-bg3;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 #091e4240;
-    font-family: segoe_ui;
-    font-size: 14px;
+    background: rgba(15, 23, 42, 0.80);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: $radius-lg;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.20), 0 1px 2px rgba(0, 0, 0, 0.12);
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
     white-space: normal;
     cursor: pointer;
-    padding-bottom: 2px;
+    transition:
+        transform $dur-normal $ease-smooth,
+        box-shadow $dur-normal $ease-smooth,
+        border-color $dur-normal $ease-smooth,
+        background $dur-normal $ease-smooth;
+    animation: slideUpFadeIn 0.4s $ease-smooth backwards;
 
+    // ── Hover State ─────────────────────────────────────────
+    &:hover {
+        background: rgba(20, 32, 58, 0.92);
+        transform: translateY(-3px);
+        box-shadow:
+            0 10px 28px rgba(0, 0, 0, 0.28),
+            0 4px 10px rgba(0, 0, 0, 0.15),
+            0 0 0 1px rgba(99, 102, 241, 0.20);
+        border-color: rgba(99, 102, 241, 0.25);
+
+        .edit-btn {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        .task-priority-bar {
+            width: 100%;
+        }
+    }
+
+    &:active {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
+    }
+
+    // Priority indicator bottom bar
+    .task-priority-bar {
+        position: absolute;
+        bottom: 0; left: 0;
+        height: 2px;
+        width: 0%;
+        background: $grad-primary;
+        border-radius: 0 0 $radius-lg $radius-lg;
+        transition: width $dur-slow $ease-smooth;
+    }
+
+    // ── Cover Image ─────────────────────────────────────────
     .task-preview-cover {
-        height: 32px;
-        border-radius: 3px 3px 0 0;
+        height: 28px;
+        border-radius: $radius-lg $radius-lg 0 0;
         display: block;
         position: static;
         padding: 0;
+        overflow: hidden;
 
         &.img {
-            height: 163px;
+            height: 160px;
+            object-fit: cover;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
         }
     }
 
+    // ── Edit Button ─────────────────────────────────────────
     .edit-btn {
         border: none;
-        background-color: transparent;
-
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(8px);
         position: absolute;
-        top: 0px;
-        right: 0px;
-
+        top: 8px;
+        right: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-
-        font-family: segoe_ui;
-        margin: 2px 2px;
-        padding: 3px;
-        border-radius: 3px;
-
+        font-family: inherit;
+        padding: 6px;
+        border-radius: $radius-md;
         opacity: 0;
-        transition: all 150ms ease-out 0s;
-
+        transform: scale(0.75) rotate(-10deg);
+        transition: all $dur-normal $ease-spring;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        color: $text-secondary;
+        z-index: 5;
 
         svg {
-            height: 16px;
-            width: 16px;
-            border-radius: 3px;
-            border: 0;
-            align-items: center;
+            height: 13px;
+            width: 13px;
             background-color: transparent;
-            margin: 3px;
-            white-space: nowrap;
 
-            path {
-                fill: $t-txt3;
-            }
+            path { fill: $clr5; transition: fill $dur-normal; }
         }
 
         &:hover {
-            background-color: #83818136;
+            background: $clr-primary;
+            border-color: $clr-primary;
+            transform: scale(1.08) !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.40);
 
-            path {
-                fill: #172B4D;
-            }
+            svg path { fill: #fff; }
         }
     }
 
-    &:hover {
-        background-color: $t-hover2;
-
-        .edit-btn {
-            opacity: 100%;
-        }
-    }
-
+    // ── Labels ──────────────────────────────────────────────
     .task-preview-label-container {
         display: flex;
-        gap: 2px;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 10px 10px 4px;
 
         .task-preview-label {
-            margin: 4px 0;
-            padding-right: 0;
-            padding-left: 0;
-            width: 40px;
+            margin: 0;
+            padding: 0 10px;
             height: 8px;
             border: none;
-            border-radius: 4px;
-            margin-inline-end: 3px;
-            transition: all 150ms ease-out 0s;
+            border-radius: $radius-pill;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 8px;
+            transition: all $dur-normal $ease-smooth;
+            opacity: 0.9;
 
-            &:hover,
-            :focus {
-                filter: saturate(85%) brightness(92%);
+            &:hover {
+                filter: brightness(1.25) saturate(1.2);
+                height: 14px;
+                line-height: 14px;
+                opacity: 1;
             }
         }
     }
 
+    // ── Card Body ───────────────────────────────────────────
     .task-preview-details {
-        padding: 4px 8px;
-
-        .task-preview-member-container {
-            padding: 0;
-            display: flex;
-            flex-direction: row;
-            gap: 2px;
-
-            .member-img {
-                border-radius: 50%;
-            }
-        }
-
-        p {
-            margin-block: 0;
-        }
+        padding: 6px 12px 10px;
 
         .task-title {
             word-wrap: break-word;
             clear: both;
-            color: $t-txt1;
+            color: $text-primary;
             display: block;
             overflow: hidden;
-            padding: 6px 0;
+            padding: 4px 0 6px;
+            font-weight: 500;
+            line-height: 1.45;
+            font-size: 13.5px;
+            letter-spacing: -0.005em;
         }
 
+        p { margin-block: 0; }
+
+        // ── Footer Row ──────────────────────────────────────
         .task-preview-actions-wrapper {
             display: flex;
             flex-wrap: nowrap;
             justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 8px;
+            margin-top: 4px;
+            gap: 6px;
 
             .task-preview-actions {
-                display: block;
                 display: flex;
                 flex-direction: row;
-                flex-wrap: nowrap;
-                justify-content: center;
+                flex-wrap: wrap;
                 align-items: center;
-                float: left;
-                margin-left: -2px;
-                max-width: 100%;
-                margin-top: 4px;
+                gap: 5px;
 
-                .date {
-                    color: #6b778c;
-                }
+                .date, p, svg { color: $text-muted; }
 
                 p {
                     font-size: 11px;
-                    padding-left: 2px;
+                    font-weight: 500;
+                    margin: 0;
                 }
 
+                // Status stickers
                 .due-sticker,
-                .todosDone {
-                    border-radius: 3px;
-                    padding: 4px 2px 2px 2px;
-                    margin-inline-end: 4px;
+                .todosDone,
+                .completed,
+                .overdue,
+                .soon {
+                    border-radius: $radius-sm;
+                    padding: 3px 7px;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
+                    transition: all $dur-normal $ease-smooth;
+                    font-size: 11px;
+                    font-weight: 600;
+                    white-space: nowrap;
 
-                    p {
-                        color: #fafbfc;
-                    }
+                    p, svg { color: #fff; }
 
+                    svg { width: 11px; height: 11px; }
                 }
 
                 .completed {
-                    background-color: #7bc86c;
-
-
-                    svg {
-                        color: #fafbfc;
-                    }
-
-                    &:hover {
-                        background-color: #519839
-                    }
+                    background: linear-gradient(135deg, #059669, #047857);
+                    box-shadow: 0 2px 6px rgba(5, 150, 105, 0.35);
+                    &:hover { filter: brightness(1.1); transform: scale(1.03); }
                 }
 
                 .overdue {
-                    background-color: #ec9488;
-
-                    svg {
-                        color: #fafbfc;
-                    }
-
-                    &:hover {
-                        background-color: #eb5a46;
-                    }
+                    background: linear-gradient(135deg, #DC2626, #B91C1C);
+                    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.35);
+                    animation: pulseGlow 2.5s ease-in-out infinite;
+                    &:hover { filter: brightness(1.1); }
                 }
 
                 .soon {
-                    background-color: #f5dd29;
-
-                    svg {
-                        color: #fafbfc;
-                    }
-
-                    &:hover {
-                        background-color: #baa92d;
-                    }
+                    background: linear-gradient(135deg, #D97706, #B45309);
+                    box-shadow: 0 2px 6px rgba(217, 119, 6, 0.35);
+                    &:hover { filter: brightness(1.1); }
                 }
 
                 .todosDone {
-                    margin: 0 2px;
-                    background-color: #7bc86c;
+                    background: rgba(255, 255, 255, 0.08);
+                    border: 1px solid rgba(255, 255, 255, 0.10);
+                    p, svg { color: $text-secondary; }
 
-                    p {
-                        color: #fafbfc;
-                    }
-
-                    svg {
-                        color: #fafbfc;
+                    &.all-done {
+                        background: rgba(5, 150, 105, 0.15);
+                        border-color: rgba(5, 150, 105, 0.30);
+                        p, svg { color: #34D399; }
                     }
                 }
 
                 .task-preview-actions-icons {
-                    color: #6b778c;
-                    margin: 0 4px 4px 0;
-                    overflow: hidden;
-                    padding: 2px;
-                    position: relative;
-                    text-decoration: none;
-                    text-overflow: ellipsis;
-                    vertical-align: top;
-                    display: flex;
+                    color: $text-muted;
+                    display: inline-flex;
                     align-items: center;
-                    padding: 0 4px;
+                    gap: 3px;
+                    padding: 3px 6px;
+                    border-radius: $radius-sm;
+                    transition: all $dur-normal $ease-smooth;
+                    font-size: 11px;
+                    font-weight: 500;
 
-                    .date {}
+                    &:hover {
+                        background: rgba(255, 255, 255, 0.08);
+                        color: $text-secondary;
+                    }
 
-                    .desc {}
+                    svg {
+                        width: 12px;
+                        height: 12px;
+                        flex-shrink: 0;
+                    }
+                }
+            }
 
-                    .comment {}
+            // ── Member Avatars ───────────────────────────────
+            .task-preview-member-container {
+                padding: 0;
+                display: flex;
+                flex-direction: row;
+                flex-shrink: 0;
 
-                    .attach {}
+                .member-img {
+                    border-radius: 50%;
+                    border: 2px solid rgba(9, 15, 35, 0.85);
+                    width: 24px;
+                    height: 24px;
+                    margin-left: -6px;
+                    transition: transform $dur-normal $ease-bounce, z-index 0s;
+                    position: relative;
 
-                    .check {}
+                    &:first-child { margin-left: 0; }
+
+                    &:hover {
+                        transform: translateY(-3px) scale(1.12);
+                        z-index: 10;
+                        border-color: $clr-primary;
+                        box-shadow: 0 0 10px rgba(99, 102, 241, 0.40);
+                    }
                 }
             }
         }

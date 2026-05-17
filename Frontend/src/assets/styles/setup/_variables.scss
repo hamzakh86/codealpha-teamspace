@@ -1,82 +1,165 @@
-// Colors - TeamSpace Theme
-$clr1: #2563EB; // Couleur principale (bleu moderne)
-$clr2: #7C3AED; // Couleur secondaire (violet professionnel)
-$clr3: #F8FAFC; // Couleur de fond claire (gris très clair)
-$clr4: #1E293B; // Couleur de fond foncée (gris ardoise foncé)
-$clr5: #FFFFFF; // Couleur de texte claire
-$clr6: #334155; // Couleur de texte foncée (gris ardoise)
-$clr7: #222;
+// ============================================================
+// TEAMSPACE - PREMIUM DESIGN SYSTEM v3.0
+// Modern Dark Theme with Glassmorphism & Aurora Effects
+// ============================================================
 
-// Homepage Header
-$hh-bg1: $clr5;
-$hh-bg2: $clr1;
-$hh-txt1: $clr6;
+// ── Core Brand Colors ──────────────────────────────────────
+$clr-primary:       #6366F1;   // Indigo 500
+$clr-primary-light: #818CF8;   // Indigo 400
+$clr-primary-dark:  #4F46E5;   // Indigo 600
+$clr-primary-deep:  #4338CA;   // Indigo 700
+
+$clr-secondary:     #EC4899;   // Pink 500
+$clr-accent:        #06B6D4;   // Cyan 500
+$clr-success:       #10B981;   // Emerald 500
+$clr-warning:       #F59E0B;   // Amber 500
+$clr-danger:        #EF4444;   // Red 500
+
+// ── Legacy aliases (backward compat) ───────────────────────
+$clr1: $clr-primary;
+$clr2: $clr-secondary;
+$clr3: #F8FAFC;
+$clr4: #1E293B;
+$clr5: #FFFFFF;
+$clr6: #334155;
+$clr7: #0F172A;
+
+// ── Dark Background Scale ──────────────────────────────────
+$bg-900: #060B18;    // Deepest background
+$bg-800: #0A1020;    // Deep dark
+$bg-700: #0F172A;    // Dark background
+$bg-600: #111827;    // Board bg
+$bg-500: #1E293B;    // Panel bg
+$bg-400: #273449;    // Card hover
+$bg-300: #334155;    // Muted element
+$bg-200: #475569;    // Subdued text bg
+$bg-100: #64748B;    // Tertiary text
+
+// ── Glass System ───────────────────────────────────────────
+$glass-primary:   rgba(255, 255, 255, 0.08);
+$glass-hover:     rgba(255, 255, 255, 0.12);
+$glass-active:    rgba(255, 255, 255, 0.18);
+$glass-border:    rgba(255, 255, 255, 0.10);
+$glass-border-lg: rgba(255, 255, 255, 0.15);
+$glass-strong:    rgba(30, 41, 59, 0.85);
+$glass-ultra:     rgba(30, 41, 59, 0.95);
+$glass-card:      rgba(15, 23, 42, 0.75);
+
+// ── Text Scale ─────────────────────────────────────────────
+$text-primary:   rgba(255, 255, 255, 0.96);
+$text-secondary: rgba(255, 255, 255, 0.70);
+$text-muted:     rgba(255, 255, 255, 0.45);
+$text-disabled:  rgba(255, 255, 255, 0.25);
+
+// ── Glow & Shadow System ───────────────────────────────────
+$shadow-xs:  0 1px 3px rgba(0, 0, 0, 0.20);
+$shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.25);
+$shadow-md:  0 4px 16px rgba(0, 0, 0, 0.30);
+$shadow-lg:  0 8px 32px rgba(0, 0, 0, 0.35);
+$shadow-xl:  0 16px 48px rgba(0, 0, 0, 0.40);
+$shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.50);
+
+$glow-primary:   0 0 20px rgba(99, 102, 241, 0.35);
+$glow-secondary: 0 0 20px rgba(236, 72, 153, 0.30);
+$glow-accent:    0 0 20px rgba(6, 182, 212, 0.30);
+$glow-success:   0 0 16px rgba(16, 185, 129, 0.35);
+$glow-danger:    0 0 16px rgba(239, 68, 68, 0.35);
+
+// ── Border System ──────────────────────────────────────────
+$border-glass:   1px solid rgba(255, 255, 255, 0.08);
+$border-glass-lg: 1px solid rgba(255, 255, 255, 0.14);
+$border-primary: 1px solid rgba(99, 102, 241, 0.40);
+$border-focus:   2px solid rgba(99, 102, 241, 0.60);
+
+// ── Radius Scale ───────────────────────────────────────────
+$radius-xs:  4px;
+$radius-sm:  6px;
+$radius-md:  10px;
+$radius-lg:  14px;
+$radius-xl:  18px;
+$radius-2xl: 24px;
+$radius-pill: 9999px;
+
+// ── Spacing Scale ──────────────────────────────────────────
+$space-1:  4px;
+$space-2:  8px;
+$space-3:  12px;
+$space-4:  16px;
+$space-5:  20px;
+$space-6:  24px;
+$space-8:  32px;
+$space-10: 40px;
+$space-12: 48px;
+
+// ── Easing Functions ───────────────────────────────────────
+$ease-smooth:  cubic-bezier(0.25, 0.8, 0.25, 1);
+$ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+$ease-sharp:   cubic-bezier(0.4, 0, 0.6, 1);
+$ease-spring:  cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+// ── Duration Scale ─────────────────────────────────────────
+$dur-fast:   150ms;
+$dur-normal: 250ms;
+$dur-slow:   400ms;
+$dur-slower: 600ms;
+
+// ── Gradient System ────────────────────────────────────────
+$grad-primary:   linear-gradient(135deg, $clr-primary, $clr-primary-dark);
+$grad-primary-v: linear-gradient(180deg, $clr-primary, $clr-primary-dark);
+$grad-aurora:    linear-gradient(-45deg, #0F172A, #1E293B, #312E81, #4C1D95, #1E293B);
+$grad-mesh:      radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+                 radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.10) 0%, transparent 60%),
+                 radial-gradient(ellipse at 50% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 60%);
+$grad-card:      linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+
+// ── Homepage legacy aliases ─────────────────────────────────
+$hh-bg1: rgba(255, 255, 255, 0.08);
+$hh-bg2: $clr-primary;
+$hh-txt1: $clr5;
 $hh-txt2: $clr5;
-$hh-txt3: $clr4;
+$hh-txt3: $clr5;
 
-
-// Homepage
 $h-txt1: $clr5;
-$h-txt2: $clr6;
-$h-txt3: $clr4;
-$h-btn1: $clr1;
-$h-btn2: $clr6;
-
-// Homepage Footer
+$h-txt2: $clr3;
+$h-txt3: $clr5;
+$h-btn1: $clr-primary;
+$h-btn2: $clr5;
 $hf-txt1: $clr5;
-$hf-btn1: $clr6;
+$hf-btn1: $clr5;
 
-// Workspace Header
-$wh-bg1: $clr1;
-$wh-bg2: $clr4;
+$wh-bg1: rgba(9, 15, 35, 0.70);
+$wh-bg2: $clr-primary;
 $wh-txt1: $clr5;
 
+$w-bg1: transparent;
+$w-txt1: $clr5;
+$w-txt2: $clr-primary;
+$w-txt3: $clr5;
+$w-icon1: $clr5;
+$w-hover1: rgba(255, 255, 255, 0.08);
 
-// Workspace
-$w-bg1: $clr3;
+$bh-txt1: $clr5;
+$bh-txt2: $clr3;
 
-$w-txt1: $clr6;
-$w-txt2: $clr1;
-$w-txt3: $clr4;
-
-$w-icon1: $clr4;
-
-$w-hover1: #E2E8F0;
-
-// Board Header
-$bh-txt1:$clr5;
-$bh-txt2:$clr6;
-
-// Board
-$b-txt1: $clr6;
+$b-txt1: $clr5;
 $b-txt2: $clr5;
-$b-txt3: $clr4;
+$b-txt3: $clr5;
 
-// Task
-$t-bg1: $clr3;
+$t-bg1: rgba(15, 23, 42, 0.80);
+$t-bg2: rgba(255, 255, 255, 0.04);
+$t-bg3: rgba(9, 15, 35, 0.82);
+$t-bg4: transparent;
+$t-bg5: rgba(99, 102, 241, 0.12);
+$t-btn-bgc: $clr-primary;
+$t-txt1: $clr5;
+$t-txt2: rgba(255, 255, 255, 0.65);
+$t-txt3: rgba(255, 255, 255, 0.65);
+$t-pls-clr: $clr5;
+$t-hover1: rgba(255, 255, 255, 0.08);
+$t-hover2: rgba(99, 102, 241, 0.20);
+$t-hover3: rgba(236, 72, 153, 0.15);
 
-$t-bg2: #E2E8F0;
-$t-bg3: $clr5;
-$t-bg4: $clr3;
-$t-bg5: rgba(37, 99, 235, 0.04);
-
-$t-btn-bgc: $clr1;
-
-$t-txt1: $clr6;
-$t-txt2: $clr4;
-$t-txt3: $clr4;
-
-$t-pls-clr: $clr4;
-
-
-$t-hover1: #E2E8F0;
-$t-hover2: $clr3;
-$t-hover3: rgba(37, 99, 235, 0.08);
-
-
-
-// Breakpoints
+// ── Breakpoints ────────────────────────────────────────────
 $mobile-breakpoint: 460px;
 $narrow-breakpoint: 600px;
 $normal-breakpoint: 960px;
-

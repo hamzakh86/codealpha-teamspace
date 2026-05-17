@@ -1,0 +1,392 @@
+// ============================================================
+// WATCH DEMO PAGE — Premium Video Mockup
+// ============================================================
+
+.watch-demo-page {
+    min-height: 100vh;
+    background: #060B18;
+    color: $text-primary;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    padding: 60px 24px 100px;
+    display: flex;
+    justify-content: center;
+
+    // ── Background Ambient Effects ───────────────────────────
+    .demo-bg-effects {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+
+        .glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        .glow-1 {
+            width: 600px; height: 600px;
+            background: rgba(99, 102, 241, 0.15);
+            top: -10%; left: -10%;
+        }
+
+        .glow-2 {
+            width: 500px; height: 500px;
+            background: rgba(236, 72, 153, 0.12);
+            bottom: -10%; right: -5%;
+            animation-delay: -3s;
+        }
+
+        .glow-3 {
+            width: 400px; height: 400px;
+            background: rgba(6, 182, 212, 0.1);
+            top: 40%; left: 60%;
+            animation-delay: -5s;
+        }
+    }
+
+    // ── Main Container ───────────────────────────────────────
+    .demo-container {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: slideUpFadeIn 0.8s $ease-smooth;
+    }
+
+    // ── Header ───────────────────────────────────────────────
+    .demo-header {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+
+        .btn-back {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: $radius-md;
+            color: $text-secondary;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all $dur-normal;
+
+            svg { width: 16px; height: 16px; transition: transform $dur-normal; }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: $text-primary;
+                border-color: rgba(255, 255, 255, 0.2);
+                
+                svg { transform: translateX(-3px); }
+            }
+        }
+
+        .demo-title {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 10px;
+
+            .badge {
+                display: inline-block;
+                padding: 4px 12px;
+                background: rgba(236, 72, 153, 0.15);
+                border: 1px solid rgba(236, 72, 153, 0.3);
+                color: #F472B6;
+                border-radius: $radius-pill;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                margin-bottom: 16px;
+            }
+
+            h1 {
+                font-size: clamp(2rem, 4vw, 3rem);
+                font-weight: 800;
+                letter-spacing: -0.03em;
+                margin-bottom: 16px;
+                background: linear-gradient(135deg, #FFF, $clr-primary-light);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            p {
+                font-size: 16px;
+                color: $text-secondary;
+                line-height: 1.6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .btn-back {
+                position: relative;
+                margin-bottom: 24px;
+            }
+        }
+    }
+
+    // ── Video Player Mockup ──────────────────────────────────
+    .video-player-wrapper {
+        width: 100%;
+        margin-bottom: 60px;
+        perspective: 1000px;
+
+        .video-player-glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: $radius-xl;
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(99, 102, 241, 0.1),
+                0 0 40px rgba(99, 102, 241, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            aspect-ratio: 16 / 9;
+            transform: rotateX(2deg);
+            transition: transform $dur-slow $ease-smooth;
+
+            &:hover {
+                transform: rotateX(0deg) scale(1.01);
+                box-shadow: 
+                    0 40px 80px rgba(0, 0, 0, 0.5),
+                    0 0 0 1px rgba(99, 102, 241, 0.2),
+                    0 0 60px rgba(99, 102, 241, 0.25);
+            }
+        }
+
+        // Browser Top Bar
+        .browser-bar {
+            height: 40px;
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 16px;
+
+            .window-controls {
+                display: flex;
+                gap: 6px;
+
+                span {
+                    width: 12px; height: 12px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.2);
+                    &:nth-child(1) { background: #FF5F56; }
+                    &:nth-child(2) { background: #FFBD2E; }
+                    &:nth-child(3) { background: #27C93F; }
+                }
+            }
+
+            .url-bar {
+                flex: 1;
+                max-width: 400px;
+                margin: 0 auto;
+                height: 24px;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: $radius-sm;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                color: $text-muted;
+                letter-spacing: 0.05em;
+            }
+        }
+
+        // Content Area
+        .video-content {
+            flex: 1;
+            position: relative;
+            background: #090E17;
+            overflow: hidden;
+
+            // Abstract UI
+            .placeholder-ui {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                opacity: 0.3;
+                filter: blur(2px);
+
+                .sidebar {
+                    width: 20%;
+                    border-right: 1px solid rgba(255,255,255,0.1);
+                    background: rgba(255,255,255,0.02);
+                }
+                .main {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 20px;
+
+                    .header { height: 40px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 20px; }
+                    .board {
+                        display: flex; gap: 16px; flex: 1;
+                        .column {
+                            flex: 1; background: rgba(255,255,255,0.02); border-radius: 8px; padding: 12px;
+                            display: flex; flex-direction: column; gap: 10px;
+                            .card { height: 60px; background: rgba(255,255,255,0.05); border-radius: 6px; }
+                        }
+                    }
+                }
+            }
+
+            // Play overlay
+            .play-button-overlay {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 16px;
+                z-index: 10;
+                background: rgba(0, 0, 0, 0.2);
+
+                .btn-play-massive {
+                    width: 80px; height: 80px;
+                    border-radius: 50%;
+                    background: rgba(99, 102, 241, 0.2);
+                    border: 2px solid rgba(99, 102, 241, 0.5);
+                    color: white;
+                    display: flex; align-items: center; justify-content: center;
+                    cursor: pointer;
+                    backdrop-filter: blur(10px);
+                    transition: all $dur-normal $ease-bounce;
+                    box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+
+                    svg { width: 32px; height: 32px; margin-left: 4px; }
+
+                    &:hover {
+                        transform: scale(1.1);
+                        background: rgba(99, 102, 241, 0.4);
+                        border-color: $clr-primary-light;
+                        box-shadow: 0 0 50px rgba(99, 102, 241, 0.6);
+                    }
+                }
+
+                span {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: white;
+                    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+                    letter-spacing: 0.05em;
+                }
+            }
+        }
+
+        // Controls Bar
+        .video-controls {
+            height: 50px;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+
+            .progress-bar {
+                height: 4px;
+                background: rgba(255, 255, 255, 0.1);
+                position: relative;
+                cursor: pointer;
+
+                &:hover .progress-handle { transform: scale(1); }
+
+                .progress-fill {
+                    position: absolute;
+                    left: 0; top: 0; bottom: 0; width: 35%;
+                    background: $clr-primary-light;
+                }
+                .progress-handle {
+                    position: absolute;
+                    left: 35%; top: 50%;
+                    width: 12px; height: 12px;
+                    background: white;
+                    border-radius: 50%;
+                    margin-top: -6px; margin-left: -6px;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+                    transform: scale(0);
+                    transition: transform 0.2s;
+                }
+            }
+
+            .controls-row {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 16px;
+
+                .left-controls, .right-controls {
+                    display: flex; align-items: center; gap: 16px;
+                }
+
+                button {
+                    background: none; border: none; color: white; cursor: pointer;
+                    display: flex; align-items: center; justify-content: center;
+                    opacity: 0.8; transition: opacity 0.2s;
+                    svg { width: 18px; height: 18px; }
+                    &:hover { opacity: 1; }
+                }
+
+                .time {
+                    font-size: 12px;
+                    color: rgba(255,255,255,0.7);
+                    font-variant-numeric: tabular-nums;
+                }
+            }
+        }
+    }
+
+    // ── Bottom CTA ───────────────────────────────────────────
+    .demo-cta {
+        text-align: center;
+        animation: slideUpFadeIn 0.8s $ease-smooth 0.2s backwards;
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: $text-primary;
+            margin-bottom: 20px;
+        }
+
+        .btn-cta-primary {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 32px;
+            background: $grad-primary;
+            border: none;
+            border-radius: $radius-lg;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all $dur-normal $ease-bounce;
+            box-shadow: $shadow-md, $glow-primary;
+
+            &:hover {
+                background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+                transform: translateY(-3px);
+                box-shadow: $shadow-lg, 0 0 30px rgba(99, 102, 241, 0.50);
+            }
+        }
+    }
+}

@@ -1,204 +1,408 @@
+// ============================================================
+// LOGIN / SIGNUP PAGE — Premium Auth Experience
+// ============================================================
+
 .form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9fafc;
-    height: 100vh;
+    justify-content: center;
+    min-height: 100vh;
+    background: transparent;
+    padding: 24px;
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+
+    // Decorative auth card glow orb
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(ellipse, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+        animation: orbFloat1 20s ease-in-out infinite;
+    }
 
     .form-logo {
-        color:$h-txt2;
-        font-family: charlie-bold;
+        color: $clr5;
         width: fit-content;
-        height: 45px;
-        margin-top: 40px;
+        height: auto;
+        margin-bottom: 32px;
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
+        animation: slideDownFadeIn 0.6s $ease-smooth 0.1s backwards;
 
         img {
-        margin-right: 15px;
-        align-self: end;
+            align-self: center;
+            width: auto;
+            height: 36px;
+            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
         }
 
         p.logo-txt {
-        font-size: 3.3em;
-        font-family: charlie-bold;
-        letter-spacing: 1px;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #fff, $clr-primary-light);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
     }
 
     hr.bottom-form-separator {
         height: 1px;
         border: 0;
-        border-top: 1px solid hsl(0, 0%, 80%);
-        margin: 1em 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 16px 0;
         padding: 0;
         width: 100%;
     }
 }
 
+// ── Error States ───────────────────────────────────────────
 .wrong-credentials {
-    border-radius: 3px;
-    box-shadow: rgb(9 30 66 / 28%) 0px 4px 8px -2px,
-        rgb(9 30 66 / 30%) 0px 0px 1px;
-    color: rgb(37, 56, 88);
-    font-size: 12px;
-    line-height: 20px;
-    margin-bottom: 24px;
-    padding: 16px;
-    transform: rotateX(0deg);
-    transform-origin: 50% 0px;
-    transition: visibility, height, margin-bottom, opacity, transform,
-        padding;
-    transition-duration: 0s, 0.2s, 0.2s, 0.2s, 0.2s;
-    transition-timing-function: ease-in-out;
+    background: rgba(239, 68, 68, 0.10);
+    border: 1px solid rgba(239, 68, 68, 0.30);
+    border-radius: $radius-md;
+    color: #FCA5A5;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    padding: 12px 16px;
     width: 100%;
     text-align: center;
-    color: #E53E3E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    animation: slideDownFadeIn 0.3s $ease-smooth;
+
+    &::before {
+        content: '⚠';
+        font-size: 14px;
+    }
 
     &.not-visible {
-        height: 0px;
-        margin-bottom: 0px;
+        height: 0;
+        margin-bottom: 0;
         opacity: 0;
-        transform: rotateX(-90deg);
-        visibility: hidden;     
-        display: none;   
+        padding: 0;
+        visibility: hidden;
+        display: none;
     }
 }
 
+// ── Auth Form Card ─────────────────────────────────────────
 .signup-form {
-    margin: 40px 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
-    width: 400px;
-    padding: 32px 40px;
-    background: rgb(255, 255, 255);
-    border-radius: 3px;
-    box-shadow: rgb(0 0 0 / 10%) 0px 0px 10px;
-    box-sizing: border-box;
-    color: #5e6c84;
+    width: 100%;
+    max-width: 420px;
+    padding: 36px 40px 32px;
+    position: relative;
     z-index: 10;
-    // position: absolute;
-    // top: 150px
+    animation: scaleInFadeIn 0.5s $ease-smooth 0.2s backwards;
 
-    h1 {
-        font-weight: bold;
-        font-size: 1em;
-        text-align: center;
-        color: #5e6c84;
-        font-size: 16px;
-        letter-spacing: -0.01em;
-        line-height: 28px;
-        margin-top: 10px;
-        margin-bottom: 25px;
+    // Glassmorphism card
+    background: rgba(15, 23, 42, 0.70);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: $radius-2xl;
+    box-shadow:
+        $shadow-xl,
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+
+    // Card top gradient line
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 5%; right: 5%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.6), rgba(236, 72, 153, 0.4), transparent);
+        border-radius: $radius-pill;
     }
 
-    a {
-        font-family: 'Segoe UI';
-        font-size: 14px;
-        font-weight: 300;
-        margin: auto;
-        color: #0052cc;
+    // Form heading
+    h1, h2 {
+        font-size: 1.35rem;
+        font-weight: 700;
         text-align: center;
-        &:hover {
-        text-decoration: underline;
+        color: $text-primary;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+        -webkit-text-fill-color: initial;
+        background: none;
+    }
+
+    .form-subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: $text-muted;
+        margin-bottom: 28px;
+    }
+
+    // ── Form Fields ─────────────────────────────────────────
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 16px;
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: $text-secondary;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
-    }
-
-    input:focus {
-        outline: none;
-        border: 2px solid black;
     }
 
     input[type='password'],
     input[type='email'],
     input[type='text'],
     input[type='number'] {
-        color: #4d4d4d;
-        font-size: 14px;
-        font-weight: 300;
-        font-family: 'Segoe UI';
-        border: 2px solid #dfe1e6;
-        background-color:#fafbfc;
-        border-radius: 3px;
-        padding: 0.65rem 0.5rem;
-        margin: 0;
         width: 100%;
-        height: 40px;
+        height: 44px;
+        padding: 0 14px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: $radius-md;
+        color: $text-primary;
+        font-size: 14px;
+        font-weight: 400;
+        font-family: inherit;
         appearance: none;
         display: block;
-        transition: background-color, border-color 0.5s;
+        transition: all $dur-normal $ease-smooth;
+        margin-bottom: 12px;
+
+        &::placeholder {
+            color: $text-muted;
+        }
+
+        &:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
         &:focus {
-        background-color: white;
-        border-color: #0052cc;
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.55);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 12px rgba(99, 102, 241, 0.10);
+        }
+
+        &.input-error {
+            border-color: rgba(239, 68, 68, 0.55);
+            background: rgba(239, 68, 68, 0.05);
+
+            &:focus {
+                box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+            }
         }
     }
 
-    input[type='submit'],
-    input[type='reset'],
-    input[type='button'],
-    button {
-        padding: 0.5rem 1.25rem;
-        font-size: 1rem;
-        border-radius: 10px;
-        background-color: #fafbfc;
-        color: white;
-        text-decoration: none;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        display: inline-block;
-        transition: background-color 100ms ease-in-out, border 100ms ease-in-out,
-        transform 100ms ease-in-out;
+    .error {
+        font-size: 11.5px;
+        font-weight: 500;
+        color: #FCA5A5;
+        margin-top: -8px;
+        margin-bottom: 12px;
         width: 100%;
-        margin: auto;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        &::before {
+            content: '●';
+            font-size: 6px;
+        }
     }
 
-        .error {
-        font-size: 12px;
-        color: #E53E3E;
-        margin-bottom: 15px;
-        margin-top: 3px;
+    // ── Submit Button ───────────────────────────────────────
+    button[type='submit'] {
         width: 100%;
-        text-align: flex-start;
+        height: 46px;
+        border: none;
+        border-radius: $radius-md;
+        background: $grad-primary;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: inherit;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        transition: all $dur-normal $ease-bounce;
+        box-shadow: $shadow-sm, $glow-primary;
+        position: relative;
+        overflow: hidden;
+        margin-top: 8px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+            transition: left $dur-slow;
+        }
+
+        &:hover:not(:disabled) {
+            background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+            transform: translateY(-2px);
+            box-shadow: $shadow-md, 0 0 28px rgba(99, 102, 241, 0.45);
+
+            &::before {
+                left: 100%;
+            }
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: $shadow-xs;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+    }
+
+    // ── Other Buttons ──────────────────────────────────────
+    input[type='submit'],
+    input[type='reset'],
+    input[type='button'] {
+        padding: 0.5rem 1.25rem;
+        font-size: 14px;
+        border-radius: $radius-md;
+        background: rgba(255, 255, 255, 0.08);
+        color: $text-primary;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+        transition: all $dur-normal $ease-smooth;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+    }
+
+    // ── Divider ─────────────────────────────────────────────
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0;
+
+        &::before, &::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        span {
+            font-size: 11px;
+            color: $text-muted;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+    }
+
+    // ── Social Auth Buttons ─────────────────────────────────
+    .btn-social {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        height: 42px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: $radius-md;
+        background: rgba(255, 255, 255, 0.04);
+        color: $text-primary;
+        font-size: 13.5px;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all $dur-normal $ease-smooth;
+        margin-bottom: 10px;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+    }
+
+    // ── Footer Links ────────────────────────────────────────
+    a {
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 500;
+        color: $clr-primary-light;
+        text-align: center;
+        display: inline-block;
+        transition: all $dur-normal;
+
+        &:hover {
+            color: $clr5;
+            text-decoration: underline;
+            opacity: 1;
+        }
+    }
+
+    .already-have-account {
+        font-size: 13px;
+        color: $text-secondary;
+        text-align: center;
+        margin-top: 20px;
+
+        a {
+            color: $clr-primary-light;
+            font-weight: 600;
+        }
     }
 
     span.empty-space {
         height: 0px;
     }
-
-    button[type='submit'] {
-        border: none;
-        font-size: 14px;
-        background-color: #0052cc;
-        color: white;
-        border-radius: 5px;
-        padding: 10px 0;
-        &:hover {
-        background-color: lighten(#0052cc, 8%);
-        }
-    }
-
-    .already-have-account {
-        font-size: 14px;
-    }
 }
 
-.left-hero {
-    display: inline-block;
-    position: absolute;
-    width: 400px;
-    bottom: 0;
-    left: 0;
-    max-width: 30%;
-}
-
+// ── Hero Decorations ───────────────────────────────────────
+.left-hero,
 .right-hero {
-    display: inline-block;
-    position: absolute;
-    width: 400px;
-    bottom: 0;
-    right: 0;
-    max-width: 30%;
+    display: none; // Hidden on modern layout, handled by ::before/::after
+
+    @media (min-width: 1200px) {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        width: 360px;
+        max-width: 28%;
+        opacity: 0.4;
+        pointer-events: none;
+    }
 }
+
+.left-hero { left: 0; }
+.right-hero { right: 0; }

@@ -1,204 +1,201 @@
+// ============================================================
+// TASK LIST — Composer & Add-task Button
+// ============================================================
+
 .task-list-wraper {
     overflow-y: auto;
+    flex: 1;
 
-    &::-webkit-scrollbar {
-        width: 8px;
-        padding-top: 20px;
-
-      }
-    
+    &::-webkit-scrollbar { width: 4px; }
     &::-webkit-scrollbar-thumb {
-        background-color: #BFC4CE;
-        border-radius: 30px;
-        height: 12px;
-      }
-    
-    &::-webkit-scrollbar-track {
-        background-color: #D9DCE2;
-        border-radius: 30px;
-        height: 12px;
-        border-bottom: 10px solid transparent;
-      }
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: $radius-pill;
+        &:hover { background: rgba(255, 255, 255, 0.25); }
+    }
+    &::-webkit-scrollbar-track { background: transparent; }
 }
 
 .task-list {
     height: 100%;
     width: 100%;
     vertical-align: top;
-
-    border-radius: 3px;
+    border-radius: $radius-sm;
     display: flex;
     flex-direction: column;
 }
-                
-    .task-list-bottom {
-        font-size: 14px;
-        margin-top: 2px;
 
-        .add-a-task-template {
-            width: 98%;
-            margin: 0px;
-            margin: auto;
+.task-list-bottom {
+    font-size: 13.5px;
+    margin-top: 4px;
 
-            button {
-                display: flex;
-                align-items: center;
+    // ── "Add a card" placeholder button ─────────────────────
+    .add-a-task-template {
+        width: 100%;
+        margin: 0;
+
+        .add-a-task {
+            width: 100%;
+            text-align: left;
+            border-radius: $radius-md;
+            padding: 8px 10px;
+            font-family: inherit;
+            font-weight: 500;
+            font-size: 13px;
+            border: none;
+            color: rgba(255, 255, 255, 0.65);
+            background: transparent;
+            cursor: pointer;
+            transition: all $dur-normal $ease-smooth;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            .icon-plus {
+                font-size: 16px;
+                line-height: 1;
+                transition: transform $dur-normal $ease-bounce;
             }
 
-            .add-a-task {
-                width: 100%;
-                text-align: left;
-                border-radius: 3px;
-                padding: 8px;
-                padding-left: 18px;
-                font-family: segoe_ui;
-                font-weight: 400;
-                font-size: 14px;
+            &:hover {
+                background: rgba(255, 255, 255, 0.09);
+                color: rgba(255, 255, 255, 0.90);
+
+                .icon-plus { transform: rotate(90deg) scale(1.1); }
+            }
+
+            &:active {
+                background: rgba(255, 255, 255, 0.14);
+            }
+        }
+    }
+
+    // ── Task Composer (expanded input) ───────────────────────
+    .task-composer {
+        width: 100%;
+        margin: 0;
+        animation: scaleInFadeIn 0.25s $ease-spring;
+
+        .task-textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 10px 12px;
+            margin: 4px 0 8px;
+            max-height: 162px;
+            color: $text-primary;
+            background: rgba(9, 15, 35, 0.75);
+            border: 1px solid rgba(99, 102, 241, 0.40);
+            border-radius: $radius-md;
+            resize: none;
+            font-family: inherit;
+            font-weight: 400;
+            font-size: 13.5px;
+            line-height: 1.55;
+            overflow: hidden;
+            overflow-wrap: break-word;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.20);
+            transition: all $dur-normal $ease-smooth;
+
+            &::placeholder { color: $text-muted; }
+            &:hover { cursor: auto; }
+            &:focus-visible { outline: none; }
+
+            &:focus {
+                border-color: rgba(99, 102, 241, 0.60);
+                box-shadow:
+                    0 0 0 3px rgba(99, 102, 241, 0.15),
+                    0 4px 16px rgba(0, 0, 0, 0.20);
+                background: rgba(9, 15, 35, 0.90);
+                min-height: 60px;
+                max-height: 256px;
+            }
+        }
+
+        // ── Buttons Row ──────────────────────────────────────
+        .add-task-btns {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            width: 100%;
+
+            .add-btns {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .more-btns { align-items: center; }
+
+            // Primary Add button
+            .add-task-btn {
+                background: $grad-primary;
                 border: none;
-                color: #5E6C84;
-                background: transparent;
+                box-shadow: 0 4px 12px rgba(99, 102, 241, 0.28);
+                border-radius: $radius-md;
+                color: #fff;
+                height: 32px;
+                padding: 0 16px;
+                font-size: 13px;
+                font-weight: 600;
+                font-family: inherit;
+                transition: all $dur-normal $ease-bounce;
                 cursor: pointer;
-                transition: all 150ms ease-out 0s;
-
-                .icon-plus {
-                    font-size: 12px;
-                    margin-right: 8px;
-                }
 
                 &:hover {
-                    background-color: #091e4214;
-                    color: #172b4d;
-                }
-            }
-            
-        }
-                    
-
-        .task-composer {
-            width: 98%;
-            margin: 0px;
-            margin: auto;
-    
-            .task-textarea {
-                width: 100%;
-                min-height: 54px;
-                padding: 4px 8px;
-                margin: 3px 0;
-                max-height: 162px;
-                color: #5E6C84;
-                background-color: #ffffff;
-                border: none;
-                border-radius: 3px;
-                resize: none;
-
-                font-family: segoe_ui;
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 20px;
-
-                overflow: hidden; 
-                overflow-wrap: break-word;
-                box-shadow: 0 1px 0 #091e4240;
-                transition-duration: 85ms;
-                transition: background-color,border-color,box-shadow;
-                transition-timing-function: ease;
-    
-                &:hover {
-                    cursor: auto;
-                }
-    
-                &:focus-visible {
-                    outline: none;
-                }
-    
-                &:focus {
-                    border: none;
-                    box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
-                    background-color: $t-bg3;
-                    min-height: 20px; 
-                    max-height: 256px;
-                }
-            }
-    
-            .add-task-btns {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 2px;
-                width: 100%;
-
-                .add-btns {
-                    display: flex;
-                    align-items: center;
+                    background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+                    transform: translateY(-1px);
+                    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.42);
                 }
 
-                .more-btns {
-                    align-items: center;
-                }
-                        
-                .add-task-btn {
-                    background-color: #0079bf;
-                    border: none;
+                &:active {
+                    transform: translateY(0);
                     box-shadow: none;
-                    border-radius: 3px;
-                    color: #fff;
-                    height: 32px;
-                    padding: 4px 12px;
-                    line-height: 20px;
-                    font-size: 14px;
-                    font-weight: 400;
-                    margin-bottom: 0px;
-                    transition: all 150ms ease-out 0s;
-                        
-                    &:hover {
-                        background-color: #026aa7;
-                        color: #fff;
-                        text-decoration: none;
-                    }
-                                
-                    &:active {
-                        background-color: #055a8c;
-                        color: #fff;
-                    }
                 }
-                        
-                .cancel-btn, .more-btn {
-                    background-color: unset;
-                    color: #5E6C84;
-                    border: none;
-                    margin: 0 6px;
-                    height: 24px;
-                    width: 24px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    transition: all 150ms ease-out 0s;
+            }
 
-                    &.more-btn {
-                        height: 32px;
-                        width: 32px;
-                        margin: 0;
-                        
-                        svg {
-                            font-size: 24px;
-                        }
-                    }
-                        
-                    &:hover {
-                        cursor: pointer;
-                        color: #172b4d;
-                    }
+            // Cancel / More icon buttons
+            .cancel-btn, .more-btn {
+                background: transparent;
+                color: $text-muted;
+                border: 1px solid rgba(255, 255, 255, 0.07);
+                margin: 0;
+                height: 32px;
+                width: 32px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: $radius-md;
+                transition: all $dur-normal $ease-smooth;
+                cursor: pointer;
 
-                    &.more-btn:hover {
-                        border-radius: 3px;
-                        background-color:#091e4214;
-                    }
-                        
+                &.more-btn {
+                    height: 32px;
+                    width: 32px;
+                    margin: 0;
+                }
+
+                &:hover {
+                    color: $text-primary;
+                    background: rgba(255, 255, 255, 0.10);
+                    border-color: rgba(255, 255, 255, 0.14);
+                }
+
+                &.cancel-btn:hover {
+                    color: #FCA5A5;
+                    background: rgba(239, 68, 68, 0.10);
+                    border-color: rgba(239, 68, 68, 0.20);
+                    transform: rotate(90deg);
+                }
+
                 .icon-close {
-                    font-size: 28px;
+                    font-size: 22px;
                     text-align: center;
+                    line-height: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
             }
         }
-    } 
+    }
 }

@@ -13,29 +13,35 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
+            transition: all 0.2s ease;
+            &:hover {
+                transform: translateY(-2px) scale(1.1);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
         }
     }
 
     .add-members {
-        background-color: $t-bg5;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         width: 32px;
         height: 32px;
         display: flex;
         cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
         &:hover {
-            background-color: $t-hover3;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
         }
 
         .add-members-icon {
-            // color: $t-pls-clr;
-            color: #6b7485;
+            color: $t-txt1;
             margin: auto;
             font-size: 18px;
-
         }
-
     }
 
     li {

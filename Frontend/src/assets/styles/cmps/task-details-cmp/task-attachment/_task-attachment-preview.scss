@@ -1,9 +1,17 @@
-.task-attachments-section {
+// ============================================================
+// TASK ATTACHMENTS — Premium Image & File Previews
+// ============================================================
 
+.task-attachments-section {
+    margin-top: 16px;
+    margin-bottom: 24px;
+
+    // ── Header ───────────────────────────────────────────────
     .task-attachments-header {
         display: flex;
         align-items: center;
-        margin-block-end: 12px;
+        margin-bottom: 16px;
+        color: $text-primary;
     }
 
     .task-attachments-icon-container {
@@ -11,18 +19,24 @@
         height: 32px;
         display: flex;
         align-items: center;
-        padding-inline-start: 3px;
+        justify-content: center;
         margin-inline-end: 8px;
-
+        color: $text-muted;
 
         .task-attachments-icon {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             margin: 0;
+            
+            path { stroke-width: 1.5; }
         }
     }
 
-    // .task-attachments-header-title {
-    //     margin-block-end: -5px
-    // }
+    h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+        background: none;
+        -webkit-text-fill-color: initial;
+    }
 }

@@ -1,75 +1,136 @@
+// ============================================================
+// TASK ATTACHMENT ITEM — Premium Card View
+// ============================================================
+
 .task-attachment-container {
     display: flex;
     align-items: center;
-    margin-inline-start: 40px;
+    margin-left: 40px;
+    margin-bottom: 12px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: $radius-lg;
+    transition: all $dur-normal $ease-smooth;
+    animation: slideUpFadeIn 0.3s $ease-spring backwards;
 
     &:hover {
-        background-color: $t-bg5;
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(99, 102, 241, 0.20);
+        transform: translateX(4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
     }
 
+    // ── Image Preview Box ────────────────────────────────────
     .task-attachment-preview-img-container {
-        // aspect-ratio: 16 / 9;
-        width: 150px;
-        margin-inline-end: 20px;
-        border-radius: 3px;
+        width: 120px;
+        height: 80px;
+        margin-right: 16px;
+        border-radius: $radius-md;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.2) 100%);
+            pointer-events: none;
+        }
 
         .task-attachment-preview-img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 3px;
+            transition: transform $dur-slow $ease-smooth;
         }
     }
 
+    &:hover .task-attachment-preview-img {
+        transform: scale(1.05);
+    }
+
+    // ── Details Text ─────────────────────────────────────────
     .attachment-details {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        justify-content: center;
 
         .attachment-name {
-            font-family: segoe_ui_bold;
-            margin-block-end: -4px
-        }
-
-        .attachment-remove {
-            text-decoration: underline;
-            cursor: pointer;
-
-            &:hover {
-                color: $t-txt1;
-            }
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            color: $text-primary;
+            margin: 0;
+            letter-spacing: -0.01em;
+            word-break: break-all;
         }
 
         .attachment-detail-p {
             margin: 0;
-            margin-block-end: -5px;
-            color: $t-txt2;
-        }
-
-        .make-attachment-cover {
+            font-size: 12px;
+            color: $text-muted;
             display: flex;
             align-items: center;
+            gap: 8px;
+        }
+
+        .attachment-remove {
+            color: $text-muted;
             cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.1);
+            text-underline-offset: 2px;
+            transition: all $dur-normal;
+
+            &:hover {
+                color: #FCA5A5;
+                text-decoration-color: rgba(239, 68, 68, 0.4);
+            }
+        }
+
+        // ── "Make Cover" Button ────────────────────────────────
+        .make-attachment-cover {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin-top: 4px;
+            color: $text-secondary;
+            font-size: 12px;
+            font-weight: 500;
+            transition: color $dur-normal;
 
             .make-attachment-cover-icon-container {
-                padding-top: 6px;
-                margin-inline-end: 3px;
-
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: inherit;
             }
 
             .make-attachment-cover-icon {
-                width: 80%;
-                height: 80%;
-
+                width: 14px;
+                height: 14px;
             }
 
             .make-attachment-cover-p {
                 text-decoration: underline;
-                color: $t-txt2;
+                text-decoration-color: rgba(255, 255, 255, 0.15);
+                text-underline-offset: 2px;
+                transition: all $dur-normal;
+            }
 
-                &:hover {
-                    color: $t-txt1;
+            &:hover {
+                color: $clr-primary-light;
+
+                .make-attachment-cover-p {
+                    text-decoration-color: rgba(99, 102, 241, 0.50);
                 }
             }
         }
-
-
     }
-
-
 }

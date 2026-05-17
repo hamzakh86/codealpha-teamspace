@@ -1,57 +1,115 @@
-.side-bar-menu {
-    margin-top: 8px;
+// ============================================================
+// TASK SIDEBAR — Premium Action Panel
+// ============================================================
 
+.side-bar-menu {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    // ── Section Heading ──────────────────────────────────────
     h3 {
-        margin-top: 9px;
-        margin-bottom: 0px;
-        font-size: 12px;
-        word-spacing: -0.99px;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: $text-muted;
+        margin: 16px 0 6px;
+        padding: 0 2px;
+        background: none;
+        -webkit-text-fill-color: initial;
+        line-height: 1;
     }
 
+    // ── Sidebar Buttons ─────────────────────────────────────
     .btn-side-bar {
-        margin-top: 6px;
-        display: block;
-        width: 168px;
         display: flex;
         align-items: center;
-        padding-inline-start: 6px;
+        gap: 8px;
+        width: 100%;
+        height: 36px;
+        padding: 0 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: $radius-md;
+        color: $text-secondary;
+        font-size: 12.5px;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all $dur-normal $ease-smooth;
+        text-align: left;
+        margin-top: 4px;
+        letter-spacing: -0.005em;
 
-        // in response max-with 300px
-        &:first-of-type {
-            margin-top: 3px;
+        &:first-of-type { margin-top: 0; }
+
+        svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            color: $text-muted;
+            transition: color $dur-normal;
         }
-    }
-
-    .btn-side-bar-icon {
-        margin-inline-end: 6px;
-        width: 20px;
-        height: 20px;
-    }
-
-    .btn-remove-side-bar {
-        background: #b04632;
-        color: $clr6;
-        transition: all 150ms ease-out 0s;
 
         &:hover {
-            background-color: #933b27;
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: $text-primary;
+            transform: translateX(2px);
+
+            svg { color: $text-secondary; }
         }
+
+        &:active {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateX(2px) scale(0.99);
+        }
+    }
+
+    // ── Icon styling ─────────────────────────────────────────
+    .btn-side-bar-icon {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        color: $text-muted;
     }
 
     .btn-side-bar-icon-label {
-        transform: rotate(270deg)
+        transform: rotate(270deg);
     }
 
+    // ── Danger / Archive button ──────────────────────────────
+    .btn-remove-side-bar {
+        background: rgba(239, 68, 68, 0.10);
+        border-color: rgba(239, 68, 68, 0.20);
+        color: #FCA5A5;
+        transition: all $dur-normal $ease-smooth;
+
+        svg { color: #FCA5A5; }
+
+        &:hover {
+            background: rgba(239, 68, 68, 0.18);
+            border-color: rgba(239, 68, 68, 0.35);
+            color: #FCA5A5;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.20);
+        }
+    }
+
+    // ── Divider ──────────────────────────────────────────────
     .task-side-bar-hr {
-        margin: 8px 0;
-        background-color: #091e4221;
+        margin: 12px 0;
+        background: transparent;
         border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
         height: 1px;
         padding: 0;
-        width: 95%;
+        width: 100%;
     }
 
+    // ── Second Section spacing ───────────────────────────────
     .side-bar-menu-second-section {
-        margin-top: 45px;
+        margin-top: 32px;
     }
 }

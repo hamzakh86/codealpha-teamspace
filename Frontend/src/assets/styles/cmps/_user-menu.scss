@@ -1,123 +1,209 @@
+// ============================================================
+// USER MENU — Premium Dropdown
+// ============================================================
+
 .user-menu {
     position: fixed;
-    width: 232px;
+    width: 240px;
     will-change: top, left;
-    top: 48px;
-    right:0;
+    top: 52px;
+    right: 6px;
     z-index: 600;
-
     display: flex;
     flex-direction: column;
-    padding:0 10px 10px 10px;
-
-    color: #172b4d;
-    // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Noto Sans', 'Ubuntu', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    font-size: 14px;
-    line-height: 20px;
+    padding: 0 8px 10px;
+    color: $clr5;
+    font-family: inherit;
+    font-size: 13.5px;
+    line-height: 1.5;
     font-weight: 400;
-    background-color: #ffffff;
-    border-radius: 3px;
-    box-shadow: var(--ds-shadow-overlay, 0 8px 16px -4px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08));
-    box-sizing: border-box;
-    outline: 0;
-    overflow: hidden;
 
+    // Glass panel
+    background: rgba(8, 14, 30, 0.94);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: $radius-xl;
+    box-shadow:
+        0 16px 48px rgba(0, 0, 0, 0.55),
+        0 4px 16px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+    box-sizing: border-box;
+    overflow: hidden;
+    animation: slideDownFadeIn 0.2s $ease-spring;
+    transform-origin: top right;
+
+    // Top gradient line
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 8%; right: 8%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.55), transparent);
+    }
+
+    // ── Header ──────────────────────────────────────────────
     .user-menu-header {
+        position: relative;
+
         h2 {
             text-transform: uppercase;
-            font-size: 11px;
-            line-height: 16px;
+            font-size: 10.5px;
+            letter-spacing: 0.10em;
             font-weight: 700;
-            color: #7A869A;
-            margin: 16px 0 8px;
-            padding: 0 6px;
+            color: $text-muted;
+            margin: 14px 0 6px;
+            padding: 0 4px;
         }
 
         button.btn-user-menu.close {
             background: transparent;
             border: none;
             cursor: pointer;
-            margin: 0;
-            padding: 0;
-            outline: none;
-            display: inline-block;
-            justify-self: center;
-            align-self: center;
-            color:  #6b778c;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $text-muted;
             position: absolute;
-            right: 6px;
+            right: 2px;
             top: 8px;
-            
-            svg {
-                path {
-                    fill:  #6b778c;
-                }
-            }
-            
+            width: 26px;
+            height: 26px;
+            border-radius: $radius-sm;
+            transition: all $dur-normal $ease-smooth;
+
+            svg path { fill: $text-muted; transition: fill $dur-normal; }
+
             .icon-close {
-                background: transparent;
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: 400;
-                z-index: 6000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
+
             &:hover {
-                cursor: pointer;
-                svg {
-                    path{
-                        fill: #172b4d;
-                    }
-                }
+                background: rgba(255, 255, 255, 0.10);
+                color: $text-primary;
+                transform: rotate(90deg);
+                svg path { fill: $text-primary; }
             }
         }
     }
 
+    // ── Content ─────────────────────────────────────────────
     .user-menu-content {
+
+        // ── User Info Row ────────────────────────────────────
         .user-menu-preview {
             display: flex;
-            padding: 8px 6px;
+            padding: 10px 4px;
             align-items: center;
+            gap: 10px;
+            border-radius: $radius-md;
+            transition: background $dur-normal;
+            cursor: default;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.05);
+            }
 
             .user-img {
-                height: 40px;
-                width: 40px;
-                margin-right: 8px;
+                flex-shrink: 0;
+
                 img {
-                    height: 40px;
-                    width: 40px;
+                    height: 36px;
+                    width: 36px;
+                    border-radius: 50%;
+                    border: 2px solid rgba(99, 102, 241, 0.50);
+                    box-shadow: 0 0 12px rgba(99, 102, 241, 0.30);
+                    display: block;
                 }
             }
 
-            .user-name {
-                font-size: 14px;
-                line-height: 20px;
-                font-weight: 400;
+            .user-info {
+                min-width: 0;
+
+                .user-name {
+                    font-size: 13.5px;
+                    font-weight: 600;
+                    color: $text-primary;
+                    letter-spacing: -0.01em;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .user-email {
+                    font-size: 11.5px;
+                    color: $text-muted;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
             }
         }
 
-        a.user-menu-logout {
-            border-radius: 3px;
-            height: 30px;
-            padding-left: 18px;
-            display: flex;
-            align-items: center;
-            color: #172b4d;
-            line-height: 20px;
-            font-weight: 400;
-            font-size: 14px;
-            padding: 6px;
-            &:hover {
-                background-color: #091e4214;
-                cursor: pointer;
-            }
-        }
-        
+        // ── Separator ────────────────────────────────────────
         hr.user-menu-separator {
             height: 1px;
             border: 0;
-            border-top: 1px solid hsl(0, 0%, 80%);
-            margin: 8px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            margin: 6px 0;
             padding: 0;
             width: 100%;
+        }
+
+        // ── Menu Items ──────────────────────────────────────
+        a.user-menu-logout,
+        .user-menu-item {
+            border-radius: $radius-md;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: $text-secondary;
+            font-weight: 500;
+            font-size: 13px;
+            padding: 8px 8px;
+            text-decoration: none;
+            transition: all $dur-normal $ease-smooth;
+            cursor: pointer;
+
+            svg {
+                width: 15px;
+                height: 15px;
+                color: $text-muted;
+                flex-shrink: 0;
+                transition: color $dur-normal;
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.08);
+                color: $text-primary;
+                transform: translateX(3px);
+
+                svg { color: $text-secondary; }
+                opacity: 1;
+            }
+
+            &:active {
+                background: rgba(255, 255, 255, 0.12);
+                transform: translateX(3px) scale(0.99);
+            }
+
+            // Danger variant (logout)
+            &.danger, &.user-menu-logout {
+                &:hover {
+                    background: rgba(239, 68, 68, 0.10);
+                    color: #FCA5A5;
+                    border-color: rgba(239, 68, 68, 0.20);
+
+                    svg { color: #FCA5A5; }
+                }
+            }
         }
     }
 }

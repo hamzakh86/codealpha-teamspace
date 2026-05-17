@@ -1,59 +1,274 @@
-* {
+// ============================================================
+// BASE STYLES — Teamspace Premium v3
+// ============================================================
+
+*, *::before, *::after {
     box-sizing: border-box;
-}
-
-html {
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
-
 html {
-    font-family: montserrat;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     line-height: 1.6;
-    color: $clr2;
+    color: $text-primary;
+    background: $bg-700;
+    background-image: $grad-aurora, $grad-mesh;
+    background-size: 400% 400%, cover;
+    animation: auroraShift 20s ease infinite;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+    scroll-behavior: smooth;
 }
 
 body {
-    font-size: rem(18px);
+    font-size: rem(14px);
     margin: auto;
-    font-family: 'Segoe UI';
     max-height: 100vh;
+    background: transparent;
+    color: $text-primary;
+    position: relative;
+
+    // Ambient orbs for depth
+    &::before {
+        content: '';
+        position: fixed;
+        top: -20%;
+        left: -10%;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+        animation: orbFloat1 25s ease-in-out infinite;
+    }
+
+    &::after {
+        content: '';
+        position: fixed;
+        bottom: -20%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(236, 72, 153, 0.06) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+        animation: orbFloat2 30s ease-in-out infinite reverse;
+    }
 }
 
 .app {
     height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: 'Segoe UI';
+// ── Typography Scale ───────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: 16px;
+    line-height: 1.3;
+    color: $text-primary;
+    letter-spacing: -0.02em;
 }
 
-h1 {
-    font-size: 18px;
-    font-weight: 700;
-}
+h1 { font-size: rem(26px); font-weight: 700; letter-spacing: -0.03em; }
+h2 { font-size: rem(20px); font-weight: 600; }
+h3 { font-size: rem(17px); font-weight: 600; }
+h4 { font-size: rem(15px); font-weight: 500; }
+h5 { font-size: rem(13px); font-weight: 500; }
 
-h2 {
-    font-size: 14px;
-    font-weight: 600;
+p {
+    color: $text-secondary;
+    line-height: 1.65;
 }
 
 img {
     width: 100%;
+    display: block;
 }
 
 a {
     text-decoration: none;
+    color: inherit;
+    transition: color $dur-normal $ease-smooth,
+                opacity $dur-normal $ease-smooth;
+
+    &:hover {
+        text-decoration: none;
+        opacity: 0.85;
+    }
 }
 
-a:hover {
-    text-decoration: none;
+button {
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    transition: all $dur-normal $ease-smooth;
+
+    &:focus-visible {
+        outline: 2px solid rgba(99, 102, 241, 0.6);
+        outline-offset: 2px;
+    }
+}
+
+input, textarea, select {
+    font-family: 'Inter', sans-serif;
+    color: $text-primary;
+
+    &::placeholder {
+        color: $text-muted;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+ul, ol {
+    list-style: none;
+}
+
+// ── Scrollbar System ───────────────────────────────────────
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: $radius-pill;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: $radius-pill;
+    transition: background $dur-normal;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    &:active {
+        background: rgba(99, 102, 241, 0.50);
+    }
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+// ── Keyframe Animations ────────────────────────────────────
+@keyframes auroraShift {
+    0%   { background-position: 0% 50%, center; }
+    33%  { background-position: 50% 0%, center; }
+    66%  { background-position: 100% 50%, center; }
+    100% { background-position: 0% 50%, center; }
+}
+
+@keyframes orbFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%       { transform: translate(60px, -40px) scale(1.1); }
+    66%       { transform: translate(-30px, 60px) scale(0.9); }
+}
+
+@keyframes orbFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%       { transform: translate(-50px, 30px) scale(1.15); }
+    66%       { transform: translate(40px, -50px) scale(0.88); }
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleInFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 12px rgba(99, 102, 241, 0.3); }
+    50%       { box-shadow: 0 0 24px rgba(99, 102, 241, 0.5), 0 0 48px rgba(99, 102, 241, 0.15); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-4px); }
+}
+
+// ── Global Utility Classes ─────────────────────────────────
+.glass {
+    background: $glass-primary;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: $border-glass;
+}
+
+.glass-strong {
+    background: $glass-strong;
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    border: $border-glass-lg;
+}
+
+.glow-primary {
+    box-shadow: $glow-primary;
+}
+
+// ── Selection Styling ──────────────────────────────────────
+::selection {
+    background: rgba(99, 102, 241, 0.35);
+    color: #fff;
+}
+
+::-moz-selection {
+    background: rgba(99, 102, 241, 0.35);
+    color: #fff;
 }

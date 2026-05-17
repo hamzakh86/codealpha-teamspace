@@ -1,124 +1,363 @@
-.main-header-dark-bg {
-    height: 44px;
-    width: 100%;
+// ============================================================
+// MAIN HEADER — Premium Navigation Bar
+// ============================================================
 
+// ── Shared nav structure ────────────────────────────────────
+%nav-base {
+    height: 48px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    background-color: $wh-bg1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    z-index: 100;
 
     span.fade {
-        height: 44px;
-        // min-width: 1000px;
+        height: 100%;
         width: 100%;
-
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: rgba(0,0,0,0.1);
+        padding: 0 8px;
+    }
+}
 
+// ── Dark Background Variant ─────────────────────────────────
+.main-header-dark-bg {
+    @extend %nav-base;
+    background: rgba(6, 11, 24, 0.75);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+
+    span.fade {
+        background-color: transparent;
+
+        // ── Buttons ─────────────────────────────────────────
         button {
             border: none;
             background-color: transparent;
-            display: flex;
+            display: inline-flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            font-family: segoe_ui;
-            margin: 0 3px;
-            padding: 0;
-            font-size: 0.9rem;
-            color: $bh-txt1;
-            border-radius: 3px;
+            gap: 6px;
+            font-family: inherit;
+            margin: 0 2px;
+            padding: 6px 10px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            border-radius: $radius-md;
+            transition: all $dur-normal $ease-smooth;
+            cursor: pointer;
+            height: 34px;
+
             &.nav-btn {
-                padding-left: 18px;
+                padding: 6px 12px;
             }
+
             @media (max-width: 800px) {
-                &.nav-btn {
-                    padding-left: 8px;
-                }
+                &.nav-btn { padding: 6px 8px; }
             }
 
             &.create-btn {
-                padding: 5px 8px 8px;
-                background-color: rgba(255, 255, 255, 0.2);
-                border-radius: 3px;
-                transition: all 150ms ease-out 0s;
+                padding: 6px 14px;
+                background: $grad-primary;
+                border-radius: $radius-md;
+                color: #fff;
+                font-weight: 600;
+                box-shadow: $shadow-xs, $glow-primary;
+                position: relative;
+                overflow: hidden;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0; left: -100%;
+                    width: 100%; height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+                    transition: left $dur-slow;
+                }
+
                 &:hover {
-                    background-color: rgba(255, 255, 255, 0.3);
+                    background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+                    transform: translateY(-1px);
+                    box-shadow: $shadow-sm, 0 0 24px rgba(99, 102, 241, 0.45);
+
+                    &::before { left: 100%; }
+                }
+
+                &:active {
+                    transform: translateY(0);
                 }
             }
+
             img {
-                height: 24px;
-                width: 24px;
-                line-height: 24px;
+                height: 22px;
+                width: 22px;
             }
         }
 
-        button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-        button:active {
-            background-color: rgba(255, 255, 255, 0.4);
+        button:hover:not(.create-btn) {
+            background-color: rgba(255, 255, 255, 0.09);
+            color: #fff;
         }
 
+        button:active:not(.create-btn) {
+            background-color: rgba(255, 255, 255, 0.14);
+            transform: translateY(1px);
+        }
+
+        // ── Avatar Button ──────────────────────────────────
         button.btn-member-img {
-            padding: 4px;
-            border-radius: 50%;
+            padding: 3px;
+            border-radius: $radius-pill;
+            background: transparent;
+            border: 2px solid transparent;
+            transition: all $dur-normal $ease-smooth;
+
             &:hover {
-                color: rgba(255, 255, 255, 0.2);
-                // color: rgb(0 0 0 / 20%);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                border-color: rgba(99, 102, 241, 0.60);
+                box-shadow: 0 0 12px rgba(99, 102, 241, 0.30);
+                transform: scale(1.05);
             }
 
             .member-img {
                 border-radius: 50%;
+                width: 28px;
+                height: 28px;
+                display: block;
+            }
+        }
+
+        // ── SVG Icons ──────────────────────────────────────
+        svg {
+            height: 18px;
+            width: 18px;
+            border-radius: $radius-xs;
+            background-color: transparent;
+            margin: 0 5px;
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, 0.80);
+
+            path { fill: rgba(255, 255, 255, 0.80); }
+        }
+
+        @media (max-width: 800px) {
+            svg { margin-right: 0; }
+        }
+
+        // ── Logo ────────────────────────────────────────────
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            margin-left: 6px;
+
+            .header-logo {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                text-decoration: none;
+                transition: opacity $dur-normal;
+
+                &:hover { opacity: 0.85; }
+
+                svg {
+                    transform: rotate(180deg);
+                    margin: 0;
+                    color: $clr-primary-light;
+
+                    path { fill: $clr-primary-light; }
+                }
+
+                h1 {
+                    font-size: 1.15rem;
+                    font-weight: 800;
+                    letter-spacing: -0.03em;
+                    color: $bh-txt1;
+                    background: none;
+                    -webkit-text-fill-color: initial;
+                    margin: 0;
+                    line-height: 1;
+                }
+            }
+        }
+
+        // ── Right Nav ──────────────────────────────────────
+        .left-nav {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 6px;
+
+            // Search button/input
+            .search {
+                height: 34px;
+                min-width: 180px;
+                max-width: 240px;
+                padding: 0 12px 0 10px;
+                border-radius: $radius-md;
+                font-size: 13px;
+                background: rgba(255, 255, 255, 0.07);
+                color: rgba(255, 255, 255, 0.75);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                cursor: text;
+                transition: all $dur-normal $ease-smooth;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                svg {
+                    height: 14px;
+                    width: 14px;
+                    margin: 0;
+                    color: rgba(255, 255, 255, 0.50);
+                    path { fill: rgba(255, 255, 255, 0.50); }
+                }
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.10);
+                    border-color: rgba(255, 255, 255, 0.13);
+                }
+
+                &:focus, &:active {
+                    background: rgba(99, 102, 241, 0.10);
+                    border-color: rgba(99, 102, 241, 0.45);
+                    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+                    color: $text-primary;
+                    min-width: 240px;
+                }
+            }
+        }
+    }
+}
+
+// ── Light Background Variant ────────────────────────────────
+.main-header-light-bg {
+    @extend %nav-base;
+    background: rgba(6, 11, 24, 0.70);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.20);
+
+    span.fade {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 8px;
+
+        button {
+            border: none;
+            background-color: transparent;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: inherit;
+            margin: 0 2px;
+            padding: 6px 10px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.82);
+            border-radius: $radius-md;
+            cursor: pointer;
+            height: 34px;
+            transition: all $dur-normal $ease-smooth;
+
+            &.nav-btn { padding: 6px 12px; }
+
+            @media (max-width: 800px) {
+                &.nav-btn { padding: 6px 8px; }
+            }
+
+            &.create-btn {
+                padding: 6px 14px;
+                background: $grad-primary;
+                border-radius: $radius-md;
+                color: #fff;
+                font-weight: 600;
+                box-shadow: $shadow-xs, $glow-primary;
+                transition: all $dur-normal $ease-bounce;
+
+                &:hover {
+                    background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+                    transform: translateY(-1px);
+                    box-shadow: $shadow-sm, 0 0 24px rgba(99, 102, 241, 0.45);
+                }
+            }
+
+            img {
+                height: 22px;
+                width: 22px;
+            }
+        }
+
+        button:hover:not(.create-btn) {
+            background-color: rgba(255, 255, 255, 0.09);
+            color: #fff;
+        }
+
+        button:active:not(.create-btn) {
+            background-color: rgba(255, 255, 255, 0.14);
+        }
+
+        button.btn-member-img {
+            padding: 3px;
+            border-radius: $radius-pill;
+            background: transparent;
+            border: 2px solid transparent;
+
+            &:hover {
+                border-color: rgba(99, 102, 241, 0.60);
+                box-shadow: 0 0 12px rgba(99, 102, 241, 0.30);
+            }
+
+            .member-img {
+                border-radius: 50%;
+                width: 28px;
+                height: 28px;
+                display: block;
             }
         }
 
         svg {
-            height: 20px;
-            width: 20px;
-            border-radius: 3px;
-            border: 0;
-            align-items: center;
+            height: 18px;
+            width: 18px;
             background-color: transparent;
-            margin: 6px;
-            white-space: nowrap;
-            color: $bh-txt1;
-            path {
-                fill: $bh-txt1;
-            }
+            margin: 0 5px;
+            color: rgba(255, 255, 255, 0.80);
+
+            path { fill: rgba(255, 255, 255, 0.80); }
         }
+
         @media (max-width: 800px) {
-            svg {
-                margin-right: 0;
-            }
+            svg { margin-right: 0; }
         }
 
         .logo-nav {
             display: flex;
             align-items: center;
-            margin-left: 4px;
+            margin-left: 6px;
 
             .header-logo {
                 display: flex;
                 align-items: center;
-
-                svg {
-                    transform: rotate(180deg);
-                }
+                gap: 6px;
 
                 h1 {
-                    font-size: 1.2rem;
-                    font-family: charlie-semibold;
-                    letter-spacing: 0.03rem;
-                    color: $bh-txt1;
+                    font-size: 1.15rem;
+                    font-weight: 800;
+                    letter-spacing: -0.03em;
+                    color: $bh-txt2;
+                    background: none;
+                    -webkit-text-fill-color: initial;
+                    margin: 0;
                 }
             }
         }
@@ -126,185 +365,41 @@
         .left-nav {
             display: flex;
             align-items: center;
+            gap: 4px;
             margin-right: 6px;
 
             .search {
-                height: 32px;
-                width: 100%;
-                width: 200px;
-                padding: 0px 4px;
-                border-radius: 3px;
-                font-size: 0.9rem;
-                line-height: 20px;
-                background-color: rgba(255, 255, 255, 0.2);
-                color: $bh-txt1;
-                justify-content: flex-start;
-                border: 1px solid rgba(255, 255, 255, 0.25);
-                box-shadow: none;
+                height: 34px;
+                min-width: 180px;
+                padding: 0 12px 0 10px;
+                border-radius: $radius-md;
+                font-size: 13px;
+                background: rgba(255, 255, 255, 0.07);
+                color: rgba(255, 255, 255, 0.75);
+                border: 1px solid rgba(255, 255, 255, 0.08);
                 cursor: text;
-                svg {
-                    height: 16px;
-                    width: 16px;
-                }
-            }
+                transition: all $dur-normal $ease-smooth;
+                display: flex;
+                align-items: center;
+                gap: 6px;
 
-            .search:active,
-            .search:focus {
-                cursor: text;
-                background-color: rgba(255, 255, 255, 0.525);
+                svg {
+                    height: 14px;
+                    width: 14px;
+                    margin: 0;
+                }
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.10);
+                }
+
+                &:focus, &:active {
+                    background: rgba(99, 102, 241, 0.10);
+                    border-color: rgba(99, 102, 241, 0.45);
+                    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+                    color: $text-primary;
+                }
             }
         }
-    }
-}
-
-.main-header-light-bg {
-    
-        height: 44px;
-        width: 100%;
-    
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background-color: $wh-bg1;
-
-        span.fade {
-            height: 44px;
-            // min-width: 1000px;
-            width: 100%;
-    
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: rgba(0,0,0,0.1);
-
-            button {
-                border: none;
-                background-color: transparent;
-        
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-        
-                font-family: segoe_ui;
-                margin: 0 3px;
-                padding: 0;
-                font-size: 0.9rem;
-                color: $bh-txt2;
-                border-radius: 3px;
-
-                &.nav-btn {
-                    padding-left: 18px;
-                }
-                @media (max-width: 800px) {
-                    &.nav-btn {
-                        padding-left: 8px;
-                    }
-                }
-
-                &.create-btn {
-                    padding: 5px 8px 8px;
-                    background-color: rgba(0, 0, 0, 0.1);
-                    border-radius: 3px;
-                    transition: all 150ms ease-out 0s;
-                    &:hover {
-                        // background-color: $wh-bg1;
-                        background-color: rgba(0, 0, 0, 0.2);
-                    }
-                }
-
-                img {
-                    height: 24px;
-                    width: 24px;
-                    line-height: 24px;
-                }
-            }
-        
-            button:hover,
-            button:active {
-                background-color: rgba(0, 0, 0, 0.2);
-            }
-        
-            button.btn-member-img {
-                border-radius: 50%;
-                padding: 4px;
-                &:hover {
-                    color: rgb(0 0 0 / 20%);
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-            }
-            svg {
-                height: 20px;
-                width: 20px;
-                border-radius: 3px;
-                border: 0;
-                align-items: center;
-                background-color: transparent;
-                margin: 6px;
-                white-space: nowrap;
-                color: $bh-txt2;
-                path {
-                    fill: $bh-txt2;
-                }
-            }
-            @media (max-width: 800px) {
-                svg {
-                    margin-right: 0;
-                }
-            }
-        
-            .logo-nav {
-                display: flex;
-                align-items: center;
-                margin-left: 4px;
-        
-                .header-logo {
-                    display: flex;
-                    align-items: center;
-        
-                    h1 {
-                        font-size: 1.2rem;
-                        font-family: charlie-semibold;
-                        letter-spacing: 0.03rem;
-                        color: $bh-txt2;
-                    }
-                }
-            }
-        
-        
-            .left-nav {
-                display: flex;
-                align-items: center;
-                margin-right: 6px;
-        
-                .search {
-                    height: 32px;
-                    width: 100%;
-                    width: 200px;
-                    padding: 0px 4px;
-                    border-radius: 3px;
-                    font-size: 0.9rem;
-                    line-height: 20px;
-                    background-color: rgba(255, 255, 255, 0.2);
-                    color: $bh-txt2;
-                    justify-content: flex-start;
-                    border: 1px solid rgba(23, 43, 77, 0.16);
-                    box-shadow: none;
-                    cursor: text;
-                    svg {
-                        height: 16px;
-                        width: 16px;
-                    }
-                }
-
-                .search:active,
-                .search:focus {
-                    cursor: text;
-                    background-color: rgba(255, 255, 255, 0.16);
-                }
-            }
     }
 }

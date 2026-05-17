@@ -1,225 +1,312 @@
+// ============================================================
+// GROUP LIST — Premium Kanban Columns
+// ============================================================
+
 .group-list-container {
     display: flex;
     width: fit-content;
+    height: 100%;
+    gap: 8px;
+    align-items: flex-start;
 
     .btn-group {
-        // position: absolute;
-        right: 0;
-        // z-index: 200;
         border: none;
-        background-color: unset;
-        border-radius: 3px;
+        background-color: transparent;
+        border-radius: $radius-sm;
         display: flex;
         align-items: center;
-        padding: 3px;
+        justify-content: center;
+        padding: 4px;
         height: 28px;
         width: 28px;
+        cursor: pointer;
+        transition: all $dur-normal $ease-smooth;
+        color: $t-txt3;
 
         svg {
             height: 16px;
             width: 16px;
-            border-radius: 3px;
-            border: 0;
-            align-items: center;
             background-color: transparent;
-            margin: 0 4px;
-            white-space: nowrap;
             pointer-events: none;
 
-            path {
-                fill: $t-txt3;
-            }
-
-            &:hover {
-                path {
-                    fill: #42526e;
-                }
-            }
+            path { fill: $t-txt3; transition: fill $dur-normal; }
         }
 
         &:hover {
-            background-color: #dadbe2;
+            background-color: rgba(255, 255, 255, 0.12);
+            svg path { fill: $clr5; }
         }
     }
 
+    // ── Group List Grid ─────────────────────────────────────
     .group-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 272px);
-        grid-auto-flow: column;
-        gap: 8px;
-        // margin: 8px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
         height: 100%;
-        // margin-right: -23px;
+        align-items: flex-start;
 
+        // ── Single Column ───────────────────────────────────
         .group-wrapper {
             width: 272px;
-            height: fit-content;
-            max-height: calc(100vh - 128px);
-            overflow-y: hidden;
-            overflow-x: hidden;
-            background-color: #ebecf0;
-            border-radius: 3px;
-            // margin: 0 4px;
-            padding: 0 4px 8px 4px;
+            min-width: 272px;
+            max-height: calc(100vh - 120px);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            border-radius: $radius-xl;
+            background: rgba(9, 15, 35, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            padding: 0 6px 8px;
+            animation: scaleInFadeIn 0.45s $ease-smooth backwards;
+            transition: box-shadow $dur-normal $ease-smooth,
+                        border-color $dur-normal $ease-smooth;
 
+            &:hover {
+                border-color: rgba(255, 255, 255, 0.12);
+                box-shadow:
+                    0 12px 40px rgba(0, 0, 0, 0.30),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            }
+
+            // ── Column Header ──────────────────────────────
             .group-top {
-                height: 40px;
-                padding: 8px 4px 4px 8px;
+                padding: 10px 6px 8px 10px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 height: fit-content;
                 position: relative;
-                color: $b-txt1;
+                color: $text-primary;
+                flex-shrink: 0;
+
+                // Header accent line
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0; left: 8px; right: 8px;
+                    height: 1px;
+                    background: rgba(255, 255, 255, 0.06);
+                }
 
                 textarea {
                     width: 100%;
                     font-family: inherit;
-                    font-weight: 600;
-                    font-size: 14px;
-                    line-height: 20px;
-                    height: 28px;
+                    font-weight: 700;
+                    font-size: 13.5px;
+                    letter-spacing: -0.01em;
+                    line-height: 1.4;
+                    height: auto;
+                    min-height: 28px;
                     resize: none;
                     overflow: hidden;
                     overflow-wrap: break-word;
-                    margin: -4px 0;
+                    margin: 0;
                     padding: 4px 8px 4px 3px;
-                    background-color: inherit;
+                    background-color: transparent;
                     border: none;
-                    border-radius: 3px;
-                    color: $b-txt1;
+                    border-radius: $radius-sm;
+                    color: $text-primary;
+                    transition: all $dur-normal $ease-smooth;
 
-                    &:focus-visible {
-                        outline: none;
-                    }
+                    &:focus-visible { outline: none; }
 
                     &:focus {
-                        border: none;
-                        box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
-                        background-color: $t-bg3;
-                        min-height: 20px;
+                        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.50) inset;
+                        background-color: rgba(255, 255, 255, 0.04);
+                        border-radius: $radius-md;
+                        min-height: 28px;
                         max-height: 256px;
                     }
                 }
+
+                // Column task count badge
+                .group-task-count {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 22px;
+                    height: 20px;
+                    padding: 0 6px;
+                    background: rgba(255, 255, 255, 0.08);
+                    border-radius: $radius-pill;
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: $text-secondary;
+                    margin-left: 6px;
+                    flex-shrink: 0;
+                }
+            }
+
+            // ── Task List inside column ────────────────────
+            .task-list {
+                overflow-y: auto;
+                overflow-x: hidden;
+                flex: 1;
+                min-height: 4px;
+                padding: 4px 2px 0;
+
+                &::-webkit-scrollbar { width: 4px; }
+                &::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.12);
+                    border-radius: $radius-pill;
+                }
+                &::-webkit-scrollbar-track { background: transparent; }
             }
         }
     }
 
+    // ── Add New Group Button ─────────────────────────────────
     .add-new-group {
         width: 272px;
-        height: 32px;
-        padding: 0 4px 4px 8px;
-        transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
+        min-width: 272px;
+        height: fit-content;
+        flex-shrink: 0;
 
         .placeholder {
-            font-size: 14px;
-            line-height: 26px;
-            color: white;
-            padding: 6px 8px;
+            font-size: 13px;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.85);
+            padding: 10px 14px;
             margin: 0;
-            transition: color 85ms ease-in;
             display: flex;
             align-items: center;
-            background-color: rgb(255 255 255 / 24%);
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             cursor: pointer;
-            border-radius: 3px;
-            height: fit-content;
-            min-height: 32px;
+            border-radius: $radius-xl;
+            min-height: 44px;
+            transition: all $dur-normal $ease-smooth;
+            font-weight: 500;
 
             .icon-plus {
-                font-size: 16px;
+                font-size: 18px;
                 text-align: center;
-                margin: 2px 2px;
+                transition: transform $dur-normal $ease-bounce;
+                flex-shrink: 0;
             }
 
             &:hover {
-                background-color: rgb(255 255 255 / 30%);
+                background: rgba(99, 102, 241, 0.15);
+                border-color: rgba(99, 102, 241, 0.35);
+                color: #fff;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.20);
+
+                .icon-plus { transform: rotate(90deg); }
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: none;
             }
         }
 
+        // ── Add Group Form ───────────────────────────────────
         form.add-group-form {
-            background-color: #ebecf0;
-            border-radius: 3px;
+            background: rgba(9, 15, 35, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: $radius-xl;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.30),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
             height: fit-content;
             min-height: 32px;
-            padding: 4px;
-            transition: background 85ms ease-in, opacity 40ms ease-in, border-color 85ms ease-in;
-            margin: 0 0;
+            padding: 12px;
+            transition: all $dur-normal;
+            animation: scaleInFadeIn 0.3s $ease-spring;
 
             input {
                 width: 100%;
-                background-color: $t-bg3;
-                border: none;
-                border-radius: 3px;
-                box-shadow: inset 0 0 0 2px #dfe1e6;
-                line-height: 20px;
+                background: rgba(255, 255, 255, 0.06);
+                color: $text-primary;
+                border: 1px solid rgba(255, 255, 255, 0.10);
+                border-radius: $radius-md;
+                line-height: 1.5;
                 display: block;
-                margin-bottom: 12px;
-                margin-top: 5px;
+                margin-bottom: 10px;
+                margin-top: 4px;
                 outline: none;
                 padding: 8px 12px;
-                transition-duration: 85ms;
-                transition: background-color, border-color, box-shadow;
-                transition-timing-function: ease;
                 font-family: inherit;
-                font-size: 14px;
-                height: 36px;
+                font-size: 13.5px;
+                font-weight: 600;
+                height: 38px;
+                transition: all $dur-normal $ease-smooth;
+
+                &::placeholder {
+                    font-weight: 400;
+                    color: $text-muted;
+                }
 
                 &:focus {
-                    border: none;
-                    box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
-                    background-color: $t-bg3;
+                    border-color: rgba(99, 102, 241, 0.55);
+                    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+                    background: rgba(99, 102, 241, 0.08);
                 }
             }
 
             .add-group-controls {
-                display: block;
                 display: flex;
                 align-items: center;
+                gap: 6px;
 
                 .add-group {
-                    background-color: #0079bf;
+                    background: $grad-primary;
                     border: none;
-                    box-shadow: none;
-                    border-radius: 3px;
+                    border-radius: $radius-md;
                     color: #fff;
-                    height: 32px;
-                    padding: 4px 12px;
-                    line-height: 20px;
-                    font-size: 14px;
-                    font-weight: 400;
+                    height: 34px;
+                    padding: 0 16px;
+                    font-size: 13.5px;
+                    font-weight: 600;
+                    font-family: inherit;
+                    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.30);
+                    transition: all $dur-normal $ease-bounce;
+                    cursor: pointer;
 
                     &:hover {
-                        background-color: #026aa7;
-                        text-decoration: none;
+                        background: linear-gradient(135deg, $clr-primary-dark, $clr-primary-deep);
+                        transform: translateY(-1px);
+                        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.45);
                     }
 
-                    &:active {
-                        background-color: #055a8c;
-                    }
+                    &:active { transform: translateY(0); box-shadow: none; }
                 }
 
                 .cancel {
-                    background-color: unset;
-                    color: $t-txt3;
+                    background-color: transparent;
+                    color: $text-secondary;
                     border: none;
-                    margin: 0 2px;
-                    height: 32px;
-                    width: 32px;
+                    height: 34px;
+                    width: 34px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    border-radius: $radius-md;
+                    transition: all $dur-normal $ease-smooth;
+                    cursor: pointer;
 
                     &:hover {
-                        cursor: pointer;
-                        color: #172b4d;
+                        color: $text-primary;
+                        background: rgba(255, 255, 255, 0.10);
+                        transform: rotate(90deg);
                     }
 
                     .icon-close {
-                        font-size: 28px;
+                        font-size: 20px;
                         text-align: center;
+                        line-height: 1;
                     }
                 }
             }
