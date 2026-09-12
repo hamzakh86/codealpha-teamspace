@@ -15,7 +15,6 @@ import {
     HiOutlinePlus,
     HiOutlineSparkles,
     HiOutlineCheckCircle,
-    HiOutlineFire,
     HiOutlineMagnifyingGlass,
     HiOutlineXMark,
     HiOutlineSquares2X2,
