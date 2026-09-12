@@ -272,3 +272,157 @@ ul, ol {
     background: rgba(99, 102, 241, 0.35);
     color: #fff;
 }
+
+// ── Default Workspace Classes (Dark) ────────────────────────
+.workspace-container {
+    background-color: #0B1120;
+    color: #F8FAFC;
+}
+
+.workspace-stat-card {
+    background-color: #1E293B;
+    border: 1px solid #334155;
+    color: #94A3B8;
+}
+
+// ── PolySpace Light Theme (Mode Simple / Clair) ─────────────
+body.light-theme {
+    background-color: #F8FAFC !important;
+    background-image: none !important;
+    color: #0F172A !important;
+
+    &::before, &::after {
+        display: none !important;
+    }
+
+    // Top Header
+    .main-header-demo, .main-header {
+        background-color: #FFFFFF !important;
+        border-bottom: 1px solid #E2E8F0 !important;
+        color: #0F172A !important;
+
+        .nav-btn, .header-logo span, a {
+            color: #0F172A !important;
+        }
+
+        .btn-create {
+            background: #0066B3 !important;
+            color: #FFFFFF !important;
+        }
+    }
+
+    // User Menu dropdown
+    .user-menu {
+        background: #FFFFFF !important;
+        border-color: #CBD5E1 !important;
+        color: #0F172A !important;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12) !important;
+
+        .user-menu-header h2 {
+            color: #64748B !important;
+        }
+
+        .user-name {
+            color: #0F172A !important;
+        }
+
+        .user-menu-item-btn {
+            color: #1E293B !important;
+
+            &:hover {
+                background: #F1F5F9 !important;
+            }
+        }
+
+        .user-menu-separator {
+            border-color: #E2E8F0 !important;
+        }
+    }
+
+    // CollabFlow Left Sidebar
+    .collabflow-sidebar {
+        background-color: #FFFFFF !important;
+        border-right: 1px solid #E2E8F0 !important;
+        color: #0F172A !important;
+
+        div, span, a, p {
+            color: #1E293B !important;
+        }
+
+        div[style*="cursor: 'pointer'"],
+        div[style*="cursor: pointer"] {
+            color: #334155 !important;
+
+            &:hover {
+                background-color: #EFF6FF !important;
+                color: #0066B3 !important;
+            }
+        }
+
+        a:hover {
+            background-color: #EFF6FF !important;
+            color: #0066B3 !important;
+        }
+
+        div[style*="borderBottom"], div[style*="border-bottom"],
+        div[style*="borderTop"], div[style*="border-top"] {
+            border-color: #E2E8F0 !important;
+        }
+    }
+
+    // Workspace Page
+    .workspace-container,
+    .workspace-main-area {
+        background-color: #F8FAFC !important;
+        color: #0F172A !important;
+
+        .workspace-header-row {
+            border-bottom-color: #E2E8F0 !important;
+        }
+
+        h1 {
+            color: #0F172A !important;
+        }
+
+        .workspace-section-title {
+            color: #0F172A !important;
+        }
+
+        p {
+            color: #64748B !important;
+        }
+
+        .workspace-stat-card {
+            background-color: #FFFFFF !important;
+            border-color: #E2E8F0 !important;
+            color: #64748B !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+
+            div[style*="fontSize: '12px'"] {
+                color: #64748B !important;
+            }
+        }
+
+        button[style*="backgroundColor: '#1E293B'"] {
+            background-color: #FFFFFF !important;
+            border-color: #CBD5E1 !important;
+            color: #334155 !important;
+        }
+
+        .board-preview {
+            background-color: #FFFFFF !important;
+            border-color: #E2E8F0 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+
+            .board-preview-title {
+                color: #0F172A !important;
+            }
+        }
+
+        .create-new-board {
+            background-color: #FFFFFF !important;
+            border-color: #CBD5E1 !important;
+            color: #475569 !important;
+        }
+    }
+}

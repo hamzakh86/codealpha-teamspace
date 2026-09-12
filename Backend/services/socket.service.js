@@ -1,146 +1,235 @@
 const logger = require('./logger.service')
 
-var gIo = null
+let gIo = null
+const activeBoardUsers = {} // { boardId: [ { userId, name, imgUrl, socketId, color } ] }
+
+const CURSOR_COLORS = [
+    '#3B82F6', '#10B981', '#F59E0B', '#EF4444', 
+    '#8B5CF6', '#EC4899', '#06B6D4', '#F97316'
+]
 
 function setupSocketAPI(http) {
-	gIo = require('socket.io')(http, {
-		cors: {
-			origin: '*',
-		},
-	})
-	gIo.on('connection', (socket) => {
-		logger.info(`New connected socket [id: ${socket.id}]`)
-		socket.on('disconnect', (socket) => {
-			logger.info(`Socket disconnected [id: ${socket.id}]`)
-		})
+    gIo = require('socket.io')(http, {
+        cors: {
+            origin: '*',
+            methods: ['GET', 'POST']
+        },
+    })
 
-		socket.on('join-board', (boardId) => {
-			if (socket.myBoardId === boardId) return
-			if (socket.myBoardId) {
-				socket.leave(socket.myBoardId)
-				logger.info(
-					`Socket is leaving topic ${socket.myBoardId} [id: ${socket.id}]`
-				)
-			}
-			socket.join(boardId)
-			socket.myBoardId = boardId
-			logger.info(
-				`Socket is now on board ${socket.myBoardId} [id: ${socket.id}]`
-			)
-		})
+    gIo.on('connection', (socket) => {
+        logger.info(`⚡ Socket connected: [id: ${socket.id}]`)
 
-		socket.on('update-board', (board) => {
-			logger.info(`setting update board for socket [id: ${socket.id}]`)
-			// broadcast({
-			// 	type: 'update-board',
-			// 	data: board,
-			// 	room: socket.myBoardId,
-			// 	userId: user._id,
-			// })
-		})
+        // Join a specific Board room
+        socket.on('join-board', ({ boardId, user }) => {
+            if (socket.myBoardId) {
+                socket.leave(`board:${socket.myBoardId}`)
+                _removeUserFromBoard(socket.myBoardId, socket.id)
+            }
 
-		socket.on('chat-send-msg', (msg) => {
-			logger.info(
-				`New chat msg from socket [id: ${socket.id}], emitting to topic ${socket.myBoardId}`
-			)
-			// emits to all sockets:
-			// gIo.emit('chat addMsg', msg)
-			// emits only to sockets in the same room
-			gIo.to(socket.myBoardId).emit('chat-add-msg', msg)
-		})
+            socket.myBoardId = boardId
+            socket.join(`board:${boardId}`)
+            
+            if (user) {
+                socket.userInfo = {
+                    userId: user._id || user.id || socket.id,
+                    name: user.fullname || user.name || 'Anonymous',
+                    imgUrl: user.imgUrl || '',
+                    socketId: socket.id,
+                    color: CURSOR_COLORS[Math.floor(Math.random() * CURSOR_COLORS.length)]
+                }
+                _addUserToBoard(boardId, socket.userInfo)
+            }
 
-		socket.on('user-watch', (userId) => {
-			logger.info(
-				`user-watch from socket [id: ${socket.id}], on user ${userId}`
-			)
-			socket.join('watching:' + userId)
-		})
+            logger.info(`Socket [${socket.id}] joined board:${boardId}`)
+            // Broadcast updated active presence
+            gIo.to(`board:${boardId}`).emit('board-presence', activeBoardUsers[boardId] || [])
+        })
 
-		socket.on('set-user-socket', (userId) => {
-			logger.info(
-				`Setting socket.userId = ${userId} for socket [id: ${socket.id}]`
-			)
-			socket.userId = userId
-		})
+        // Live Multiplayer Cursor Move
+        socket.on('cursor-move', (pos) => {
+            if (!socket.myBoardId || !socket.userInfo) return
+            socket.to(`board:${socket.myBoardId}`).emit('remote-cursor-move', {
+                ...pos,
+                user: socket.userInfo
+            })
+        })
 
-		socket.on('unset-user-socket', () => {
-			logger.info(`Removing socket.userId for socket [id: ${socket.id}]`)
-			delete socket.userId
-		})
-	})
+        // Real-time Board Update (Drag and Drop / Task edit)
+        socket.on('update-board', (board) => {
+            if (!socket.myBoardId) return
+            logger.info(`Board update on board:${socket.myBoardId}`)
+            socket.to(`board:${socket.myBoardId}`).emit('update-board', board)
+        })
+
+        // Real-time Card Dragged
+        socket.on('card-dragged', (dragData) => {
+            if (!socket.myBoardId) return
+            socket.to(`board:${socket.myBoardId}`).emit('card-dragged', dragData)
+        })
+
+        // Live Board & Channel Chat Message
+        socket.on('chat-send-msg', (msg) => {
+            if (!socket.myBoardId) return
+            const messageWithMeta = {
+                ...msg,
+                id: 'msg_' + Date.now(),
+                timestamp: new Date().toISOString(),
+                sender: socket.userInfo || { name: 'Collaborator' }
+            }
+            gIo.to(`board:${socket.myBoardId}`).emit('chat-add-msg', messageWithMeta)
+        })
+
+        // Typing Indicator
+        socket.on('typing', (isTyping) => {
+            if (!socket.myBoardId || !socket.userInfo) return
+            socket.to(`board:${socket.myBoardId}`).emit('user-typing', {
+                user: socket.userInfo,
+                isTyping
+            })
+        })
+
+        // ── PolySpace Salon (Channel) Events ─────────────────────────
+        // Join a named channel room (e.g. "polyoverflow")
+        socket.on('join-channel', ({ channelName, user }) => {
+            // Leave previous channel room if any
+            if (socket.myChannelName) {
+                socket.leave(`channel:${socket.myChannelName}`)
+            }
+            socket.myChannelName = channelName
+            socket.channelUser = user || socket.userInfo || { name: 'Étudiant EPS' }
+            socket.join(`channel:${channelName}`)
+            logger.info(`Socket [${socket.id}] joined channel:${channelName}`)
+        })
+
+        // Send message to channel room + persist via channelService
+        socket.on('channel-send-msg', async ({ channelName, txt }) => {
+            if (!channelName || !txt || !txt.trim()) return
+            try {
+                const channelService = require('../api/channel/channel.service')
+                const sender = socket.channelUser || socket.userInfo || { name: 'Étudiant EPS' }
+                const saved = await channelService.addMessage(channelName, {
+                    from: sender.fullname || sender.name || 'Étudiant EPS',
+                    fromId: sender._id || sender.userId || null,
+                    imgUrl: sender.imgUrl || '',
+                    txt: txt.trim()
+                })
+                // Broadcast to everyone in the channel (including sender)
+                gIo.to(`channel:${channelName}`).emit('channel-add-msg', saved)
+            } catch (err) {
+                logger.error('channel-send-msg error', err)
+            }
+        })
+
+        // Channel typing indicator
+        socket.on('channel-typing', ({ channelName, isTyping }) => {
+            if (!channelName) return
+            const sender = socket.channelUser || socket.userInfo || { name: 'Étudiant EPS' }
+            socket.to(`channel:${channelName}`).emit('channel-user-typing', {
+                user: sender,
+                isTyping,
+                channelName
+            })
+        })
+
+        // Channel message reaction toggle
+        socket.on('channel-react-msg', async ({ channelName, msgId, emoji }) => {
+            if (!channelName || !msgId || !emoji) return
+            try {
+                const channelService = require('../api/channel/channel.service')
+                const sender = socket.channelUser || socket.userInfo || { name: 'Étudiant EPS' }
+                const userIdentifier = sender.fullname || sender.name || 'Étudiant EPS'
+                const updatedMsg = await channelService.toggleReaction(channelName, msgId, emoji, userIdentifier)
+                if (updatedMsg) {
+                    gIo.to(`channel:${channelName}`).emit('channel-msg-reacted', {
+                        channelName,
+                        msgId,
+                        reactions: updatedMsg.reactions,
+                        updatedMsg
+                    })
+                }
+            } catch (err) {
+                logger.error('channel-react-msg error', err)
+            }
+        })
+
+        // Channel message pin toggle
+        socket.on('channel-pin-msg', async ({ channelName, msgId }) => {
+            if (!channelName || !msgId) return
+            try {
+                const channelService = require('../api/channel/channel.service')
+                const updatedMsg = await channelService.togglePin(channelName, msgId)
+                if (updatedMsg) {
+                    gIo.to(`channel:${channelName}`).emit('channel-msg-pinned', {
+                        channelName,
+                        msgId,
+                        isPinned: updatedMsg.isPinned,
+                        updatedMsg
+                    })
+                }
+            } catch (err) {
+                logger.error('channel-pin-msg error', err)
+            }
+        })
+
+        // ── Voice Huddle Room Events (Discord style) ───────────────────
+        socket.on('voice-join', ({ channelName, user }) => {
+            const voiceUser = user || socket.channelUser || { name: 'Étudiant EPS' }
+            socket.voiceChannel = channelName
+            socket.join(`voice:${channelName}`)
+            socket.to(`voice:${channelName}`).emit('voice-user-joined', voiceUser)
+            logger.info(`User ${voiceUser.fullname || voiceUser.name} joined voice:${channelName}`)
+        })
+
+        socket.on('voice-leave', ({ channelName, user }) => {
+            const voiceUser = user || socket.channelUser || { name: 'Étudiant EPS' }
+            socket.leave(`voice:${channelName}`)
+            socket.to(`voice:${channelName}`).emit('voice-user-left', voiceUser)
+        })
+
+        socket.on('voice-state', ({ channelName, user, isMuted, isDeafened, isScreenSharing }) => {
+            socket.to(`voice:${channelName}`).emit('voice-state-update', {
+                user,
+                isMuted,
+                isDeafened,
+                isScreenSharing
+            })
+        })
+
+        // Disconnect cleanup
+        socket.on('disconnect', () => {
+            logger.info(`Socket disconnected: [id: ${socket.id}]`)
+            if (socket.myBoardId) {
+                _removeUserFromBoard(socket.myBoardId, socket.id)
+                gIo.to(`board:${socket.myBoardId}`).emit('board-presence', activeBoardUsers[socket.myBoardId] || [])
+                socket.to(`board:${socket.myBoardId}`).emit('remote-cursor-leave', socket.id)
+            }
+        })
+    })
 }
 
-function emitTo({ type, data, label }) {
-	if (label) gIo.to('watching:' + label.toString()).emit(type, data)
-	else gIo.emit(type, data)
+function _addUserToBoard(boardId, userInfo) {
+    if (!activeBoardUsers[boardId]) activeBoardUsers[boardId] = []
+    const existingIdx = activeBoardUsers[boardId].findIndex(u => u.userId === userInfo.userId || u.socketId === userInfo.socketId)
+    if (existingIdx !== -1) {
+        activeBoardUsers[boardId][existingIdx] = userInfo
+    } else {
+        activeBoardUsers[boardId].push(userInfo)
+    }
 }
 
-async function emitToUser({ type, data, userId }) {
-	userId = userId.toString()
-	const socket = await _getUserSocket(userId)
-
-	if (socket) {
-		logger.info(
-			`Emiting event: ${type} to user: ${userId} socket [id: ${socket.id}]`
-		)
-		socket.emit(type, data)
-	} else {
-		logger.info(`No active socket for user: ${userId}`)
-		// _printSockets()
-	}
+function _removeUserFromBoard(boardId, socketId) {
+    if (!activeBoardUsers[boardId]) return
+    activeBoardUsers[boardId] = activeBoardUsers[boardId].filter(u => u.socketId !== socketId)
+    if (activeBoardUsers[boardId].length === 0) {
+        delete activeBoardUsers[boardId]
+    }
 }
 
-// If possible, send to all sockets BUT not the current socket
-// Optionally, broadcast to a room / to all
-async function broadcast({ type, data, room = null, userId }) {
-	userId = userId.toString()
-
-	logger.info(`Broadcasting event: ${type}`)
-	const excludedSocket = await _getUserSocket(userId)
-
-	if (room && excludedSocket) {
-		logger.info(`Broadcast to room ${room} excluding user: ${userId}`)
-		excludedSocket.broadcast.to(room).emit(type, data)
-	} else if (excludedSocket) {
-		logger.info(`Broadcast to all excluding user: ${userId}`)
-		excludedSocket.broadcast.emit(type, data)
-	} else if (room) {
-		logger.info(`Emit to room: ${room}`)
-		gIo.to(room).emit(type, data)
-	} else {
-		logger.info(`Emit to all`)
-		gIo.emit(type, data)
-	}
-}
-
-async function _getUserSocket(userId) {
-	const sockets = await _getAllSockets()
-	const socket = sockets.find((s) => s.userId === userId)
-	return socket
-}
-async function _getAllSockets() {
-	// return all Socket instances
-	const sockets = await gIo.fetchSockets()
-	return sockets
-}
-
-async function _printSockets() {
-	const sockets = await _getAllSockets()
-	console.log(`Sockets: (count: ${sockets.length}):`)
-	sockets.forEach(_printSocket)
-}
-function _printSocket(socket) {
-	console.log(`Socket - socketId: ${socket.id} userId: ${socket.userId}`)
+function emitToBoard(boardId, type, data) {
+    if (gIo) gIo.to(`board:${boardId}`).emit(type, data)
 }
 
 module.exports = {
-	// set up the sockets service and define the API
-	setupSocketAPI,
-	// emit to everyone / everyone in a specific room (label)
-	emitTo,
-	// emit to a specific user (if currently active in system)
-	emitToUser,
-	// Send to all sockets BUT not the current socket - if found
-	// (otherwise broadcast to a room / to all)
-	broadcast,
+    setupSocketAPI,
+    emitToBoard
 }

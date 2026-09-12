@@ -2,18 +2,12 @@ button {
     cursor: pointer;
 }
 
-form>* {
-    display: block;
-    width: 200px;
-    margin: 10px 0px;
-}
-
 .btn-link {
     border: 0;
     background-color: transparent;
-    transition: .5s;
-}
+    transition: 0.3s ease;
 
-.btn-link:hover {
-    transform: scale(1.1);
+    &:hover {
+        transform: scale(1.05);
+    }
 }

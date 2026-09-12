@@ -61,34 +61,28 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            padding: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: $text-muted;
             position: absolute;
-            right: 2px;
-            top: 8px;
-            width: 26px;
-            height: 26px;
-            border-radius: $radius-sm;
+            right: 6px;
+            top: 10px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             transition: all $dur-normal $ease-smooth;
 
-            svg path { fill: $text-muted; transition: fill $dur-normal; }
+            &:hover {
+                background: rgba(255, 255, 255, 0.12);
+                color: #FFFFFF;
+            }
 
             .icon-close {
-                font-size: 16px;
-                font-weight: 400;
+                font-size: 18px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-            }
-
-            &:hover {
-                background: rgba(255, 255, 255, 0.10);
-                color: $text-primary;
-                transform: rotate(90deg);
-                svg path { fill: $text-primary; }
             }
         }
     }

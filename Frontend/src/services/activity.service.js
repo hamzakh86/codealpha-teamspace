@@ -1,51 +1,15 @@
 import { userService } from './user.service'
 import { utilService } from './util.service'
+import { boardService } from './board.service'
 
 export const activityService = {
-	// addActivity,
+	createActivity,
+	addActivityToBoard,
 }
 
-// * data for dev
-
-// activity object example
-const activityEx = {
-	id: utilService.makeId(),
-	txt: 'Changed Color',
-	createdAt: Date.now(),
-	byMember: userService.getLoggedinUser(),
-	task: 'task', //this should be a mini task object
-}
-
-// board key example
-// this should be a key with : not =
-let activitiesEx = [
-	{
-		id: 'a101',
-		txt: 'Changed Color',
-		createdAt: 154514,
-		byMember: {
-			_id: 'u101',
-			fullname: 'Abi Abambi',
-			imgUrl: 'http://some-img',
-		},
-		task: {
-			id: 'c101',
-			title: 'Replace Logo',
-		},
-	},
-]
-
-// * end of data for dev
-
-function addActivity(txt, task, boardId, comment, user) {
-	console.log(txt, task, boardId, comment, user)
-	const board = {}
-
+function createActivity(txt, task = null, user = null, comment = null) {
 	const miniUser = user || userService.getLoggedinUser()
-
 	const miniTask = task ? { id: task.id, title: task.title } : null
-
-	console.log('miniUser', miniUser, 'miniTask', miniTask)
 
 	const activity = {
 		id: utilService.makeId(),
@@ -56,7 +20,12 @@ function addActivity(txt, task, boardId, comment, user) {
 	}
 
 	if (comment) activity.comment = comment
+	return activity
+}
 
-	if (board.activities) board.activities.unshift(activity)
-	else board.activities = [activity]
+async function addActivityToBoard(board, txt, task = null, user = null, comment = null) {
+	const activity = createActivity(txt, task, user, comment)
+	if (!board.activities) board.activities = []
+	board.activities.unshift(activity)
+	return await boardService.save(board)
 }

@@ -39,6 +39,8 @@ async function deleteUser(req, res) {
 async function updateUser(req, res) {
 	try {
 		const user = req.body
+		// Ensure _id comes from params if not in body
+		user._id = user._id || req.params.id
 		const savedUser = await userService.update(user)
 		res.send(savedUser)
 	} catch (err) {
@@ -47,9 +49,25 @@ async function updateUser(req, res) {
 	}
 }
 
+async function changePassword(req, res) {
+	try {
+		const { id } = req.params
+		const { oldPassword, newPassword } = req.body
+		if (!newPassword || newPassword.length < 6) {
+			return res.status(400).send({ err: 'Le nouveau mot de passe doit contenir au moins 6 caractères' })
+		}
+		const result = await userService.changePassword(id, oldPassword, newPassword)
+		res.send(result)
+	} catch (err) {
+		logger.error('Failed to change password', err)
+		res.status(400).send({ err: err.message || 'Échec du changement de mot de passe' })
+	}
+}
+
 module.exports = {
 	getUser,
 	getUsers,
 	deleteUser,
 	updateUser,
+	changePassword,
 }

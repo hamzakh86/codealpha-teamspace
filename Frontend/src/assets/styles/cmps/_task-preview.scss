@@ -27,13 +27,13 @@
 
     // ── Hover State ─────────────────────────────────────────
     &:hover {
-        background: rgba(20, 32, 58, 0.92);
+        background: rgba(20, 35, 68, 0.94);
         transform: translateY(-3px);
         box-shadow:
             0 10px 28px rgba(0, 0, 0, 0.28),
             0 4px 10px rgba(0, 0, 0, 0.15),
-            0 0 0 1px rgba(99, 102, 241, 0.20);
-        border-color: rgba(99, 102, 241, 0.25);
+            0 0 0 1px rgba(0, 82, 204, 0.35);
+        border-color: rgba(76, 154, 255, 0.4);
 
         .edit-btn {
             opacity: 1;
@@ -42,6 +42,7 @@
 
         .task-priority-bar {
             width: 100%;
+            background: linear-gradient(90deg, #0052CC, #4C9AFF);
         }
     }
 

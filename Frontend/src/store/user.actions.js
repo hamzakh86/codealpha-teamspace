@@ -54,6 +54,20 @@ export async function signup(credentials) {
     }
 }
 
+export async function googleLoginAction(googleProfile) {
+    try {
+        const user = await userService.googleLogin(googleProfile)
+        store.dispatch({
+            type: SET_USER,
+            user
+        })
+        return user
+    } catch (err) {
+        console.log('Cannot google login', err)
+        throw err
+    }
+}
+
 export async function logout() {
     try {
         await userService.logout()
@@ -69,10 +83,37 @@ export async function logout() {
 
 export async function loadUser(userId) {
     try {
-        const user = await userService.getById(userId);
+        const user = await userService.getById(userId)
         store.dispatch({ type: SET_WATCHED_USER, user })
     } catch (err) {
         showErrorMsg('Cannot load user')
         console.log('Cannot load user', err)
+    }
+}
+
+export async function updateUserAction(userToUpdate) {
+    try {
+        const updatedUser = await userService.update(userToUpdate)
+        store.dispatch({
+            type: SET_USER,
+            user: updatedUser
+        })
+        return updatedUser
+    } catch (err) {
+        console.error('Cannot update user', err)
+        throw err
+    }
+}
+
+export async function deleteAccountAction(userId) {
+    try {
+        await userService.remove(userId)
+        store.dispatch({
+            type: SET_USER,
+            user: null
+        })
+    } catch (err) {
+        console.error('Cannot delete user', err)
+        throw err
     }
 }

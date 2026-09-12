@@ -193,6 +193,76 @@
                 }
             }
 
+            // Jira-style View Switcher
+            .jira-view-switcher {
+                display: flex;
+                align-items: center;
+                background: rgba(0, 0, 0, 0.25);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 2px;
+                margin-left: 8px;
+                gap: 2px;
+
+                .view-pill {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    padding: 4px 10px;
+                    height: 28px;
+                    background: transparent;
+                    border: none;
+                    border-radius: 6px;
+                    color: rgba(255, 255, 255, 0.65);
+                    font-size: 12px;
+                    font-weight: 600;
+                    font-family: inherit;
+                    cursor: pointer;
+                    transition: all 0.15s;
+
+                    span { font-size: 13px; }
+
+                    &:hover {
+                        color: #FFFFFF;
+                        background: rgba(255, 255, 255, 0.08);
+                    }
+
+                    &.active {
+                        background: #0052CC;
+                        color: #FFFFFF;
+                        box-shadow: 0 2px 8px rgba(0, 82, 204, 0.4);
+                    }
+                }
+            }
+
+            .btn-command-palette {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(255, 255, 255, 0.10);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                color: #FFFFFF;
+                padding: 5px 10px;
+                border-radius: 6px;
+                font-size: 12px;
+                cursor: pointer;
+                margin-left: 6px;
+                transition: background 0.2s;
+
+                kbd {
+                    background: rgba(0, 0, 0, 0.3);
+                    border: 1px solid rgba(255, 255, 255, 0.15);
+                    border-radius: 4px;
+                    padding: 1px 4px;
+                    font-size: 10px;
+                    font-family: monospace;
+                }
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.18);
+                }
+            }
+
             // Star buttons
             button.btn-board.star-false {
                 padding: 4px 6px;
@@ -233,10 +303,82 @@
         .board-top-menu-right {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
             transition: margin-right $dur-normal;
 
             &.open { margin-right: 344px; }
+
+            .live-presence-indicator {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 4px 10px;
+                background: rgba(16, 185, 129, 0.15);
+                border: 1px solid rgba(16, 185, 129, 0.35);
+                border-radius: 99px;
+                font-size: 11.5px;
+                font-weight: 600;
+                color: #6EE7B7;
+                margin-right: 4px;
+
+                .live-dot {
+                    width: 7px;
+                    height: 7px;
+                    background: #10B981;
+                    border-radius: 50%;
+                    box-shadow: 0 0 8px #10B981;
+                    animation: pulseLive 2s infinite;
+                }
+            }
+
+            @keyframes pulseLive {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50%      { opacity: 0.5; transform: scale(0.8); }
+            }
+
+            .btn-chat-toggle {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(255, 255, 255, 0.12);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: #FFFFFF;
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &.active {
+                    background: #0052CC;
+                    box-shadow: 0 0 12px rgba(0, 82, 204, 0.5);
+                }
+
+                &:hover:not(.active) {
+                    background: rgba(255, 255, 255, 0.2);
+                }
+            }
+
+            .btn-plan-pro {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                background: rgba(245, 158, 11, 0.15);
+                border: 1px solid rgba(245, 158, 11, 0.35);
+                color: #FDE68A;
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    background: rgba(245, 158, 11, 0.25);
+                    box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+                }
+            }
 
             button.btn-board.menu,
             button.btn-board.remove {

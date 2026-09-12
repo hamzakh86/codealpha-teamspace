@@ -5,13 +5,14 @@ import { useSelector } from 'react-redux'
 import { BoardCreate } from '../board/board-create'
 import { logout } from '../../store/user.actions.js'
 import { UserMenu } from '../board/user-menu'
+import { ProfileSettingsModal } from '../profile/profile-settings-modal'
 
 import { ReactComponent as DownSvg } from '../../assets/img/icons-header/down.svg'
-import { ReactComponent as TeamspaceSvg } from '../../assets/img/icons-header/teamspace.svg'
 
 export function MainHeaderWorkspace() {
     const [isBoardComposerOpen, setIsBoardComposerOpen] = useState(false)
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
     const user = useSelector((storeState) => storeState.userModule.user)
     const navigate = useNavigate()
 
@@ -48,9 +49,14 @@ export function MainHeaderWorkspace() {
                     <AppsSvg />
                 </button> */}
 
-                <NavLink to="/" className="header-logo">
-                    <TeamspaceSvg />
-                    <h1 className="teamspace-logo">TeamSpace</h1>
+                <NavLink to="/workspace" className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+                    <img src={require('../../assets/img/polyspace-logo.png')} alt="PolySpace" style={{ height: '28px', width: 'auto', borderRadius: '3px' }} />
+                    <span style={{ fontSize: '17px', fontWeight: '800', color: '#FFFFFF', letterSpacing: '-0.3px' }}>
+                        Poly<span style={{ color: '#F58220' }}>Space</span>
+                    </span>
+                    <span style={{ fontSize: '9px', backgroundColor: '#F5822022', color: '#F58220', border: '1px solid #F5822055', padding: '1px 5px', borderRadius: '4px', fontWeight: '700', marginLeft: '2px' }}>
+                        EPS
+                    </span>
                 </NavLink>
 
                 <NavLink to="/workspace">
@@ -117,8 +123,13 @@ export function MainHeaderWorkspace() {
                     user={user}
                     onLogout={onLogout}
                     closeUserMenu={closeUserMenu}
+                    onOpenProfile={() => setIsProfileModalOpen(true)}
                 />
             )}
+            <ProfileSettingsModal
+                isOpen={isProfileModalOpen}
+                onClose={() => setIsProfileModalOpen(false)}
+            />
         </header>
     )
 }

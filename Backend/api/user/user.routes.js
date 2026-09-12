@@ -8,19 +8,14 @@ const {
 	getUsers,
 	deleteUser,
 	updateUser,
+	changePassword,
 } = require('./user.controller')
 const router = express.Router()
 
-// middleware that is specific to this router
-// router.use(requireAuth)
-// * without auth
 router.get('/', getUsers)
 router.get('/:id', getUser)
 router.put('/:id', updateUser)
-
-// * with auth
-// router.get('/', getUsers)
-// router.get('/:id', getUser)
-// router.put('/:id', requireAuth,  updateUser)
+router.put('/:id/password', changePassword)
+router.delete('/:id', deleteUser)
 
 module.exports = router

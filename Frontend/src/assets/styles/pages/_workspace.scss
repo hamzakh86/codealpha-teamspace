@@ -235,3 +235,537 @@
         }
     }
 }
+
+// ── Workspace Interactive Filtering & View Toolbar ────────────────
+.workspace-toolbar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: #0F172A;
+    border: 1px solid #1E293B;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+    .workspace-toolbar-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .workspace-search-box {
+        position: relative;
+        flex: 1;
+        min-width: 240px;
+        max-width: 480px;
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748B;
+            font-size: 17px;
+            pointer-events: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 9px 36px 9px 36px;
+            background: #1E293B;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #F8FAFC;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.2s;
+
+            &::placeholder {
+                color: #64748B;
+            }
+
+            &:focus {
+                border-color: #0066B3;
+                background: #1E293B;
+                box-shadow: 0 0 0 2px rgba(0, 102, 179, 0.25);
+            }
+        }
+
+        .clear-search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            font-size: 15px;
+            cursor: pointer;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                color: #F8FAFC;
+            }
+        }
+    }
+
+    .workspace-controls-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .workspace-sort-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #94A3B8;
+
+        select {
+            background: #1E293B;
+            color: #F8FAFC;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+
+            &:hover {
+                border-color: #64748B;
+            }
+
+            &:focus {
+                border-color: #0066B3;
+            }
+        }
+    }
+
+    .workspace-view-toggle {
+        display: flex;
+        align-items: center;
+        background: #1E293B;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 2px;
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 10px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            color: #94A3B8;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.15s;
+
+            &.active {
+                background: #0066B3;
+                color: #FFFFFF;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            }
+
+            &:hover:not(.active) {
+                color: #F8FAFC;
+            }
+        }
+    }
+
+    // Filter pills row
+    .workspace-filter-pills {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+
+        .filter-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12.5px;
+            font-weight: 600;
+            background: #1E293B;
+            color: #94A3B8;
+            border: 1px solid #334155;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+
+            .pill-count {
+                padding: 1px 6px;
+                border-radius: 10px;
+                font-size: 11px;
+                background: #334155;
+                color: #CBD5E1;
+            }
+
+            &:hover {
+                background: #27354A;
+                color: #F8FAFC;
+                border-color: #475569;
+            }
+
+            &.active {
+                background: #0066B3;
+                color: #FFFFFF;
+                border-color: #0066B3;
+                box-shadow: 0 2px 8px rgba(0, 102, 179, 0.35);
+
+                .pill-count {
+                    background: rgba(255, 255, 255, 0.25);
+                    color: #FFFFFF;
+                }
+            }
+
+            &.pill-favorite.active {
+                background: #F59E0B;
+                border-color: #F59E0B;
+                box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+            }
+        }
+    }
+}
+
+// ── Workspace Linear/Slack-Style List View ────────────────────────
+.workspace-list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+
+    .workspace-list-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px;
+        background: #0F172A;
+        border: 1px solid #1E293B;
+        border-radius: 10px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+            border-color: #0066B3;
+            background: #162036;
+            transform: translateX(3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .row-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+
+            .row-color-thumb {
+                width: 38px;
+                height: 38px;
+                border-radius: 8px;
+                background-size: cover;
+                background-position: center;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #FFF;
+                font-weight: 700;
+                font-size: 15px;
+                box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+            }
+
+            .row-info {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+
+                .row-title {
+                    font-size: 14.5px;
+                    font-weight: 700;
+                    color: #F8FAFC;
+                }
+
+                .row-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-size: 11.5px;
+                    color: #64748B;
+
+                    .badge-cat {
+                        padding: 1px 7px;
+                        border-radius: 4px;
+                        background: #1E293B;
+                        color: #94A3B8;
+                        border: 1px solid #334155;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+
+        .row-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            .creator-tag {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 12px;
+                color: #94A3B8;
+
+                img {
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
+                }
+            }
+
+            .star-btn {
+                background: transparent;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+                color: #64748B;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: color 0.15s, transform 0.15s;
+
+                &:hover {
+                    color: #F59E0B;
+                    transform: scale(1.15);
+                }
+
+                &.is-starred {
+                    color: #F59E0B;
+                }
+            }
+
+            .open-board-link {
+                padding: 6px 12px;
+                border-radius: 6px;
+                background: #1E293B;
+                color: #38BDF8;
+                font-size: 12px;
+                font-weight: 600;
+                border: 1px solid #334155;
+                transition: all 0.15s;
+
+                &:hover {
+                    background: #0066B3;
+                    color: #FFFFFF;
+                    border-color: #0066B3;
+                }
+            }
+        }
+    }
+}
+
+// ── Workspace Empty State for Filters ─────────────────────────────
+.workspace-empty-filter {
+    padding: 48px 24px;
+    text-align: center;
+    background: #0F172A88;
+    border: 1px dashed #334155;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+
+    .empty-icon {
+        font-size: 40px;
+        color: #F59E0B;
+    }
+
+    h4 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+        color: #F8FAFC;
+    }
+
+    p {
+        margin: 0;
+        font-size: 13px;
+        color: #94A3B8;
+        max-width: 400px;
+        line-height: 1.5;
+    }
+
+    .btn-reset-filter {
+        margin-top: 6px;
+        padding: 8px 18px;
+        background: #0066B3;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.15s;
+
+        &:hover {
+            background: #00508C;
+        }
+    }
+}
+
+// ── Light Theme Adjustments ───────────────────────────────────────
+body.light-theme {
+    .workspace-toolbar-container {
+        background: #FFFFFF;
+        border-color: #E2E8F0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+
+        .workspace-search-box {
+            input {
+                background: #F8FAFC;
+                border-color: #CBD5E1;
+                color: #0F172A;
+
+                &::placeholder {
+                    color: #94A3B8;
+                }
+
+                &:focus {
+                    border-color: #0066B3;
+                    background: #FFFFFF;
+                }
+            }
+        }
+
+        .workspace-sort-wrapper {
+            color: #475569;
+
+            select {
+                background: #F8FAFC;
+                color: #0F172A;
+                border-color: #CBD5E1;
+            }
+        }
+
+        .workspace-view-toggle {
+            background: #F1F5F9;
+            border-color: #CBD5E1;
+
+            button {
+                color: #64748B;
+
+                &.active {
+                    background: #0066B3;
+                    color: #FFFFFF;
+                }
+            }
+        }
+
+        .workspace-filter-pills {
+            .filter-pill {
+                background: #F1F5F9;
+                color: #475569;
+                border-color: #E2E8F0;
+
+                .pill-count {
+                    background: #E2E8F0;
+                    color: #334155;
+                }
+
+                &:hover {
+                    background: #E2E8F0;
+                    color: #0F172A;
+                }
+
+                &.active {
+                    background: #0066B3;
+                    color: #FFFFFF;
+                    border-color: #0066B3;
+
+                    .pill-count {
+                        background: rgba(255, 255, 255, 0.25);
+                        color: #FFFFFF;
+                    }
+                }
+
+                &.pill-favorite.active {
+                    background: #F59E0B;
+                    border-color: #F59E0B;
+                }
+            }
+        }
+    }
+
+    .workspace-list-view {
+        .workspace-list-row {
+            background: #FFFFFF;
+            border-color: #E2E8F0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+
+            &:hover {
+                background: #F8FAFC;
+                border-color: #0066B3;
+            }
+
+            .row-left .row-info {
+                .row-title {
+                    color: #0F172A;
+                }
+                .row-meta {
+                    color: #64748B;
+                    .badge-cat {
+                        background: #F1F5F9;
+                        border-color: #E2E8F0;
+                        color: #475569;
+                    }
+                }
+            }
+
+            .row-right {
+                .creator-tag {
+                    color: #64748B;
+                }
+
+                .open-board-link {
+                    background: #F1F5F9;
+                    border-color: #CBD5E1;
+                    color: #0066B3;
+
+                    &:hover {
+                        background: #0066B3;
+                        color: #FFFFFF;
+                    }
+                }
+            }
+        }
+    }
+
+    .workspace-empty-filter {
+        background: #F8FAFC;
+        border-color: #CBD5E1;
+
+        h4 {
+            color: #0F172A;
+        }
+
+        p {
+            color: #64748B;
+        }
+    }
+}

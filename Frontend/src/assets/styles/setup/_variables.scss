@@ -3,17 +3,28 @@
 // Modern Dark Theme with Glassmorphism & Aurora Effects
 // ============================================================
 
-// ── Core Brand Colors ──────────────────────────────────────
-$clr-primary:       #6366F1;   // Indigo 500
-$clr-primary-light: #818CF8;   // Indigo 400
-$clr-primary-dark:  #4F46E5;   // Indigo 600
-$clr-primary-deep:  #4338CA;   // Indigo 700
+// ── Core Brand Colors (Atlassian Blue & Modern Violet) ────
+$clr-primary:       #0052CC;   // Atlassian Blue Core
+$clr-primary-light: #4C9AFF;   // Atlassian Blue Light
+$clr-primary-dark:  #0747A6;   // Atlassian Blue Dark
+$clr-primary-deep:  #091E42;   // Atlassian Deep Navy
+$clr-brand-jira:    #0052CC;   // Jira Brand
+$clr-brand-accent:  #1868DB;   // Jira Modern Blue
+
+// ── Atlassian Status Lozenges ──────────────────────────────
+$jira-todo-bg:      #DFE1E6;   // Neutral Grey
+$jira-todo-txt:     #42526E;
+$jira-inprogress-bg:#DEEBFF;   // Blue Soft
+$jira-inprogress-txt:#0052CC;
+$jira-done-bg:      #E3FCEF;   // Green Soft
+$jira-done-txt:     #00875A;
+$jira-ai-gradient:  linear-gradient(135deg, #6554C0 0%, #8777D9 50%, #0052CC 100%);
 
 $clr-secondary:     #EC4899;   // Pink 500
-$clr-accent:        #06B6D4;   // Cyan 500
-$clr-success:       #10B981;   // Emerald 500
-$clr-warning:       #F59E0B;   // Amber 500
-$clr-danger:        #EF4444;   // Red 500
+$clr-accent:        #0052CC;   // Jira Blue
+$clr-success:       #00875A;   // Jira Green
+$clr-warning:       #FFAB00;   // Jira Yellow/Amber
+$clr-danger:        #DE350B;   // Jira Red
 
 // ── Legacy aliases (backward compat) ───────────────────────
 $clr1: $clr-primary;

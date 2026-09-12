@@ -12,25 +12,30 @@ import { WatchDemo } from './pages/watch-demo'
 export function RootCmp() {
 	return (
 		<section className="app">
-			<AppHeader />
+			<Routes>
+				{/* Auth routes — fullscreen, no header */}
+				<Route path="/login" element={<LoginSignup />} />
+				<Route path="/signup" element={<LoginSignup />} />
 
-			<main className="app-main">
-				<Routes>
-
-					<Route element={<HomePage />} path="/" />
-					<Route path="/:status" element={<LoginSignup />} />
-					<Route element={<Workspace />} path="/workspace" />
-					<Route element={<WatchDemo />} path="/watch-demo" />
-					<Route element={<Board />} path="/board/:boardId">
-						<Route
-							element={<TaskDetails />}
-							path="/board/:boardId/:groupId/:taskId"
-						/>
-					</Route>
-					{/* <Route element={<HomePage />} path="/" /> */}
-
-				</Routes>
-			</main>
+				{/* App routes — with header */}
+				<Route path="/*" element={
+					<>
+						<AppHeader />
+						<main className="app-main">
+							<Routes>
+								<Route element={<HomePage />} path="/" />
+								<Route element={<Workspace />} path="/workspace" />
+								<Route element={<WatchDemo />} path="/watch-demo" />
+								<Route element={<Board />} path="/board/:boardId">
+									<Route element={<TaskDetails />} path="/board/:boardId/:groupId/:taskId" />
+								</Route>
+								{/* Fallback for /:status legacy links */}
+								<Route path="/:status" element={<LoginSignup />} />
+							</Routes>
+						</main>
+					</>
+				} />
+			</Routes>
 		</section>
 	)
 }

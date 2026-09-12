@@ -4,7 +4,6 @@ const BASE_URL = process.env.NODE_ENV === 'production'
     ? '/api/'
     : '//localhost:3030/api/'
 
-
 var axios = Axios.create({
     withCredentials: true
 })
@@ -26,17 +25,21 @@ export const httpService = {
 
 async function ajax(endpoint, method = 'GET', data = null) {
     try {
+        const token = sessionStorage.getItem('collabflow_token')
+        const headers = token ? { Authorization: `Bearer ${token}` } : {}
+
         const res = await axios({
             url: `${BASE_URL}${endpoint}`,
             method,
             data,
-            params: (method === 'GET') ? data : null
+            params: (method === 'GET') ? data : null,
+            headers
         })
         return res.data
     } catch (err) {
         console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data)
         console.dir(err)
-        if (err.response && err.response.status === 401) {
+        if (err.response && err.response.status === 401 && endpoint !== 'auth/login' && endpoint !== 'auth/signup') {
             sessionStorage.clear()
             window.location.assign('/')
         }
